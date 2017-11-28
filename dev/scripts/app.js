@@ -5,6 +5,12 @@ import {
 	BrowserRouter as Router,
 	Route, Link
 } from 'react-router-dom';
+
+import WelcomeHeader from './components/welcomeHeader.js'
+import Footer from './components/footer.js';
+// import DisplayTeam from './components/displayTeam.js';
+import TeamPage from './components/teamPage.js';
+import WelcomePage from './components/welcomePage.js'
 import Modal from 'react-modal';
 import TeamModal from "./modal.js"
 
@@ -20,12 +26,30 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends React.Component {
-	
+
+	// constructor(){
+	// 	super();
+	// 	this.state = {
+	// 		teams : [
+	// 			'orange team',
+	// 			'blue',
+	// 			'red'
+	// 		]
+	// 	}
+	// }
+
 	render() {
 		return (
-			<div>
-				<TeamModal />
-			</div>
+			<Router>
+				<div>
+					<WelcomeHeader />
+					<Route exact path='/' component={WelcomePage}></Route>
+					<Route exact path='/:team' component={TeamPage}></Route>
+					<TeamModal />
+					<Footer />
+				</div>
+			</Router>
+
 		)
 	}
 }
