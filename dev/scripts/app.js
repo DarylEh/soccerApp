@@ -5,6 +5,8 @@ import {
 	BrowserRouter as Router,
 	Route, Link
 } from 'react-router-dom';
+import Modal from 'react-modal';
+import TeamModal from "./modal.js"
 
 // Firebase init
 var config = {
@@ -18,10 +20,11 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends React.Component {
+	
 	render() {
 		return (
 			<div>
-				Hello
+				<TeamModal />
 			</div>
 		)
 	}
