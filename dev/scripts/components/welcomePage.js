@@ -1,11 +1,12 @@
 import React from 'react';
 import firebase from 'firebase';
+import Modal from 'react-modal';
 import {
     BrowserRouter as Router,
     Route, Link
 } from 'react-router-dom';
 import TeamPage from './teamPage.js';
-
+import TeamModal from "./modal.js"
 
 class WelcomePage extends React.Component{
     constructor() {
@@ -35,7 +36,7 @@ class WelcomePage extends React.Component{
                     </ul>
                 </section>
                 <section>
-                    {/* button to take you to subs roster */}
+                    <TeamModal />
                 </section>
             </main>
         )

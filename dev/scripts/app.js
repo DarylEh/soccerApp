@@ -6,13 +6,12 @@ import {
 	Route, Link
 } from 'react-router-dom';
 import Modal from 'react-modal';
-
 import WelcomeHeader from './components/welcomeHeader.js'
 import Footer from './components/footer.js';
 import TeamPage from './components/teamPage.js';
 import WelcomePage from './components/welcomePage.js'
 import TeamModal from "./components/modal.js"
-// import DisplayTeam from './components/displayTeam.js';
+
 
 // Firebase init
 var config = {
@@ -45,7 +44,7 @@ class App extends React.Component {
 					<WelcomeHeader />
 					<Route exact path='/' component={WelcomePage}></Route>
 					<Route exact path='/:team' component={TeamPage}></Route>
-					<TeamModal />
+					{/* <TeamModal /> */}
 					<Footer />
 				</div>
 			</Router>

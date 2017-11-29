@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
+
 // Size of popup window
+
 const customStyles = {
     content: {
         top: '50%',
@@ -28,6 +30,7 @@ class TeamModal extends React.Component {
             userPassword: '',
             passwordMatch: ''
         };
+
         this.openModal = this.openModal.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -35,6 +38,7 @@ class TeamModal extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     // User action: submit 'new team' form
+
     handleSubmit (event){
         event.preventDefault();
         const dbRef = firebase.database().ref();
@@ -47,6 +51,13 @@ class TeamModal extends React.Component {
                 userGender: this.state.userGender,
                 userPassword: this.state.userPassword
             }
+
+        }
+        console.log(teamObject);
+        dbRef.push(teamObject);
+
+    }
+
         }
         console.log(teamObject);
         dbRef.push(teamObject);
@@ -57,6 +68,11 @@ class TeamModal extends React.Component {
             [event.target.id] : event.target.value
         });
     }
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
+
+    }
 
     // Modal controls
     openModal() {
@@ -66,6 +82,7 @@ class TeamModal extends React.Component {
         // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#f00';
     }
+
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
@@ -80,11 +97,14 @@ class TeamModal extends React.Component {
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
-                    >
 
                     <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
-                    
+                    {/* <div>I am a modal</div> */}
+
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
+                    <button onClick={this.closeModal}>close</button>
+
                     <form action="" onSubmit={this.handleSubmit}>
                         <h2>Team Info:</h2>
 
