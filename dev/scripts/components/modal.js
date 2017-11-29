@@ -61,24 +61,24 @@ handleBlur(event){
     });
 }
   
-    // User action: remove focus from form item
-    handleBlur(event){
-        this.setState({
-            [event.target.id] : event.target.value
-        });
-    }
+// User action: remove focus from form item
+handleBlur(event){
+    this.setState({
+        [event.target.id] : event.target.value
+    });
+}
 
-    // Modal controls
-    openModal() {
-        this.setState({ modalIsOpen: true });
-    }
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        this.subtitle.style.color = '#F00';
-    }
-    closeModal() {
-        this.setState({ modalIsOpen: false });
-    }
+// Modal controls
+openModal() {
+    this.setState({ modalIsOpen: true });
+}
+afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = '#F00';
+}
+closeModal() {
+    this.setState({ modalIsOpen: false });
+}
 
 render() {
     return (
