@@ -51,6 +51,7 @@ class TeamModal extends React.Component {
                 userGender: this.state.userGender,
                 userPassword: this.state.userPassword
             }
+<<<<<<< HEAD
 
         }
         console.log(teamObject);
@@ -58,6 +59,12 @@ class TeamModal extends React.Component {
 
     }
 
+=======
+        }
+        console.log(teamObject);
+        dbRef.push(teamObject);
+    }
+>>>>>>> 86bc6887162cc34e1059d999f2ed8ac342fa628f
     // User action: remove focus from form item
     handleBlur(event){
         this.setState({
@@ -68,7 +75,10 @@ class TeamModal extends React.Component {
         this.setState({ modalIsOpen: true });
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 86bc6887162cc34e1059d999f2ed8ac342fa628f
     // Modal controls
     openModal() {
         this.setState({ modalIsOpen: true });
@@ -77,7 +87,6 @@ class TeamModal extends React.Component {
         // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#f00';
     }
-
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
@@ -92,6 +101,7 @@ class TeamModal extends React.Component {
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
+                    >
 
                     <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
