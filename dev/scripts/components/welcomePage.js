@@ -12,13 +12,30 @@ class WelcomePage extends React.Component{
     constructor() {
         super();
         this.state = {
-            teams: [
-                'orange team',
-                'blue',
-                'red'
-            ]
+            teams: []
         }
     }
+    componentDidMount() {
+    const dbRef = firebase.database().ref();
+
+        
+    dbRef.on("value", (firebaseData) => {
+        
+        const teamsArray = [];
+        const teamsData = firebaseData.val();
+        // console.log(teamsData);
+        for (let teamKey in teamsData) {
+            teamsData[teamKey].key = teamKey;
+            teamsArray.push(teamsData[teamKey]);
+            // console.log(teamsData[teamKey])
+        }
+        this.setState({
+            teams: teamsArray
+        
+        })
+        // console.log(this.state.teams);
+    })
+}//end of  componentDidMount
     render(){
         return (
             <main>
@@ -26,9 +43,9 @@ class WelcomePage extends React.Component{
                     <ul>
                         {this.state.teams.map((team, i) => {
                             return (
-                                <div>
-                                    <Link to={`/${team}`}>
-                                        <li>{team}</li>
+                                <div key={team.key}>
+                                    <Link to={`/${team.teamName}/${team.key}`}>
+                                        <li>{team.teamName}</li>
                                     </Link>
                                 </div>
                             )

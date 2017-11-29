@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
+
 // Size of popup window
+
 const customStyles = {
     content: {
         top: '50%',
@@ -38,7 +40,7 @@ class TeamModal extends React.Component {
     }
     // User action: submit 'new team' form
 
-    handleSubmit(event) {
+    handleSubmit (event){
         event.preventDefault();
         if (this.state.userPassword === this.state.confirmPassword) {
             this.pushToFirebase();
@@ -51,6 +53,7 @@ class TeamModal extends React.Component {
         const dbRef = firebase.database().ref();
         const teamObject = {
             teamName: this.state.teamName,
+
             users: {
                 captain: {
                     userName: this.state.userName,
@@ -60,19 +63,21 @@ class TeamModal extends React.Component {
                     userPassword: this.state.userPassword,
                     confirmPassword: this.state.confirmPassword
                 }
+
             }
+
         }
         console.log(teamObject);
         dbRef.push(teamObject);
+
     }
 
-    // User action: remove focus from form item
-    handleChange(event){
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-        
-    }
+// User action: remove focus from form item
+handleChange(event){
+    this.setState({
+        [event.target.id]: event.target.value
+    });
+}
 
     // Modal controls
     openModal() {
@@ -80,7 +85,7 @@ class TeamModal extends React.Component {
     }
     afterOpenModal() {
         // references are now sync'd and can be accessed.
-        this.subtitle.style.color = '#F00';
+        this.subtitle.style.color = '#f00';
     }
     closeModal() {
         this.setState({ modalIsOpen: false });
@@ -90,16 +95,18 @@ class TeamModal extends React.Component {
         return (
             <div>
                 <button onClick={this.openModal}>+ Add Team</button>
-                <Modal
+
+                <Modal 
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
-                >
+                    >
 
-                <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
+                    {/* <div>I am a modal</div> */}
 
                     <form action="" onSubmit={this.handleSubmit}>
                         <h2>Team Info:</h2>
@@ -135,5 +142,4 @@ class TeamModal extends React.Component {
         );
     }
 }
-
 export default TeamModal;
