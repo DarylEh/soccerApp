@@ -19,7 +19,6 @@ class GameModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            currentTeamKey: 'tba',
             opponent: '',
             location: '',
             date: '',
@@ -32,10 +31,17 @@ class GameModal extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     // User action: submit 'new team' form
     handleSubmit(event) {
         event.preventDefault();
+        const dbRef = firebase.database().ref(`${this.props.teamKey}/games`);
+        const gameObject = {
+            location: this.state.location,
+            date: this.state.date,
+            time: this.state.time,
+            opponent: this.state.opponent,
+        }
+        dbRef.push(gameObject);
     }
 
     pushToFirebase() {
@@ -65,7 +71,7 @@ class GameModal extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.openModal}>+ Add Team</button>
+                <button onClick={this.openModal}>+ Add Game</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
