@@ -51,13 +51,6 @@ class TeamModal extends React.Component {
                 userGender: this.state.userGender,
                 userPassword: this.state.userPassword
             }
-
-        }
-        console.log(teamObject);
-        dbRef.push(teamObject);
-
-    }
-
         }
         console.log(teamObject);
         dbRef.push(teamObject);
@@ -72,8 +65,6 @@ class TeamModal extends React.Component {
         this.setState({ modalIsOpen: true });
     }
 
-    }
-
     // Modal controls
     openModal() {
         this.setState({ modalIsOpen: true });
@@ -82,7 +73,6 @@ class TeamModal extends React.Component {
         // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#f00';
     }
-
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
@@ -97,6 +87,7 @@ class TeamModal extends React.Component {
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
+                    >
 
                     <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
