@@ -5,14 +5,13 @@ import {
 	BrowserRouter as Router,
 	Route, Link
 } from 'react-router-dom';
-
+import Modal from 'react-modal';
 import WelcomeHeader from './components/welcomeHeader.js'
 import Footer from './components/footer.js';
-// import DisplayTeam from './components/displayTeam.js';
 import TeamPage from './components/teamPage.js';
 import WelcomePage from './components/welcomePage.js'
-import Modal from 'react-modal';
-// import TeamModal from "./modal.js"
+import TeamModal from "./components/modal.js"
+
 
 // Firebase init
 var config = {

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
-// Firebase init
 
+// Size of popup window
 
 const customStyles = {
     content: {
@@ -20,7 +20,6 @@ const customStyles = {
 class TeamModal extends React.Component {
     constructor() {
         super();
-
         this.state = {
             modalIsOpen: false,
             teamName: '',
@@ -38,8 +37,8 @@ class TeamModal extends React.Component {
         this.handleBlur = this.handleBlur.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
-    
+    // User action: submit 'new team' form
+
     handleSubmit (event){
         event.preventDefault();
         const dbRef = firebase.database().ref();
@@ -58,16 +57,27 @@ class TeamModal extends React.Component {
         dbRef.push(teamObject);
 
     }
+
+        }
+        console.log(teamObject);
+        dbRef.push(teamObject);
+    }
+    // User action: remove focus from form item
     handleBlur(event){
         this.setState({
             [event.target.id] : event.target.value
         });
-
     }
     openModal() {
         this.setState({ modalIsOpen: true });
     }
 
+    }
+
+    // Modal controls
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
     afterOpenModal() {
         // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#f00';
@@ -87,11 +97,14 @@ class TeamModal extends React.Component {
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
-                >
 
                     <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
                     {/* <div>I am a modal</div> */}
+
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
+                    <button onClick={this.closeModal}>close</button>
+
                     <form action="" onSubmit={this.handleSubmit}>
                         <h2>Team Info:</h2>
 

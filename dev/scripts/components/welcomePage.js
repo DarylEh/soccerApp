@@ -8,9 +8,6 @@ import {
 import TeamPage from './teamPage.js';
 import TeamModal from "./modal.js"
 
-
-
-
 class WelcomePage extends React.Component{
     constructor() {
         super();
@@ -22,9 +19,6 @@ class WelcomePage extends React.Component{
             ]
         }
     }
-
-    
-
     render(){
         return (
             <main>
@@ -36,7 +30,6 @@ class WelcomePage extends React.Component{
                                     <Link to={`/${team}`}>
                                         <li>{team}</li>
                                     </Link>
-
                                 </div>
                             )
                         })}
