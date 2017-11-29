@@ -67,11 +67,11 @@ class TeamModal extends React.Component {
     }
 
     // User action: remove focus from form item
-    handleChange(event){
+    handleChange(event) {
         this.setState({
             [event.target.id]: event.target.value
         });
-        
+
     }
 
     // Modal controls
@@ -98,7 +98,7 @@ class TeamModal extends React.Component {
                     contentLabel="Example Modal"
                 >
 
-                <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
 
                     <form action="" onSubmit={this.handleSubmit}>
