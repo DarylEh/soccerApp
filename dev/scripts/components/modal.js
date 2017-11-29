@@ -58,10 +58,6 @@ class TeamModal extends React.Component {
 
     }
 
-        }
-        console.log(teamObject);
-        dbRef.push(teamObject);
-    }
     // User action: remove focus from form item
     handleBlur(event){
         this.setState({
@@ -72,7 +68,6 @@ class TeamModal extends React.Component {
         this.setState({ modalIsOpen: true });
     }
 
-    }
 
     // Modal controls
     openModal() {
@@ -91,7 +86,7 @@ class TeamModal extends React.Component {
         return (
             <div>
                 <button onClick={this.openModal}>+ Add Team</button>
-                <Modal
+                <Modal >
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
