@@ -61,9 +61,19 @@ class TeamModal extends React.Component {
                     confirmPassword: this.state.confirmPassword
                 }
             }
-        }
-        console.log(teamObject);
+        };
         dbRef.push(teamObject);
+        // Empty form after successful submit
+        this.setState({
+            modalIsOpen: false,
+            teamName: '',
+            userName: '',
+            userEmail: '',
+            userPhone: '',
+            userGender: '',
+            userPassword: '',
+            passwordMatch: ''
+        });
     }
 
     // User action: remove focus from form item

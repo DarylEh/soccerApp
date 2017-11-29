@@ -6,7 +6,7 @@ import {
     Route, Link
 } from 'react-router-dom';
 import TeamPage from './teamPage.js';
-import TeamModal from "./modal.js"
+import TeamModal from "./addTeamModal.js"
 
 class WelcomePage extends React.Component{
     constructor() {
