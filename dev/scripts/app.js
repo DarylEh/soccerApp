@@ -12,7 +12,7 @@ import Footer from './components/footer.js';
 import TeamPage from './components/teamPage.js';
 import WelcomePage from './components/welcomePage.js'
 import Modal from 'react-modal';
-import TeamModal from "./modal.js"
+// import TeamModal from "./modal.js"
 
 // Firebase init
 var config = {
@@ -45,7 +45,7 @@ class App extends React.Component {
 					<WelcomeHeader />
 					<Route exact path='/' component={WelcomePage}></Route>
 					<Route exact path='/:team' component={TeamPage}></Route>
-					<TeamModal />
+					{/* <TeamModal /> */}
 					<Footer />
 				</div>
 			</Router>
