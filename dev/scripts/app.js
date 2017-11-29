@@ -43,7 +43,7 @@ class App extends React.Component {
 				<div>
 					<WelcomeHeader />
 					<Route exact path='/' component={WelcomePage}></Route>
-					<Route exact path='/:team' component={TeamPage}></Route>
+					<Route exact path='/:team/:key' component={TeamPage}></Route>
 					{/* <TeamModal /> */}
 					<Footer />
 				</div>
