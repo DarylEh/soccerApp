@@ -23,17 +23,17 @@ class WelcomePage extends React.Component{
         
         const teamsArray = [];
         const teamsData = firebaseData.val();
-        console.log(teamsData);
+        // console.log(teamsData);
         for (let teamKey in teamsData) {
             teamsData[teamKey].key = teamKey;
             teamsArray.push(teamsData[teamKey]);
-            console.log(teamsData[teamKey])
+            // console.log(teamsData[teamKey])
         }
         this.setState({
             teams: teamsArray
         
         })
-        console.log(this.state.teams);
+        // console.log(this.state.teams);
     })
 }//end of  componentDidMount
     render(){
