@@ -4,8 +4,7 @@ import {
     BrowserRouter as Router,
     Route, Link
 } from 'react-router-dom';
-import TeamPage from './teamPage.js'
-
+import TeamPage from './teamPage.js';
 
 
 class WelcomePage extends React.Component{
@@ -19,9 +18,6 @@ class WelcomePage extends React.Component{
             ]
         }
     }
-
-    
-
     render(){
         return (
             <main>
@@ -33,7 +29,6 @@ class WelcomePage extends React.Component{
                                     <Link to={`/${team}`}>
                                         <li>{team}</li>
                                     </Link>
-
                                 </div>
                             )
                         })}
