@@ -9,8 +9,9 @@ import Modal from 'react-modal';
 import WelcomeHeader from './components/welcomeHeader.js'
 import Footer from './components/footer.js';
 import TeamPage from './components/teamPage.js';
-import WelcomePage from './components/welcomePage.js'
-import TeamModal from "./components/modal.js"
+import WelcomePage from './components/welcomePage.js';
+import TeamModal from "./components/addTeamModal.js";
+import GameModal from "./components/addGameModal.js";
 
 
 // Firebase init

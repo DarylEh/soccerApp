@@ -1,16 +1,16 @@
 import React from 'react';
+import GameModal from "./addGameModal.js";
 import firebase from 'firebase';
 import {
     BrowserRouter as Router,
     Route, Link
 } from 'react-router-dom';
 
-
-
 class TeamPage extends React.Component {
     render(){
         return (
             <div>
+                <GameModal />
                 <h2>{this.props.match.params.team}</h2>
                 {/* add link to manage teams here */}
                 <section>
@@ -51,7 +51,6 @@ class TeamPage extends React.Component {
                         </div>
                     </div>  {/*end of container */}
                 </section>
-
             </div>    
         )
     }

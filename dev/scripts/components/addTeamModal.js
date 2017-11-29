@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
-
 // Size of popup window
-
 const customStyles = {
     content: {
         top: '50%',
@@ -65,19 +63,27 @@ class TeamModal extends React.Component {
                 }
 
             }
-
-        }
-        console.log(teamObject);
+        };
         dbRef.push(teamObject);
-
+        // Empty form after successful submit
+        this.setState({
+            modalIsOpen: false,
+            teamName: '',
+            userName: '',
+            userEmail: '',
+            userPhone: '',
+            userGender: '',
+            userPassword: '',
+            passwordMatch: ''
+        });
     }
 
-// User action: remove focus from form item
-handleChange(event){
-    this.setState({
-        [event.target.id]: event.target.value
-    });
-}
+    // User action: remove focus from form item
+    handleChange(event){
+        this.setState({
+            [event.target.id]: event.target.value
+        });
+    }
 
     // Modal controls
     openModal() {
