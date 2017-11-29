@@ -51,19 +51,19 @@ class TeamModal extends React.Component {
                 userGender: this.state.userGender,
                 userPassword: this.state.userPassword
             }
+
         }
         console.log(teamObject);
         dbRef.push(teamObject);
+
     }
-    // User action: remove focus from form item
-    handleBlur(event){
-        this.setState({
-            [event.target.id] : event.target.value
-        });
-    }
-    openModal() {
-        this.setState({ modalIsOpen: true });
-    }
+
+// User action: remove focus from form item
+handleBlur(event){
+    this.setState({
+        [event.target.id]: event.target.value
+    });
+}
 
     // Modal controls
     openModal() {
@@ -76,6 +76,7 @@ class TeamModal extends React.Component {
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
+
 
     render() {
         return (
@@ -92,9 +93,6 @@ class TeamModal extends React.Component {
                     <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
                     <button onClick={this.closeModal}>close</button>
                     {/* <div>I am a modal</div> */}
-
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
-                    <button onClick={this.closeModal}>close</button>
 
                     <form action="" onSubmit={this.handleSubmit}>
                         <h2>Team Info:</h2>
