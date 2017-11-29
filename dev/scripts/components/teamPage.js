@@ -1,5 +1,6 @@
 import React from 'react';
 import GameModal from "./addGameModal.js";
+import PlayerModal from "./addPlayerModal.js"
 import firebase from 'firebase';
 import {
     BrowserRouter as Router,
@@ -11,6 +12,8 @@ class TeamPage extends React.Component {
         return (
             <div>
                 <GameModal teamKey={this.props.match.params.key}/>
+                <PlayerModal teamKey={this.props.match.params.key} />
+
                 <h2>{this.props.match.params.team}</h2>
                 {/* add link to manage teams here */}
                 <section>

@@ -19,6 +19,7 @@ class GameModal extends React.Component {
     constructor() {
         super();
         this.state = {
+            modalIsOpen: false,
             opponent: '',
             location: '',
             date: '',
@@ -42,17 +43,18 @@ class GameModal extends React.Component {
             opponent: this.state.opponent,
         }
         dbRef.push(gameObject);
+        this.setState({
+            modalIsOpen: false,
+            opponent: '',
+            location: '',
+            date: '',
+            time: ''
+        });
     }
-
-    pushToFirebase() {
-        const dbRef = firebase.database().ref();
-        // dbRef.push(teamObject);
-    }
-
-    // User action: remove focus from form item
+    //user action: change value of form item
     handleChange(event){
         this.setState({
-            [event.target.id]: event.target.value
+            [event.target.name]: event.target.value
         });   
     }
 
@@ -85,16 +87,16 @@ class GameModal extends React.Component {
 
                     <form action="" onSubmit={this.handleSubmit}>
                         <label htmlFor="opponent">Opponent:</label>
-                        <input type="text" id="opponent" onChange={this.handleChange} value={this.state.teamName} required />
+                        <input type="text" id="opponent" name="opponent" onChange={this.handleChange} value={this.state.teamName} required />
 
                         <label htmlFor="location">Location:</label>
-                        <input type="text" id="location" onChange={this.handleChange} value={this.state.userName} required />
+                        <input type="text" id="location" name="location" onChange={this.handleChange} value={this.state.userName} required />
 
                         <label htmlFor="date">Game Date:</label>
-                        <input type="date" id="date" onChange={this.handleChange} value={this.state.userEmail} required />
+                        <input type="date" id="date" name="date" onChange={this.handleChange} value={this.state.userEmail} required />
 
                         <label htmlFor="time">Game Time:</label>
-                        <input type="time" id="time" onChange={this.handleChange} value={this.state.userPhone} required />
+                        <input type="time" id="time" name="time" onChange={this.handleChange} value={this.state.userPhone} required />
 
                         <input type="submit" value="Submit" />
                     </form>
