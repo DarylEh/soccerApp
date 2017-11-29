@@ -31,7 +31,7 @@ class GameModal extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    // User action: submit 'new team' form
+    // User action: submit 'add game' form
     handleSubmit(event) {
         event.preventDefault();
         const dbRef = firebase.database().ref(`${this.props.teamKey}/games`);
@@ -44,12 +44,7 @@ class GameModal extends React.Component {
         dbRef.push(gameObject);
     }
 
-    pushToFirebase() {
-        const dbRef = firebase.database().ref();
-        // dbRef.push(teamObject);
-    }
-
-    // User action: remove focus from form item
+    // User action: change value of form item
     handleChange(event){
         this.setState({
             [event.target.id]: event.target.value
