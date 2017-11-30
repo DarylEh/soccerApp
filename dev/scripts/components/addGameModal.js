@@ -61,9 +61,10 @@ class GameModal extends React.Component {
         const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
         const dbRefUsers = firebase.database().ref(`${this.props.teamKey}/users`);
         const teamObject = {};
-        const sarahRulez = "Pat rulez"
+
         firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
-            const userObj = players.val().users;
+            const userObj = players.val().users.email;
+            console.log(userObj);
             let i = 0;
             for (let userKey in userObj) {
                 teamObject[i] = userKey;
