@@ -35,14 +35,34 @@ class GameModal extends React.Component {
     // User action: submit 'add game' form
     handleSubmit(event) {
         event.preventDefault();
-        const dbRef = firebase.database().ref(`${this.props.teamKey}/games`);
+        const dbRefTeam = firebase.database().ref(`${this.props.teamKey}`);
+        const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
+        const dbRefUsers = firebase.database().ref(`${this.props.teamKey}/users`);
+        const teamObject = {};
+        const sarahRulez = "Pat rulez"
+        //const dbRef = firebase.database().ref(`${this.props.teamKey}/games/${gamekey}/attendance/pending`);
+        firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
+            const userObj = players.val().users;
+            let i = 0;
+            for (let userKey in userObj) {
+                teamObject[i] = userKey;
+                i++;
+            }
+            console.log(teamObject)
+        })
         const gameObject = {
             location: this.state.location,
             date: this.state.date,
             time: this.state.time,
             opponent: this.state.opponent,
+            attendance: {
+                pending: teamObject,
+                yes: 'none',
+                no: 'none'
+            }
         }
-        dbRef.push(gameObject);
+        dbRefGames.push(gameObject);
+
         this.setState({
             modalIsOpen: false,
             opponent: '',

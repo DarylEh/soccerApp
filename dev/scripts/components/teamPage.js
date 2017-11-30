@@ -25,7 +25,7 @@ class TeamPage extends React.Component {
             const teamData = firebaseData.val();
             const gamesArray = [];
             const gameData = teamData.games;
-            console.log(teamData);
+            //console.log(teamData);
             for (let gameKey in gameData) {
                 gameData[gameKey].key = gameKey;
                 gamesArray.push(gameData[gameKey]);
@@ -35,7 +35,7 @@ class TeamPage extends React.Component {
                 games: gamesArray
                 
             })
-            console.log(gamesArray)
+            // console.log(gamesArray)
         })
     }
 

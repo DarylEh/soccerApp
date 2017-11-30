@@ -60,6 +60,11 @@ class TeamModal extends React.Component {
             }
         };
         dbRef.push(teamObject);
+        // Create a user for the person who just made a team
+        firebase.auth().createUserWithEmailAndPassword(this.state.userEmail, this.state.userPassword)
+            .catch((error) => {
+                alert(error.message)
+            })
         // Empty form after successful submit
         this.setState({
             modalIsOpen: false,
