@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
+import Dropdown from 'react-dropdown';
+import { BreadcrumbsProvider } from 'react-breadcrumbs-dynamic';
+import { Breadcrumbs } from 'react-breadcrumbs-dynamic';
+import { BreadcrumbsItem } from 'react-breadcrumbs-dynamic';
 
 // Size of popup window
 const customStyles = {
@@ -23,7 +27,8 @@ class GameModal extends React.Component {
             opponent: '',
             location: '',
             date: '',
-            time: ''
+            time: '',
+            opponentList :[]        
         };
 
         this.openModal = this.openModal.bind(this);
@@ -32,6 +37,23 @@ class GameModal extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    componentDidMount() {
+        const dbRef = firebase.database().ref();
+
+        dbRef.on("value", (firebaseData) => {
+            const opponentData = firebaseData.val();
+            const opponentArray = [];
+            console.log(opponentData);
+            for (let opponentKey in opponentData) {
+                opponentArray.push(opponentData[opponentKey].teamName);
+                console.log(opponentData[opponentKey].teamName)
+            }
+            this.setState({
+                opponentList: opponentArray
+            })
+            console.log(this.state.opponentList)
+        })
+    }
     // User action: submit 'add game' form
     handleSubmit(event) {
         event.preventDefault();
@@ -39,16 +61,16 @@ class GameModal extends React.Component {
         const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
         const dbRefUsers = firebase.database().ref(`${this.props.teamKey}/users`);
         const teamObject = {};
-        const sarahRulez = "Pat rulez"
-        //const dbRef = firebase.database().ref(`${this.props.teamKey}/games/${gamekey}/attendance/pending`);
+
         firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
-            const userObj = players.val().users;
+            const userObj = players.val().users.email;
+            console.log(userObj);
             let i = 0;
             for (let userKey in userObj) {
                 teamObject[i] = userKey;
                 i++;
             }
-            console.log(teamObject)
+            console.log(userObj)
         })
         const gameObject = {
             location: this.state.location,
@@ -89,9 +111,11 @@ class GameModal extends React.Component {
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
-
+    
     render() {
+        // const defaultOption = options[0]
         return (
+            
             <div>
                 <button onClick={this.openModal}>+ Add Game</button>
                 <Modal
@@ -100,14 +124,21 @@ class GameModal extends React.Component {
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
-                >
+                    >
 
                     <h2 ref={subtitle => this.subtitle = subtitle}>Add New Game</h2>
                     <button onClick={this.closeModal}>close</button>
 
                     <form action="" onSubmit={this.handleSubmit}>
-                        <label htmlFor="opponent">Opponent:</label>
-                        <input type="text" id="opponent" name="opponent" onChange={this.handleChange} value={this.state.teamName} required />
+                    
+                        <label htmlFor="opponent"> Opponent </label>
+                        <select id="opponent" name="opponent" onChange={this.handleChange} >
+                            {this.state.opponentList.map ((opponent)=>{
+                                return (
+                                    <option value={opponent}> {opponent} </option>
+                                )
+                            })}
+                        </select>
 
                         <label htmlFor="location">Location:</label>
                         <input type="text" id="location" name="location" onChange={this.handleChange} value={this.state.userName} required />

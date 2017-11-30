@@ -51,9 +51,9 @@ class PlayerModal extends React.Component {
         
         // Add a user for new player
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((data) => {
-            this.createUser(data.uid);
-        })
+            .then((data) => {
+                this.createUser(data.uid);
+            })
             .catch((error) => {
                 alert(error.message)
             })

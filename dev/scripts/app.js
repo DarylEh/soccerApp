@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 import {
 	BrowserRouter as Router,
-	Route, Link, Switch
+	Route, Link, Switch, BrowserHistory
 } from 'react-router-dom';
 import Modal from 'react-modal';
 import WelcomeHeader from './components/welcomeHeader.js'
@@ -13,7 +13,6 @@ import WelcomePage from './components/welcomePage.js';
 import TeamModal from "./components/addTeamModal.js";
 import GameModal from "./components/addGameModal.js";
 import ManageTeam from './components/manageTeam.js';
-
 
 // Firebase init
 var config = {
@@ -27,19 +26,26 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends React.Component {
+<<<<<<< HEAD
+=======
+	constructor(){
+		super();
+	}
+>>>>>>> bfef2d26b948b23086a66169f4987009f1726b27
 	render() {
 		return (
-			<Router>
-				<div>
-					<WelcomeHeader />
-					<Switch>
-						<Route exact path='/' component={WelcomePage}></Route>
-						<Route exact path='/:team/:key/manageTeam' component={ManageTeam}></Route>
-						<Route exact path='/:team/:key' component={TeamPage}></Route>
-					</ Switch>
-					<Footer />
-				</div>
-			</Router>
+			
+			<Router history={BrowserHistory}>
+					<div>
+						<WelcomeHeader />
+						<Switch>
+							<Route exact path='/' component={WelcomePage}></Route>
+							<Route exact path='/:team/:key/manageTeam' component={ManageTeam}></Route>
+							<Route exact path='/:team/:key' component={TeamPage}></Route>
+						</ Switch>
+						<Footer />
+					</div>
+				</Router>
 		)
 	}
 }
