@@ -25,7 +25,8 @@ class PlayerModal extends React.Component {
             phone: '',
             gender: '',
             password: '',
-            passwordMatch: ''
+            passwordMatch: '',
+            uid: ''
         };
 
         this.openModal = this.openModal.bind(this);
@@ -33,6 +34,7 @@ class PlayerModal extends React.Component {
         this.closeModal = this.closeModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.createUser = this.createUser.bind(this);
     }
     // User action: submit 'new team' form
     handleSubmit(event) {
@@ -46,13 +48,27 @@ class PlayerModal extends React.Component {
     }
     
     pushToFirebase(){
+        
+        // Add a user for new player
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((data) => {
+            this.createUser(data.uid);
+        })
+            .catch((error) => {
+                alert(error.message)
+            })
+    
+    }
+
+    createUser(userID) {
         const dbRef = firebase.database().ref(`${this.props.teamKey}/users`);
         const playerObject = {
             name: this.state.name,
             email: this.state.email,
             phone: this.state.phone,
             gender: this.state.gender,
-            password: this.state.password,    
+            password: this.state.password,
+            uid: userID
         }
         dbRef.push(playerObject);
         //empty the form on successful submit
