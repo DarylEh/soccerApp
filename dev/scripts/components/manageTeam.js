@@ -15,7 +15,12 @@ constructor () {
     this.state = {
         players:[]
     }
+    this.goBack = this.goBack.bind(this);
 }
+    goBack() {
+        window.history.back();
+    }
+
 //gets player data from database
 componentDidMount(){
     const teamId = this.props.match.params.key;
@@ -40,6 +45,7 @@ componentDidMount(){
 render(){
     return (
         <div>
+            <div> <button onClick={this.goBack}>Back</button></div>
             <h1>Roster</h1>
             <PlayerModal teamKey={this.props.match.params.key} />
                 <section className='roster'>

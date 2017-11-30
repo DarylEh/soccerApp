@@ -4,12 +4,10 @@ import PlayerModal from "./addPlayerModal.js"
 import firebase from 'firebase';
 import {
     BrowserRouter as Router,
-    Route, Link, Switch
+    Route, Link, Switch, BrowserHistory
 } from 'react-router-dom';
 import Collapsible from 'react-collapsible';
 import ManageTeam from './manageTeam.js';
-
-
 
 class TeamPage extends React.Component {
     constructor() {
@@ -17,8 +15,17 @@ class TeamPage extends React.Component {
         this.state = {
             games: []
         }
+        this.goBack = this.goBack.bind(this);
     }
+    
+    
+    goBack() {
+		window.history.back();
+	}
+    
     //getting data from firebase to populate upcoming games
+    
+    
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
@@ -40,12 +47,13 @@ class TeamPage extends React.Component {
             // console.log(gamesArray)
         })
     }
-
+    
     render(){
         return (
             
             <div>
                 <GameModal teamKey={this.props.match.params.key}/>
+                <div> <button onClick={this.goBack}>Back</button></div>
                     <h2>{this.props.match.params.team}</h2>
                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
                     <p>Manage Team</p>
@@ -54,8 +62,8 @@ class TeamPage extends React.Component {
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
                     {this.state.games.map((game, i) => {
-                            return (
-                                <div>
+                        return (
+                            <div>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
                                     <div className="container">
                                         <div>
