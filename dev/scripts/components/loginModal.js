@@ -31,15 +31,18 @@ class LoginModal extends React.Component {
     // User action: submit 'new team' form
     handleSubmit(event) {
         event.preventDefault();
+        
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((results) => {
+                this.props.getCurrentUserEmail(this.state.email);
                 this.setState({
                     modalIsOpen: false,
                 })
-                console.log(results, firebase.auth().currentUser)
+                //this.props.getCurrentUserEmail(this.state.email);
+                
             })
             .catch((error) => {
-                alert(error.message)
+                // alert(error.message)
             })
     }
     

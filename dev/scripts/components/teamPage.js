@@ -16,8 +16,12 @@ class TeamPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            games: []
+            games: [],
+            currentUserEmail: "",
+            currentUserName: ""
         }
+        this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
+        this.displayUserName = this.displayUserName.bind(this);
     }
     //getting data from firebase to populate upcoming games
     componentDidMount() {
@@ -38,17 +42,53 @@ class TeamPage extends React.Component {
                 games: gamesArray
                 
             })
-            // console.log(gamesArray)
+            this.setState({
+                currentUserEmail: firebase.auth().currentUser.email
+            })
+            
+            console.log(currentUserEmail);
+            
         })
+        this.displayUserName();
     }
+    getCurrentUserEmail(currentemail) {
+        this.displayUserName();
+        this.setState({
+            currentUserEmail: email
+        })
+        
+    }
+    displayUserName(){
+        const teamId = this.props.match.params.key;
+        const dbRef = firebase.database().ref(teamId);
+        
 
+        dbRef.on("value", (firebaseData) => {
+            const teamData = firebaseData.val();
+            const userData = teamData.users;
+            let userName = "";
+
+            
+            for (let userKey in userData){
+                
+                if (this.state.currentUserEmail === userData[userKey].email){
+                    userName = userData[userKey].name
+                }
+            }
+            this.setState({
+                currentUserName: userName
+            })
+        })
+        // for (let userKey );
+    }
     render(){
         return (
             
             <div>
-                <LoginModal teamKey={this.props.match.params.key}/>
+                <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
                 <GameModal teamKey={this.props.match.params.key}/>
                     <h2>{this.props.match.params.team}</h2>
+                    <p>Welcome {this.state.currentUserName}</p>
                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
                     <p>Manage Team</p>
                 </Link>
