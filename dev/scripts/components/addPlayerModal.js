@@ -113,7 +113,7 @@ class PlayerModal extends React.Component {
                     contentLabel="Example Modal"
                 >
 
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Add New Game</h2>
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Add New Player</h2>
                     <button onClick={this.closeModal}>close</button>
 
                     <form action="" onSubmit={this.handleSubmit}>
