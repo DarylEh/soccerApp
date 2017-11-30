@@ -16,6 +16,7 @@ class TeamPage extends React.Component {
             games: []
         }
     }
+    
     //getting data from firebase to populate upcoming games
     componentDidMount() {
         const teamId = this.props.match.params.key;

@@ -15,6 +15,8 @@ class WelcomePage extends React.Component{
             teams: []
         }
     }
+
+    //loading team data from firebase when page mounts
     componentDidMount() {
     const dbRef = firebase.database().ref();
 
@@ -33,9 +35,9 @@ class WelcomePage extends React.Component{
             teams: teamsArray
         
         })
-        // console.log(this.state.teams);
     })
 }//end of  componentDidMount
+
     render(){
         return (
             <main>

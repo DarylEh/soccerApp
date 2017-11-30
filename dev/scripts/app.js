@@ -27,17 +27,6 @@ firebase.initializeApp(config);
 
 class App extends React.Component {
 
-	// constructor(){
-	// 	super();
-	// 	this.state = {
-	// 		teams : [
-	// 			'orange team',
-	// 			'blue',
-	// 			'red'
-	// 		]
-	// 	}
-	// }
-
 	render() {
 		return (
 			<Router>
