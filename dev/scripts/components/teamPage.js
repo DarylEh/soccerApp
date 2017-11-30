@@ -4,9 +4,11 @@ import PlayerModal from "./addPlayerModal.js"
 import firebase from 'firebase';
 import {
     BrowserRouter as Router,
-    Route, Link
+    Route, Link, Switch
 } from 'react-router-dom';
 import Collapsible from 'react-collapsible';
+import ManageTeam from './manageTeam.js';
+
 
 
 class TeamPage extends React.Component {
@@ -26,7 +28,7 @@ class TeamPage extends React.Component {
             const teamData = firebaseData.val();
             const gamesArray = [];
             const gameData = teamData.games;
-            console.log(teamData);
+            //console.log(teamData);
             for (let gameKey in gameData) {
                 gameData[gameKey].key = gameKey;
                 gamesArray.push(gameData[gameKey]);
@@ -36,18 +38,19 @@ class TeamPage extends React.Component {
                 games: gamesArray
                 
             })
-            console.log(gamesArray)
+            // console.log(gamesArray)
         })
     }
 
     render(){
         return (
+            
             <div>
                 <GameModal teamKey={this.props.match.params.key}/>
-                <PlayerModal teamKey={this.props.match.params.key} />
-
-                <h2>{this.props.match.params.team}</h2>
-                {/* add link to manage teams here */}
+                    <h2>{this.props.match.params.team}</h2>
+                <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
+                    <p>Manage Team</p>
+                </Link>
                 <section>
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
@@ -93,12 +96,11 @@ class TeamPage extends React.Component {
                                 </div>
                             </div>
                         )
-                    }
-                        
+                    }  
                     )}
                     </div>
                 </section>
-            </div>    
+            </div>   
         )
     }
 }

@@ -21,11 +21,11 @@ class TeamModal extends React.Component {
         this.state = {
             modalIsOpen: false,
             teamName: '',
-            userName: '',
-            userEmail: '',
-            userPhone: '',
-            userGender: '',
-            userPassword: '',
+            name: '',
+            email: '',
+            phone: '',
+            gender: '',
+            password: '',
             passwordMatch: ''
         };
 
@@ -51,24 +51,29 @@ class TeamModal extends React.Component {
             teamName: this.state.teamName,
             users: {
                 captain: {
-                    userName: this.state.userName,
-                    userEmail: this.state.userEmail,
-                    userPhone: this.state.userPhone,
-                    userGender: this.state.userGender,
-                    userPassword: this.state.userPassword,
+                    name: this.state.userName,
+                    email: this.state.userEmail,
+                    phone: this.state.userPhone,
+                    gender: this.state.userGender,
+                    password: this.state.userPassword,
                 }
             }
         };
         dbRef.push(teamObject);
+        // Create a user for the person who just made a team
+        firebase.auth().createUserWithEmailAndPassword(this.state.userEmail, this.state.userPassword)
+            .catch((error) => {
+                alert(error.message)
+            })
         // Empty form after successful submit
         this.setState({
             modalIsOpen: false,
             teamName: '',
-            userName: '',
-            userEmail: '',
-            userPhone: '',
-            userGender: '',
-            userPassword: '',
+            name: '',
+            mmail: '',
+            phone: '',
+            gender: '',
+            password: '',
             passwordMatch: ''
         });
     }
