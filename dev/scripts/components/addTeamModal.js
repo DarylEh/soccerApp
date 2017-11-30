@@ -39,45 +39,46 @@ class TeamModal extends React.Component {
     // User action: submit 'new team' form
     handleSubmit (event){
         event.preventDefault();
-        if (this.state.userPassword === this.state.confirmPassword) {
+        if (this.state.password === this.state.passwordMatch) {
             this.pushToFirebase();
         } else {
             alert('Passwords do not match')
         }
     }
     pushToFirebase() {
-        const dbRef = firebase.database().ref();
-        const teamObject = {
-            teamName: this.state.teamName,
-            users: {
-                captain: {
-                    name: this.state.userName,
-                    email: this.state.userEmail,
-                    phone: this.state.userPhone,
-                    gender: this.state.userGender,
-                    password: this.state.userPassword,
-                }
-            }
-        };
-        dbRef.push(teamObject);
         // Create a user for the person who just made a team
-        firebase.auth().createUserWithEmailAndPassword(this.state.userEmail, this.state.userPassword)
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then((data) => {
+                this.createUser(data.uid);
+            })
             .catch((error) => {
                 alert(error.message)
             })
-        // Empty form after successful submit
+    }
+
+    createUser(userID) {
+        const dbRef = firebase.database().ref();
+        const playerObject = {
+            teamName: this.state.teamName,
+            name: this.state.name,
+            email: this.state.email,
+            phone: this.state.phone,
+            gender: this.state.gender,
+            password: this.state.password,
+            uid: userID
+        }
+        dbRef.push(playerObject);
+        //empty the form on successful submit
         this.setState({
             modalIsOpen: false,
-            teamName: '',
             name: '',
-            mmail: '',
+            email: '',
             phone: '',
             gender: '',
             password: '',
             passwordMatch: ''
         });
     }
-
     // User action: remove focus from form item
     handleChange(event) {
         this.setState({
@@ -120,24 +121,24 @@ class TeamModal extends React.Component {
 
                         <h2>Your Info:</h2>
                         <label htmlFor="userName">Name:</label>
-                        <input type="text" id="userName" name="userName" onChange={this.handleChange} value={this.state.userName} required />
+                        <input type="text" id="userName" name="name" onChange={this.handleChange} value={this.state.userName} required />
 
                         <label htmlFor="userEmail">Email:</label>
-                        <input type="text" id="userEmail" name="userEmail" onChange={this.handleChange} value={this.state.userEmail} required />
+                        <input type="text" id="userEmail" name="email" onChange={this.handleChange} value={this.state.userEmail} required />
 
                         <label htmlFor="userPhone">Phone Number:</label>
-                        <input type="text" id="userPhone" name="userPhone" onChange={this.handleChange} value={this.state.userPhone} />
+                        <input type="text" id="userPhone" name="phone" onChange={this.handleChange} value={this.state.userPhone} />
 
                         <p>Gender:</p>
                         <label htmlFor="userGenderMale">Male</label>
-                        <input type="radio" id="userGenderMale" name="userGender" onChange={this.handleChange} value="male" required />
+                        <input type="radio" id="userGenderMale" name="gender" onChange={this.handleChange} value="male" required />
                         <label htmlFor="userGenderFemale">Female</label>
-                        <input type="radio" id="userGenderFemale" name="userGender" onChange={this.handleChange} value="female" required />
+                        <input type="radio" id="userGenderFemale" name="gender" onChange={this.handleChange} value="female" required />
 
                         <label htmlFor="userPassword">Password:</label>
-                        <input type="password" id="userPassword" name="userPassword" onChange={this.handleChange} value={this.state.userPassword} required />
-                        <label htmlFor="confirmPassword">Confirm Password:</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" onChange={this.handleChange} value={this.state.confirmPassword} required />
+                        <input type="password" id="userPassword" name="password" onChange={this.handleChange} value={this.state.userPassword} required />
+                        <label htmlFor="passwordMatch">Confirm Password:</label>
+                        <input type="password" id="passwordMatch" name="passwordMatch" onChange={this.handleChange} value={this.state.confirmPassword} required />
                         
                         <input type="submit" value="Submit" />
                     </form>

@@ -1,6 +1,7 @@
 import React from 'react';
 import GameModal from "./addGameModal.js";
-import PlayerModal from "./addPlayerModal.js"
+import PlayerModal from "./addPlayerModal.js";
+import LoginModal from "./loginModal.js";
 import firebase from 'firebase';
 import {
     BrowserRouter as Router,
@@ -45,6 +46,7 @@ class TeamPage extends React.Component {
         return (
             
             <div>
+                <LoginModal teamKey={this.props.match.params.key}/>
                 <GameModal teamKey={this.props.match.params.key}/>
                     <h2>{this.props.match.params.team}</h2>
                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
