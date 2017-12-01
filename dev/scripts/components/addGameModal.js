@@ -43,15 +43,15 @@ class GameModal extends React.Component {
         dbRef.on("value", (firebaseData) => {
             const opponentData = firebaseData.val();
             const opponentArray = [];
-            console.log(opponentData);
+            //console.log(opponentData);
             for (let opponentKey in opponentData) {
                 opponentArray.push(opponentData[opponentKey].teamName);
-                console.log(opponentData[opponentKey].teamName)
+                //console.log(opponentData[opponentKey].teamName)
             }
             this.setState({
                 opponentList: opponentArray
             })
-            console.log(this.state.opponentList)
+            //console.log(this.state.opponentList)
         })
     }
     // User action: submit 'add game' form
@@ -63,14 +63,17 @@ class GameModal extends React.Component {
         const teamObject = {};
 
         firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
-            const userObj = players.val().users.email;
-            console.log(userObj);
+            const userObj = players.val().users;
+            const userObjEmail = players.val().users.email;
+            //console.log(players);
             let i = 0;
             for (let userKey in userObj) {
-                teamObject[i] = userKey;
+                firebase.database().ref(`${this.props.teamKey}/users/${userKey}`);
+                //teamObject[i] = dbRefUsers[userKey].email;
                 i++;
             }
-            console.log(userObj)
+            //console.log(teamObject)
+            //console.log(userObj)
         })
         const gameObject = {
             location: this.state.location,
@@ -78,7 +81,7 @@ class GameModal extends React.Component {
             time: this.state.time,
             opponent: this.state.opponent,
             attendance: {
-                pending: teamObject,
+                pending: ['winner@yahoo.com'],
                 yes: 'none',
                 no: 'none'
             }
