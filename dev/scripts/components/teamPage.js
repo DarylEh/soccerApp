@@ -17,22 +17,21 @@ class TeamPage extends React.Component {
             games: [],
             currentUserEmail: "",
             currentUserName: "",
-            loggedIn: false
+            loggedIn: false,
+            teamRoster: []
         }
         this.goBack = this.goBack.bind(this);
         this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
         this.displayUserName = this.displayUserName.bind(this);
         this.signOut = this.signOut.bind(this);
+        this.getFullRoster = this.getFullRoster.bind(this);
     }
-    
     
     goBack() {
 		window.history.back();
 	}
     
     //getting data from firebase to populate upcoming games
-    
-    
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
@@ -45,19 +44,16 @@ class TeamPage extends React.Component {
                     loggedIn: true
                 });
                 this.displayUserName();
-
             } else {
                 this.setState({
                     loggedIn: false,
                     currentUserEmail: '',
                     currentUserName: '',
-                    
                 })
             }
         });
 
     //END OF TEST
-        
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const gamesArray = [];
@@ -70,9 +66,10 @@ class TeamPage extends React.Component {
             }
             this.setState({
                 games: gamesArray
-                
             })
         })
+        // this.displayUserName();
+        this.getFullRoster();
     }
     getCurrentUserEmail(currentemail) {
         this.displayUserName();
@@ -80,6 +77,29 @@ class TeamPage extends React.Component {
             currentUserEmail: email
         })
     }
+    // Pull a full list of all members on the current team
+    getFullRoster() {
+        //console.log(this.props.match.params.key)
+        const dbRefUsers = firebase.database().ref(`${this.props.match.params.key}/users`);
+        //const dbRefUsers = firebase.database().ref(`${this.props.match.params.key}/users`);
+        //console.log(dbRefUsers)
+        dbRefUsers.on('value', (players) => {
+            const teamArray = []
+            for (let player in players.val()) {
+                // console.log(players.val()[player].email, players.val()[player].name)
+                const playerObj = {
+                    name: players.val()[player].name,
+                    email: players.val()[player].email
+                }
+                teamArray.push(playerObj)
+            }
+            this.setState({
+                teamRoster: teamArray
+            })
+        })
+    }
+
+    
 
     displayUserName(){
         const teamId = this.props.match.params.key;
@@ -171,6 +191,26 @@ class TeamPage extends React.Component {
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
+                        const pendingArray = [];
+                        //console.log(game.attendance.pending)
+                        for (let player in game.attendance.pending) {
+                            pendingArray.push(game.attendance.pending[player])
+                        }
+                        console.log(game)
+                        const pendingNamesArray = [];
+
+                        this.state.teamRoster.forEach((player) => {
+                            console.log(player, 'teamroster player')
+                            pendingArray.forEach((playerPendingEmail) => {
+                                console.log(playerPendingEmail)
+                                if (playerPendingEmail === player.email) {
+                                    console.log('DA TROOF')
+                                    pendingNamesArray.push(player.name)
+                                } else {
+                                    console.log('boo urns')
+                                }
+                            })
+                        })
                             return (
                                 <div>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
@@ -198,11 +238,15 @@ class TeamPage extends React.Component {
                                                 </ul>
                                             </div>
                                             <div className="Pending">
+                                                <h4>pending:</h4>
                                                 <ul>
-                                                    <li>TBA</li>
+                                                    {pendingNamesArray.map((player) => {
+                                                        return <li>{player}</li>
+                                                    })}
                                                 </ul>
                                             </div>
                                             <button>We Need Subs</button>
+
                                         </div>
                                     </Collapsible>
                                     {response}
