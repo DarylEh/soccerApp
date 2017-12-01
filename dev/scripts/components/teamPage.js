@@ -16,27 +16,47 @@ class TeamPage extends React.Component {
         this.state = {
             games: [],
             currentUserEmail: "",
-            currentUserName: ""
+            currentUserName: "",
+            loggedIn: false
         }
         this.goBack = this.goBack.bind(this);
         this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
         this.displayUserName = this.displayUserName.bind(this);
+        this.signOut = this.signOut.bind(this);
     }
     
-<<<<<<< HEAD
-=======
     
     goBack() {
 		window.history.back();
 	}
     
->>>>>>> bfef2d26b948b23086a66169f4987009f1726b27
     //getting data from firebase to populate upcoming games
     
     
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
+
+        // START OF TEST
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({
+                    currentUserEmail: firebase.auth().currentUser.email,
+                    loggedIn: true
+                });
+                this.displayUserName();
+
+            } else {
+                this.setState({
+                    loggedIn: false,
+                    currentUserEmail: '',
+                    currentUserName: '',
+                    
+                })
+            }
+        });
+
+    //END OF TEST
         
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
@@ -52,22 +72,25 @@ class TeamPage extends React.Component {
                 games: gamesArray
                 
             })
-            this.setState({
-                currentUserEmail: firebase.auth().currentUser.email
-            })
+            // this.setState({
+            //     currentUserEmail: firebase.auth().currentUser.email
+            // })
             
-            console.log(currentUserEmail);
+            // console.log(currentUserEmail);
             
         })
-        this.displayUserName();
+        // this.displayUserName();
     }
     getCurrentUserEmail(currentemail) {
         this.displayUserName();
         this.setState({
             currentUserEmail: email
         })
-        
     }
+
+
+    
+
     displayUserName(){
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
@@ -91,11 +114,37 @@ class TeamPage extends React.Component {
         })
         // for (let userKey );
     }
+
+    signOut(event) {
+        event.preventDefault()
+        firebase.auth().signOut();
+    }
+
     render(){
+        let logInOrOut = '';
+        let response = '';
+        if (this.state.loggedIn == false){
+            logInOrOut = (
+                <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
+
+            )
+           
+        } else {
+            logInOrOut = (
+                <button onClick={this.signOut}>Log Out</button>
+            )
+            response = (
+                <div className="rsvp">
+                    <button>Yes</button>
+                    <button>No</button>
+                    <p>You said TBA</p>
+                </div>
+            )
+        }
         return (
             
             <div>
-                <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
+                {logInOrOut}
                 <GameModal teamKey={this.props.match.params.key}/>
                 <div> <button onClick={this.goBack}>Back</button></div>
                     <h2>{this.props.match.params.team}</h2>
@@ -141,11 +190,12 @@ class TeamPage extends React.Component {
                                         <button>We Need Subs</button>
                                     </div>
                                 </Collapsible>
-                                <div className="rsvp">
+                                {response}
+                                {/* <div className="rsvp">
                                     <button>Yes</button>
                                     <button>No</button>
                                     <p>You said TBA</p>
-                                </div>
+                                </div> */}
                             </div>
                         )
                     }  

@@ -26,12 +26,9 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends React.Component {
-<<<<<<< HEAD
-=======
 	constructor(){
 		super();
 	}
->>>>>>> bfef2d26b948b23086a66169f4987009f1726b27
 	render() {
 		return (
 			
