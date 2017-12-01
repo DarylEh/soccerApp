@@ -114,6 +114,7 @@ class TeamPage extends React.Component {
         let response = '';
         let addGame = '';
         let manageTeam = '';
+        let welcomeMessage = '';
         if (this.state.loggedIn == false){
             logInOrOut = (
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
@@ -138,6 +139,9 @@ class TeamPage extends React.Component {
             manageTeam = (
                 <p>NO YOU CANT MANAGE THE TEAM</p>
             )
+            welcomeMessage = (
+                <p></p>
+            )
         } else {
             addGame = (
                 <GameModal teamKey={this.props.match.params.key} />
@@ -147,63 +151,64 @@ class TeamPage extends React.Component {
                      <p>Manage Team</p>
                  </Link>
             )
+             welcomeMessage = (
+                 <p>Welcome {this.state.currentUserName}</p>
+                
+            )
          }
         
         return (
             <div>
                 {logInOrOut}
-                {/* <GameModal teamKey={this.props.match.params.key}/> */}
                 {addGame}
-                <div> <button onClick={this.goBack}>Back</button></div>
-                    <h2>{this.props.match.params.team}</h2>
-                    <p>Welcome {this.state.currentUserName}</p>
-                    {manageTeam}
-                {/* <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
-                    <p>Manage Team</p>
-                </Link> */}
+                <div>
+                    <button onClick={this.goBack}>Back</button>
+                </div>
+                <h2>{this.props.match.params.team}</h2>
+                {welcomeMessage}
+                {manageTeam}
                 <section>
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
-                    {this.state.games.map((game, i) => {
-                        return (
-                            <div>
-                                <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
-                                    <div className="container">
-                                        <div>
-                                            <h4>Location</h4>
-                                            <p>{game.location}</p>
-                                            <h4>Time</h4>
-                                            <p>{game.time}</p>
+                        {this.state.games.map((game, i) => {
+                            return (
+                                <div>
+                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
+                                        <div className="container">
+                                            <div>
+                                                <h4>Location</h4>
+                                                <p>{game.location}</p>
+                                                <h4>Time</h4>
+                                                <p>{game.time}</p>
+                                            </div>
+                                            <div className="attendence">
+                                                <p>Going: TBA</p>
+                                                <p>Gents: TBA</p>
+                                                <p>Ladies: TBA</p>
+                                                <p>Can't make it</p>
+                                            </div>
+                                            <div className="yes">
+                                                <ul>
+                                                    <li>TBA</li>
+                                                </ul>
+                                            </div>
+                                            <div className="no">
+                                                <ul>
+                                                    <li>TBA</li>
+                                                </ul>
+                                            </div>
+                                            <div className="Pending">
+                                                <ul>
+                                                    <li>TBA</li>
+                                                </ul>
+                                            </div>
+                                            <button>We Need Subs</button>
                                         </div>
-                                        <div className="attendence">
-                                            <p>Going: TBA</p>
-                                            <p>Gents: TBA</p>
-                                            <p>Ladies: TBA</p>
-                                            <p>Can't make it</p>
-                                        </div>
-                                        <div className="yes">
-                                            <ul>
-                                                <li>TBA</li>
-                                            </ul>
-                                        </div>
-                                        <div className="no">
-                                            <ul>
-                                                <li>TBA</li>
-                                            </ul>
-                                        </div>
-                                        <div className="Pending">
-                                            <ul>
-                                                <li>TBA</li>
-                                            </ul>
-                                        </div>
-                                        <button>We Need Subs</button>
-                                    </div>
-                                </Collapsible>
-                                {response}
-                            </div>
-                        )
-                    }  
-                    )}
+                                    </Collapsible>
+                                    {response}
+                                </div>
+                            )
+                        })}
                     </div>
                 </section>
             </div>   
