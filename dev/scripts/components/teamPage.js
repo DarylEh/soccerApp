@@ -131,7 +131,7 @@ class TeamPage extends React.Component {
                 </div>
             )
         }
-         if (this.state.currentUserName === ''){
+        if (this.state.currentUserName === ''){
             addGame = (
                 <p>NO YOU CANT ADD GAMES</p>
             )
@@ -142,12 +142,12 @@ class TeamPage extends React.Component {
             addGame = (
                 <GameModal teamKey={this.props.match.params.key} />
             )
-             manageTeam = (
-                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
-                     <p>Manage Team</p>
-                 </Link>
+                manageTeam = (
+                    <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
+                        <p>Manage Team</p>
+                    </Link>
             )
-         }
+        }
         
         return (
             <div>
