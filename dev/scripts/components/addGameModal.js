@@ -26,7 +26,7 @@ class GameModal extends React.Component {
             location: '',
             date: '',
             time: '',
-            opponentList :[]        
+            opponentList: []
         };
 
         this.openModal = this.openModal.bind(this);
@@ -49,7 +49,6 @@ class GameModal extends React.Component {
             this.setState({
                 opponentList: opponentArray
             })
-            // console.log(this.state.opponentList)
         })
     }
     // User action: submit 'add game' form
@@ -112,9 +111,7 @@ class GameModal extends React.Component {
     }
     
     render() {
-        // const defaultOption = options[0]
         return (
-            
             <div>
                 <button onClick={this.openModal}>+ Add Game</button>
                 <Modal
