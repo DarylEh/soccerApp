@@ -28,7 +28,7 @@ class GameModal extends React.Component {
             location: '',
             date: '',
             time: '',
-            opponentList :[]        
+            opponentList: []
         };
 
         this.openModal = this.openModal.bind(this);
@@ -113,9 +113,7 @@ class GameModal extends React.Component {
     }
     
     render() {
-        // const defaultOption = options[0]
         return (
-            
             <div>
                 <button onClick={this.openModal}>+ Add Game</button>
                 <Modal
