@@ -156,6 +156,7 @@ class TeamPage extends React.Component {
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
                     {this.state.games.map((game, i) => {
+                        console.log(game);
                         return (
                             <div>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
