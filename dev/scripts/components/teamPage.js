@@ -190,16 +190,20 @@ class TeamPage extends React.Component {
                         for (let player in game.attendance.pending) {
                             pendingArray.push(game.attendance.pending[player])
                         }
-                        console.log('beforeMap')
-                        const pendingNamesArray = this.state.teamRoster.map((player) => {
-                            console.log('in Map')
-                        pendingArray.forEach((playerPendingEmail) => {
-                            console.log('inforeach')
-                            if (playerPendingEmail === this.state.teamRoster.email) {
-                                console.log('in If')
-                                return this.state.teamRoster.Name
-                            }
-                        })
+                        console.log(game)
+                        const pendingNamesArray = [];
+                        
+                        this.state.teamRoster.forEach((player) => {
+                            console.log(player, 'teamroster player')
+                            pendingArray.forEach((playerPendingEmail) => {
+                                console.log(playerPendingEmail)
+                                if (playerPendingEmail === player.email) {
+                                    console.log('DA TROOF')
+                                    pendingNamesArray.push(player.name)
+                                } else {
+                                    console.log('boo urns')
+                                }
+                            })
                         })
                         // const pendingNamesArray = pendingArray.filter(function(emailMatch) {
                         //     return pendingArray.includes(emailMatch)

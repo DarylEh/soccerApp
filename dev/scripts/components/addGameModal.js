@@ -76,7 +76,7 @@ class GameModal extends React.Component {
             time: this.state.time,
             opponent: this.state.opponent,
             attendance: {
-                pending: ['winner@yahoo.com'],
+                pending: teamObject,
                 yes: 'none',
                 no: 'none'
             }
