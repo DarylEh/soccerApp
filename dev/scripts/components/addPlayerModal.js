@@ -48,7 +48,6 @@ class PlayerModal extends React.Component {
     }
     
     pushToFirebase(){
-        
         // Add a user for new player
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((data) => {
@@ -57,6 +56,7 @@ class PlayerModal extends React.Component {
             .catch((error) => {
                 alert(error.message)
             })
+
     
     }
 

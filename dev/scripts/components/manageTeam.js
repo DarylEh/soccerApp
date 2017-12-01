@@ -16,9 +16,16 @@ constructor () {
         players:[]
     }
     this.goBack = this.goBack.bind(this);
+    this.signOut = this.signOut.bind(this);
 }
     goBack() {
+        this.signOut()
         window.history.back();
+
+    }
+
+    signOut() {
+        firebase.auth().signOut();
     }
 
 //gets player data from database
@@ -40,6 +47,7 @@ componentDidMount(){
     })
 
 }
+
 
 //displaying player info on the accordian
 render(){

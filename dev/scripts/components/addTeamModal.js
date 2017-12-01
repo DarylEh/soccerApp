@@ -55,17 +55,21 @@ class TeamModal extends React.Component {
                 alert(error.message)
             })
     }
-
+    
     createUser(userID) {
         const dbRef = firebase.database().ref();
         const playerObject = {
             teamName: this.state.teamName,
-            name: this.state.name,
-            email: this.state.email,
-            phone: this.state.phone,
-            gender: this.state.gender,
-            password: this.state.password,
-            uid: userID
+            users: {
+                captain: {
+                    name: this.state.name,
+                    email: this.state.email,
+                    phone: this.state.phone,
+                    gender: this.state.gender,
+                    password: this.state.password,
+                    uid: userID
+                }
+            }
         }
         dbRef.push(playerObject);
         //empty the form on successful submit
@@ -76,7 +80,8 @@ class TeamModal extends React.Component {
             phone: '',
             gender: '',
             password: '',
-            passwordMatch: ''
+            passwordMatch: '',
+            teamName: ''
         });
     }
     // User action: remove focus from form item
