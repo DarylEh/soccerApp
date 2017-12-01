@@ -56,6 +56,7 @@ class PlayerModal extends React.Component {
             .catch((error) => {
                 alert(error.message)
             })
+
     
     }
 

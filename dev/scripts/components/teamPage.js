@@ -67,12 +67,6 @@ class TeamPage extends React.Component {
             this.setState({
                 games: gamesArray
             })
-            // this.setState({
-            //     currentUserEmail: firebase.auth().currentUser.email
-            // })
-            
-            // console.log(currentUserEmail);
-            
         })
         // this.displayUserName();
         this.getFullRoster();
@@ -119,7 +113,6 @@ class TeamPage extends React.Component {
 
             
             for (let userKey in userData){
-                
                 if (this.state.currentUserEmail === userData[userKey].email){
                     userName = userData[userKey].name
                 }
@@ -139,12 +132,13 @@ class TeamPage extends React.Component {
     render(){
         let logInOrOut = '';
         let response = '';
+        let addGame = '';
+        let manageTeam = '';
         if (this.state.loggedIn == false){
             logInOrOut = (
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
 
             )
-           
         } else {
             logInOrOut = (
                 <button onClick={this.signOut}>Log Out</button>
@@ -157,17 +151,36 @@ class TeamPage extends React.Component {
                 </div>
             )
         }
+         if (this.state.currentUserName === ''){
+            addGame = (
+                <p>NO YOU CANT ADD GAMES</p>
+            )
+            manageTeam = (
+                <p>NO YOU CANT MANAGE THE TEAM</p>
+            )
+        } else {
+            addGame = (
+                <GameModal teamKey={this.props.match.params.key} />
+            )
+             manageTeam = (
+                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
+                     <p>Manage Team</p>
+                 </Link>
+            )
+         }
+        
         return (
-            
             <div>
                 {logInOrOut}
-                <GameModal teamKey={this.props.match.params.key}/>
+                {/* <GameModal teamKey={this.props.match.params.key}/> */}
+                {addGame}
                 <div> <button onClick={this.goBack}>Back</button></div>
                     <h2>{this.props.match.params.team}</h2>
                     <p>Welcome {this.state.currentUserName}</p>
-                <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
+                    {manageTeam}
+                {/* <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
                     <p>Manage Team</p>
-                </Link>
+                </Link> */}
                 <section>
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
@@ -193,7 +206,7 @@ class TeamPage extends React.Component {
                         // })
                         return (
                             <div>
-                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
+                                <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
                                     <div className="container">
                                         <div>
                                             <h4>Location</h4>
@@ -230,11 +243,6 @@ class TeamPage extends React.Component {
                                     </div>
                                 </Collapsible>
                                 {response}
-                                {/* <div className="rsvp">
-                                    <button>Yes</button>
-                                    <button>No</button>
-                                    <p>You said TBA</p>
-                                </div> */}
                             </div>
                         )
                     }  
