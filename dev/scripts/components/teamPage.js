@@ -72,14 +72,7 @@ class TeamPage extends React.Component {
                 games: gamesArray
                 
             })
-            // this.setState({
-            //     currentUserEmail: firebase.auth().currentUser.email
-            // })
-            
-            // console.log(currentUserEmail);
-            
         })
-        // this.displayUserName();
     }
     getCurrentUserEmail(currentemail) {
         this.displayUserName();
@@ -87,9 +80,6 @@ class TeamPage extends React.Component {
             currentUserEmail: email
         })
     }
-
-
-    
 
     displayUserName(){
         const teamId = this.props.match.params.key;
@@ -103,7 +93,6 @@ class TeamPage extends React.Component {
 
             
             for (let userKey in userData){
-                
                 if (this.state.currentUserEmail === userData[userKey].email){
                     userName = userData[userKey].name
                 }
@@ -140,14 +129,15 @@ class TeamPage extends React.Component {
                 </div>
             )
         }
+        
         return (
-            
             <div>
                 {logInOrOut}
                 <GameModal teamKey={this.props.match.params.key}/>
                 <div> <button onClick={this.goBack}>Back</button></div>
                     <h2>{this.props.match.params.team}</h2>
                     <p>Welcome {this.state.currentUserName}</p>
+                
                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
                     <p>Manage Team</p>
                 </Link>
@@ -190,11 +180,6 @@ class TeamPage extends React.Component {
                                     </div>
                                 </Collapsible>
                                 {response}
-                                {/* <div className="rsvp">
-                                    <button>Yes</button>
-                                    <button>No</button>
-                                    <p>You said TBA</p>
-                                </div> */}
                             </div>
                         )
                     }  

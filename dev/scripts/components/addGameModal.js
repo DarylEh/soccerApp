@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 import Dropdown from 'react-dropdown';
-import { BreadcrumbsProvider } from 'react-breadcrumbs-dynamic';
-import { Breadcrumbs } from 'react-breadcrumbs-dynamic';
-import { BreadcrumbsItem } from 'react-breadcrumbs-dynamic';
+
 
 // Size of popup window
 const customStyles = {
@@ -43,15 +41,15 @@ class GameModal extends React.Component {
         dbRef.on("value", (firebaseData) => {
             const opponentData = firebaseData.val();
             const opponentArray = [];
-            console.log(opponentData);
+            // console.log(opponentData);
             for (let opponentKey in opponentData) {
                 opponentArray.push(opponentData[opponentKey].teamName);
-                console.log(opponentData[opponentKey].teamName)
+                // console.log(opponentData[opponentKey].teamName)
             }
             this.setState({
                 opponentList: opponentArray
             })
-            console.log(this.state.opponentList)
+            // console.log(this.state.opponentList)
         })
     }
     // User action: submit 'add game' form
@@ -62,16 +60,17 @@ class GameModal extends React.Component {
         const dbRefUsers = firebase.database().ref(`${this.props.teamKey}/users`);
         const teamObject = {};
 
+        //creates list of user emails in pending when game is created
         firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
-            const userObj = players.val().users.email;
+            const userObj = players.val().users;
             console.log(userObj);
             let i = 0;
             for (let userKey in userObj) {
-                teamObject[i] = userKey;
+                teamObject[i] = userObj[userKey]['email'];
                 i++;
             }
-            console.log(userObj)
         })
+
         const gameObject = {
             location: this.state.location,
             date: this.state.date,
