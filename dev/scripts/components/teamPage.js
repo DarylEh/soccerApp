@@ -128,7 +128,6 @@ class TeamPage extends React.Component {
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
 
             )
-           
         } else {
             logInOrOut = (
                 <button onClick={this.signOut}>Log Out</button>
@@ -142,7 +141,6 @@ class TeamPage extends React.Component {
             )
         }
         return (
-            
             <div>
                 {logInOrOut}
                 <GameModal teamKey={this.props.match.params.key}/>
@@ -191,11 +189,6 @@ class TeamPage extends React.Component {
                                     </div>
                                 </Collapsible>
                                 {response}
-                                {/* <div className="rsvp">
-                                    <button>Yes</button>
-                                    <button>No</button>
-                                    <p>You said TBA</p>
-                                </div> */}
                             </div>
                         )
                     }  
