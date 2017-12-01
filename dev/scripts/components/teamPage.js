@@ -134,6 +134,7 @@ class TeamPage extends React.Component {
         let response = '';
         let addGame = '';
         let manageTeam = '';
+        let welcomeMessage = '';
         if (this.state.loggedIn == false){
             logInOrOut = (
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
@@ -158,6 +159,9 @@ class TeamPage extends React.Component {
             manageTeam = (
                 <p>NO YOU CANT MANAGE THE TEAM</p>
             )
+            welcomeMessage = (
+                <p></p>
+            )
         } else {
             addGame = (
                 <GameModal teamKey={this.props.match.params.key} />
@@ -167,24 +171,26 @@ class TeamPage extends React.Component {
                      <p>Manage Team</p>
                  </Link>
             )
+             welcomeMessage = (
+                 <p>Welcome {this.state.currentUserName}</p>
+                
+            )
          }
         
         return (
             <div>
                 {logInOrOut}
-                {/* <GameModal teamKey={this.props.match.params.key}/> */}
                 {addGame}
-                <div> <button onClick={this.goBack}>Back</button></div>
-                    <h2>{this.props.match.params.team}</h2>
-                    <p>Welcome {this.state.currentUserName}</p>
-                    {manageTeam}
-                {/* <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
-                    <p>Manage Team</p>
-                </Link> */}
+                <div>
+                    <button onClick={this.goBack}>Back</button>
+                </div>
+                <h2>{this.props.match.params.team}</h2>
+                {welcomeMessage}
+                {manageTeam}
                 <section>
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
-                    {this.state.games.map((game, i) => {
+                        {this.state.games.map((game, i) => {
                         const pendingArray = [];
                         //console.log(game.attendance.pending)
                         for (let player in game.attendance.pending) {
@@ -192,7 +198,7 @@ class TeamPage extends React.Component {
                         }
                         console.log(game)
                         const pendingNamesArray = [];
-                        
+
                         this.state.teamRoster.forEach((player) => {
                             console.log(player, 'teamroster player')
                             pendingArray.forEach((playerPendingEmail) => {
@@ -205,52 +211,48 @@ class TeamPage extends React.Component {
                                 }
                             })
                         })
-                        // const pendingNamesArray = pendingArray.filter(function(emailMatch) {
-                        //     return pendingArray.includes(emailMatch)
-                        // })
-                        return (
-                            <div>
-                                <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
-                                    <div className="container">
-                                        <div>
-                                            <h4>Location</h4>
-                                            <p>{game.location}</p>
-                                            <h4>Time</h4>
-                                            <p>{game.time}</p>
+                            return (
+                                <div>
+                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
+                                        <div className="container">
+                                            <div>
+                                                <h4>Location</h4>
+                                                <p>{game.location}</p>
+                                                <h4>Time</h4>
+                                                <p>{game.time}</p>
+                                            </div>
+                                            <div className="attendence">
+                                                <p>Going: TBA</p>
+                                                <p>Gents: TBA</p>
+                                                <p>Ladies: TBA</p>
+                                                <p>Can't make it</p>
+                                            </div>
+                                            <div className="yes">
+                                                <ul>
+                                                    <li>TBA</li>
+                                                </ul>
+                                            </div>
+                                            <div className="no">
+                                                <ul>
+                                                    <li>TBA</li>
+                                                </ul>
+                                            </div>
+                                            <div className="Pending">
+                                                <h4>pending:</h4>
+                                                <ul>
+                                                    {pendingNamesArray.map((player) => {
+                                                        return <li>{player}</li>
+                                                    })}
+                                                </ul>
+                                            </div>
+                                            <button>We Need Subs</button>
+
                                         </div>
-                                        <div className="attendence">
-                                            <p>Going: TBA</p>
-                                            <p>Gents: TBA</p>
-                                            <p>Ladies: TBA</p>
-                                        </div>
-                                        <div className="yes">
-                                            <h4>Yes:</h4>
-                                            <ul>
-                                                <li>TBA</li>
-                                            </ul>
-                                        </div>
-                                        <div className="no">
-                                            <h4>No:</h4>
-                                            <ul>
-                                                <li>TBA</li>
-                                            </ul>
-                                        </div>
-                                        <div className="Pending">
-                                        <h4>pending:</h4>
-                                            <ul>
-                                                {pendingNamesArray.map((player) => {
-                                                    return <li>{player}</li>
-                                                })}
-                                            </ul>
-                                        </div>
-                                        <button>We Need Subs</button>
-                                    </div>
-                                </Collapsible>
-                                {response}
-                            </div>
-                        )
-                    }  
-                    )}
+                                    </Collapsible>
+                                    {response}
+                                </div>
+                            )
+                        })}
                     </div>
                 </section>
             </div>   
