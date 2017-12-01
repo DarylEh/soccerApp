@@ -128,7 +128,6 @@ class TeamPage extends React.Component {
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
 
             )
-           
         } else {
             logInOrOut = (
                 <button onClick={this.signOut}>Log Out</button>
