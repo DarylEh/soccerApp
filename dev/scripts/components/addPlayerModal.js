@@ -35,10 +35,10 @@ class PlayerModal extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createUser = this.createUser.bind(this);
+        this.populateGameAttendance = this.populateGameAttendance.bind(this);
     }
     // User action: submit 'new team' form
     handleSubmit(event) {
-
         event.preventDefault();
         if (this.state.password === this.state.passwordMatch) {
             this.pushToFirebase();
@@ -48,7 +48,6 @@ class PlayerModal extends React.Component {
     }
     
     pushToFirebase(){
-        
         // Add a user for new player
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((data) => {
@@ -57,6 +56,7 @@ class PlayerModal extends React.Component {
             .catch((error) => {
                 alert(error.message)
             })
+
     
     }
 
@@ -71,6 +71,7 @@ class PlayerModal extends React.Component {
             uid: userID
         }
         dbRef.push(playerObject);
+        this.populateGameAttendance();
         //empty the form on successful submit
         this.setState({
             modalIsOpen: false,
@@ -87,6 +88,18 @@ class PlayerModal extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+    // Push new user into pending on all existing games
+    populateGameAttendance() {
+        const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
+        let gamesData = {};
+        dbRefGames.on("value", (firebaseData) => {
+            gamesData = firebaseData.val();
+            console.log(gamesData);
+        })
+        for (let game in gamesData) {
+            firebase.database().ref(`${this.props.teamKey}/games/${game}/attendance/pending`).push(this.state.email);
+        }
     }
     
     // Modal controls
