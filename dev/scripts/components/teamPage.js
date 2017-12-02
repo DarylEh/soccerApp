@@ -29,7 +29,6 @@ class TeamPage extends React.Component {
         this.addToYes = this.addToYes.bind(this);
         this.addToNo = this.addToNo.bind(this);
         this.moveFbRecord = this.moveFbRecord.bind(this);
-        this.populateAttendanceList = this.populateAttendanceList.bind(this);
     }
     
     goBack() {
@@ -40,7 +39,6 @@ class TeamPage extends React.Component {
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
-
         
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -58,22 +56,18 @@ class TeamPage extends React.Component {
             }
         });
 
-    
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const gamesArray = [];
             const gameData = teamData.games;
-            //console.log(teamData);
             for (let gameKey in gameData) {
                 gameData[gameKey].key = gameKey;
                 gamesArray.push(gameData[gameKey]);
-                // console.log(teamsData[teamKey])
             }
             this.setState({
                 games: gamesArray
             })
         })
-        // this.displayUserName();
         this.getFullRoster();
     }
     getCurrentUserEmail(currentemail) {
@@ -82,21 +76,19 @@ class TeamPage extends React.Component {
             currentUserEmail: email
         })
     }
+
     // Pull a full list of all members on the current team
     getFullRoster() {
-        //console.log(this.props.match.params.key)
         const dbRefUsers = firebase.database().ref(`${this.props.match.params.key}/users`);
-        //const dbRefUsers = firebase.database().ref(`${this.props.match.params.key}/users`);
-        //console.log(dbRefUsers)
         dbRefUsers.on('value', (players) => {
             const teamArray = []
             for (let player in players.val()) {
-                // console.log(players.val()[player].email, players.val()[player].name)
                 const playerObj = {
                     name: players.val()[player].name,
-                    email: players.val()[player].email
+                    email: players.val()[player].email,
+                    gender: players.val()[player].gender
                 }
-                teamArray.push(playerObj)
+                teamArray.push(playerObj);
             }
             this.setState({
                 teamRoster: teamArray
@@ -104,19 +96,15 @@ class TeamPage extends React.Component {
         })
     }
 
-    
-
     displayUserName(){
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
         
-
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const userData = teamData.users;
             let userName = "";
 
-            
             for (let userKey in userData){
                 if (this.state.currentUserEmail === userData[userKey].email){
                     userName = userData[userKey].name
@@ -126,7 +114,6 @@ class TeamPage extends React.Component {
                 currentUserName: userName
             })
         })
-        // for (let userKey );
     }
 
     signOut(event) {
@@ -393,9 +380,6 @@ class TeamPage extends React.Component {
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
-                            const pendingNamesArray = this.populateAttendanceList(game, 'pending');
-                            const yesNamesArray = this.populateAttendanceList(game, 'yes');
-                            const noNamesArray = this.populateAttendanceList(game, 'no');
                             return (
                                 <div key={game.key}>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
@@ -414,24 +398,24 @@ class TeamPage extends React.Component {
                                             <div className="yes">
                                                 <h4>Yes:</h4>
                                                 <ul>
-                                                    {yesNamesArray.map((player) => {
-                                                        return <li key={player}>{player}</li>
+                                                    {Object.keys(game.attendance.yes).map(function (key, index) {
+                                                        return <li>{game.attendance.yes[key].name}</li>
                                                     })}
                                                 </ul>
                                             </div>
                                             <div className="no">
                                                 <h4>No:</h4>
                                                 <ul>
-                                                    {noNamesArray.map((player) => {
-                                                        return <li key={player}>{player}</li>
+                                                    {Object.keys(game.attendance.no).map(function (key, index) {
+                                                        return <li>{game.attendance.no[key].name}</li>
                                                     })}
                                                 </ul>
                                             </div>
                                             <div className="Pending">
                                                 <h4>pending:</h4>
                                                 <ul>
-                                                    {pendingNamesArray.map((player) => {
-                                                        return <li key={player}>{player}</li>
+                                                    {Object.keys(game.attendance.pending).map(function (key, index) {
+                                                        return <li>{game.attendance.pending[key].name}</li>
                                                     })}
                                                 </ul>
                                             </div>
