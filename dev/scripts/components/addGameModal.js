@@ -65,7 +65,12 @@ class GameModal extends React.Component {
             console.log(userObj);
             let i = 0;
             for (let userKey in userObj) {
-                teamObject[i] = userObj[userKey]['email'];
+                const currentPlayerObject = {
+                    email: userObj[userKey]['email'],
+                    name: userObj[userKey]['name'],
+                    gender: userObj[userKey]['gender'],
+                }
+                teamObject[i] = currentPlayerObject;
                 i++;
             }
         })
@@ -77,8 +82,8 @@ class GameModal extends React.Component {
             opponent: this.state.opponent,
             attendance: {
                 pending: teamObject,
-                yes: 'none',
-                no: 'none'
+                yes: {0: {name: 'none'}},
+                no: {0: {name: 'none'}}
             }
         }
         dbRefGames.push(gameObject);
