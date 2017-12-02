@@ -143,9 +143,6 @@ class TeamPage extends React.Component {
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
         let noRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
-
-        let oldRef = '';
-        let newRef = '';
         
         //PULLS FROM PENDING IN FIREBASE
         pendingRef.on("value", (firebaseData) => {
@@ -172,11 +169,12 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1){
                 console.log('Player was in pending')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
 
 
+                this.moveFbRecord(oldRef, newRef)
 
                 // //EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
@@ -185,7 +183,7 @@ class TeamPage extends React.Component {
            
             
         })
-        
+
         noRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
@@ -210,20 +208,20 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1) {
                 console.log('Player was in no')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
 
 
-                
+                this.moveFbRecord(oldRef, newRef)
+
                 // //EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
                 movingPlayer = [];
             }
             
         })
-        
-        this.moveFbRecord(oldRef, newRef)
+
     }
 
     addToNo(gameKey){
@@ -234,9 +232,6 @@ class TeamPage extends React.Component {
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
         let yesRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
-
-        let newRef = '';
-        let oldRef = '';
 
         //PULLS FROM PENDING IN FIREBASE
         pendingRef.on("value", (firebaseData) => {
@@ -263,9 +258,12 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1) {
                 console.log('Player was in pending')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+
+
+                this.moveFbRecord(oldRef, newRef)
 
                 // //EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
@@ -298,24 +296,28 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1) {
                 console.log('Player was in yes')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+
+
+                this.moveFbRecord(oldRef, newRef)
 
                 movingArray = [];
                 movingPlayer = [];
             }
+
         })
-        this.moveFbRecord(oldRef, newRef)
     }
 
     moveFbRecord(oldRef, newRef) {
-        let playerInfo = '';
-        oldRef.on ('value', (playerData) => {
-            playerInfo = playerData.val();
-        })
-        newRef.push(playerInfo);
-        oldRef.remove();
+    oldRef.once('value', function (snap) {
+        newRef.push(snap.val(), function (error) {
+            if (!error) { oldRef.remove(); }
+            else if (typeof (console) !== 'undefined' && console.error) { console.error(error); }
+            });
+        });
+        return
     }
 
 
