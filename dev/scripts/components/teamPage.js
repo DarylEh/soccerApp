@@ -28,6 +28,7 @@ class TeamPage extends React.Component {
         this.getFullRoster = this.getFullRoster.bind(this);
         this.addToYes = this.addToYes.bind(this);
         this.moveFbRecord = this.moveFbRecord.bind(this);
+        this.populateAttendanceList = this.populateAttendanceList.bind(this);
     }
     
     goBack() {
@@ -185,6 +186,26 @@ class TeamPage extends React.Component {
 
 
 
+    populateAttendanceList(game, listName) {
+        const namesArray = [];
+
+        const attendanceArray = [];
+        //console.log(game.attendance.pending)
+        for (let player in game.attendance[listName]) {
+            attendanceArray.push(game.attendance[listName][player])
+        }
+
+        this.state.teamRoster.forEach((player) => {
+            attendanceArray.forEach((playerEmail) => {
+                if (playerEmail === player.email) {
+                    namesArray.push(player.name)
+                }
+            })
+        })
+
+        return namesArray;
+    }
+
     render(){
         let logInOrOut = '';
         let addGame = '';
@@ -238,30 +259,12 @@ class TeamPage extends React.Component {
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
-                        const pendingArray = [];
-                        console.log(game)
-                        //console.log(game.attendance.pending)
-                        for (let player in game.attendance.pending) {
-                            pendingArray.push(game.attendance.pending[player])
-                        }
-                        // console.log(game)
-                        const pendingNamesArray = [];
-
-                        this.state.teamRoster.forEach((player) => {
-                            // console.log(player, 'teamroster player')
-                            pendingArray.forEach((playerPendingEmail) => {
-                                // console.log(playerPendingEmail)
-                                if (playerPendingEmail === player.email) {
-                                    // console.log('DA TROOF')
-                                    pendingNamesArray.push(player.name)
-                                } else {
-                                    // console.log('boo urns')
-                                }
-                            })
-                        })
+                            const pendingNamesArray = this.populateAttendanceList(game, 'pending');
+                            const yesNamesArray = this.populateAttendanceList(game, 'yes');
+                            const noNamesArray = this.populateAttendanceList(game, 'no');
                             return (
-                                <div>
-                                    <Collapsible gameKey={game.key} trigger={`${game.date} vs ${game.opponent}`}>
+                                <div key={game.key}>
+                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
                                         <div className="container">
                                             <div>
                                                 <h4>Location</h4>
@@ -273,28 +276,32 @@ class TeamPage extends React.Component {
                                                 <p>Going: TBA</p>
                                                 <p>Gents: TBA</p>
                                                 <p>Ladies: TBA</p>
-                                                <p>Can't make it</p>
                                             </div>
                                             <div className="yes">
+                                                <h4>Yes:</h4>
                                                 <ul>
-                                                    <li>TBA</li>
+                                                    {yesNamesArray.map((player) => {
+                                                        return <li key={player}>{player}</li>
+                                                    })}
                                                 </ul>
                                             </div>
                                             <div className="no">
+                                                <h4>No:</h4>
                                                 <ul>
-                                                    <li>TBA</li>
+                                                    {noNamesArray.map((player) => {
+                                                        return <li key={player}>{player}</li>
+                                                    })}
                                                 </ul>
                                             </div>
                                             <div className="Pending">
                                                 <h4>pending:</h4>
                                                 <ul>
                                                     {pendingNamesArray.map((player) => {
-                                                        return <li>{player}</li>
+                                                        return <li key={player}>{player}</li>
                                                     })}
                                                 </ul>
                                             </div>
                                             <button>We Need Subs</button>
-
                                         </div>
                                     </Collapsible>
                                     {/* {response} */}
