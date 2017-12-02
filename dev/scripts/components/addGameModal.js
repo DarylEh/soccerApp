@@ -41,10 +41,8 @@ class GameModal extends React.Component {
         dbRef.on("value", (firebaseData) => {
             const opponentData = firebaseData.val();
             const opponentArray = [];
-            // console.log(opponentData);
             for (let opponentKey in opponentData) {
                 opponentArray.push(opponentData[opponentKey].teamName);
-                // console.log(opponentData[opponentKey].teamName)
             }
             this.setState({
                 opponentList: opponentArray
@@ -57,15 +55,20 @@ class GameModal extends React.Component {
         const dbRefTeam = firebase.database().ref(`${this.props.teamKey}`);
         const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
         const dbRefUsers = firebase.database().ref(`${this.props.teamKey}/users`);
-        const teamObject = {};
+        const teamArray = []
 
         //creates list of user emails in pending when game is created
         firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
             const userObj = players.val().users;
-            console.log(userObj);
-            let i = 0;
+            teamArray[0] = {name: 'none'}
+            let i = 1;
             for (let userKey in userObj) {
-                teamObject[i] = userObj[userKey]['email'];
+                const currentPlayerObject = {
+                    email: userObj[userKey]['email'],
+                    name: userObj[userKey]['name'],
+                    gender: userObj[userKey]['gender'],
+                }
+                teamArray[i] = currentPlayerObject;
                 i++;
             }
         })
@@ -76,9 +79,9 @@ class GameModal extends React.Component {
             time: this.state.time,
             opponent: this.state.opponent,
             attendance: {
-                pending: teamObject,
-                yes: 'none',
-                no: 'none'
+                pending: teamArray,
+                yes: {0: {name: 'none'}},
+                no: {0: {name: 'none'}}
             }
         }
         dbRefGames.push(gameObject);

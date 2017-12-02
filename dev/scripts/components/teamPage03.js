@@ -18,7 +18,8 @@ class TeamPage extends React.Component {
             currentUserEmail: "",
             currentUserName: "",
             loggedIn: false,
-            teamRoster: []
+            teamRoster: [],
+            // oldRef: {},
         }
         this.goBack = this.goBack.bind(this);
         this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
@@ -28,6 +29,7 @@ class TeamPage extends React.Component {
         this.addToYes = this.addToYes.bind(this);
         this.addToNo = this.addToNo.bind(this);
         this.moveFbRecord = this.moveFbRecord.bind(this);
+        this.populateAttendanceList = this.populateAttendanceList.bind(this);
     }
     
     goBack() {
@@ -38,6 +40,7 @@ class TeamPage extends React.Component {
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
+
         
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -55,40 +58,45 @@ class TeamPage extends React.Component {
             }
         });
 
+    
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const gamesArray = [];
             const gameData = teamData.games;
+            //console.log(teamData);
             for (let gameKey in gameData) {
                 gameData[gameKey].key = gameKey;
                 gamesArray.push(gameData[gameKey]);
+                // console.log(teamsData[teamKey])
             }
             this.setState({
                 games: gamesArray
             })
         })
+        // this.displayUserName();
         this.getFullRoster();
     }
-
     getCurrentUserEmail(currentemail) {
         this.displayUserName();
         this.setState({
             currentUserEmail: email
         })
     }
-
     // Pull a full list of all members on the current team
     getFullRoster() {
+        //console.log(this.props.match.params.key)
         const dbRefUsers = firebase.database().ref(`${this.props.match.params.key}/users`);
+        //const dbRefUsers = firebase.database().ref(`${this.props.match.params.key}/users`);
+        //console.log(dbRefUsers)
         dbRefUsers.on('value', (players) => {
             const teamArray = []
             for (let player in players.val()) {
+                // console.log(players.val()[player].email, players.val()[player].name)
                 const playerObj = {
                     name: players.val()[player].name,
-                    email: players.val()[player].email,
-                    gender: players.val()[player].gender
+                    email: players.val()[player].email
                 }
-                teamArray.push(playerObj);
+                teamArray.push(playerObj)
             }
             this.setState({
                 teamRoster: teamArray
@@ -96,15 +104,19 @@ class TeamPage extends React.Component {
         })
     }
 
+    
+
     displayUserName(){
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
         
+
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const userData = teamData.users;
             let userName = "";
 
+            
             for (let userKey in userData){
                 if (this.state.currentUserEmail === userData[userKey].email){
                     userName = userData[userKey].name
@@ -114,6 +126,7 @@ class TeamPage extends React.Component {
                 currentUserName: userName
             })
         })
+        // for (let userKey );
     }
 
     signOut(event) {
@@ -121,6 +134,7 @@ class TeamPage extends React.Component {
         firebase.auth().signOut();
     }
 
+   
     addToYes(gameKey){
         //find out who is signed in via email, should be currentuseremail in state
         console.log(this.state.currentUserEmail);
@@ -129,9 +143,6 @@ class TeamPage extends React.Component {
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
         let noRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
-
-        let oldRef = '';
-        let newRef = '';
         
         //PULLS FROM PENDING IN FIREBASE
         pendingRef.on("value", (firebaseData) => {
@@ -158,16 +169,21 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1){
                 console.log('Player was in pending')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
+
+
+                this.moveFbRecord(oldRef, newRef)
 
                 // //EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
                 movingPlayer = [];
             } 
+           
+            
         })
-        
+
         noRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
@@ -192,16 +208,20 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1) {
                 console.log('Player was in no')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
-                
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
+
+
+                this.moveFbRecord(oldRef, newRef)
+
                 // //EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
                 movingPlayer = [];
             }
+            
         })
-        this.moveFbRecord(oldRef, newRef)
+
     }
 
     addToNo(gameKey){
@@ -212,9 +232,6 @@ class TeamPage extends React.Component {
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
         let yesRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
-
-        let newRef = '';
-        let oldRef = '';
 
         //PULLS FROM PENDING IN FIREBASE
         pendingRef.on("value", (firebaseData) => {
@@ -241,9 +258,12 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1) {
                 console.log('Player was in pending')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+
+
+                this.moveFbRecord(oldRef, newRef)
 
                 // //EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
@@ -276,24 +296,28 @@ class TeamPage extends React.Component {
             if (movingPlayer.length == 1) {
                 console.log('Player was in yes')
 
-                oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes/${movingPlayer[0]['key']}`)
+                let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes/${movingPlayer[0]['key']}`)
 
-                newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+                let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
+
+
+                this.moveFbRecord(oldRef, newRef)
 
                 movingArray = [];
                 movingPlayer = [];
             }
+
         })
-        this.moveFbRecord(oldRef, newRef)
     }
 
     moveFbRecord(oldRef, newRef) {
-        let playerInfo = '';
-        oldRef.on ('value', (playerData) => {
-            playerInfo = playerData.val();
-        })
-        newRef.push(playerInfo);
-        oldRef.remove();
+    oldRef.once('value', function (snap) {
+        newRef.push(snap.val(), function (error) {
+            if (!error) { oldRef.remove(); }
+            else if (typeof (console) !== 'undefined' && console.error) { console.error(error); }
+            });
+        });
+        return
     }
 
 
@@ -314,6 +338,7 @@ class TeamPage extends React.Component {
                 }
             })
         })
+
         return namesArray;
     }
 
@@ -322,11 +347,10 @@ class TeamPage extends React.Component {
         let addGame = '';
         let manageTeam = '';
         let welcomeMessage = '';
-        let femaleCounter = 0;
-        let maleCounter = 0;
         if (this.state.loggedIn == false){
             logInOrOut = (
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
+
             )
         } else {
             logInOrOut = (
@@ -371,15 +395,9 @@ class TeamPage extends React.Component {
                     <h3>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
-                            for (let key in game.attendance.yes){
-                                if (game.attendance.yes[key].gender === 'female'){
-                                    femaleCounter = femaleCounter + 1;
-                                }
-                                if (game.attendance.yes[key].gender === 'male') {
-                                    maleCounter = maleCounter + 1;
-                                }
-                            }
-                            console.log(game.attendance.yes)
+                            const pendingNamesArray = this.populateAttendanceList(game, 'pending');
+                            const yesNamesArray = this.populateAttendanceList(game, 'yes');
+                            const noNamesArray = this.populateAttendanceList(game, 'no');
                             return (
                                 <div key={game.key}>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
@@ -391,55 +409,31 @@ class TeamPage extends React.Component {
                                                 <p>{game.time}</p>
                                             </div>
                                             <div className="attendence">
-                                                <p>Going: {Object.keys(game.attendance.yes).length - 1}</p>
-                                                <p>Gents: {maleCounter}</p>
-                                                <p>Ladies: {femaleCounter}</p>
+                                                <p>Going: TBA</p>
+                                                <p>Gents: TBA</p>
+                                                <p>Ladies: TBA</p>
                                             </div>
                                             <div className="yes">
                                                 <h4>Yes:</h4>
                                                 <ul>
-                                                    {Object.keys(game.attendance.yes).map(function (key, index) {
-                                                        if (game.attendance.yes.length === 1) {
-                                                            return <li>none</li>
-                                                        } else {
-                                                            if (key !== '0') {
-                                                                return <li>{game.attendance.yes[key].name}</li>
-                                                            } else {
-                                                                return null
-                                                            }
-                                                        }
+                                                    {yesNamesArray.map((player) => {
+                                                        return <li key={player}>{player}</li>
                                                     })}
                                                 </ul>
                                             </div>
                                             <div className="no">
                                                 <h4>No:</h4>
                                                 <ul>
-                                                    {Object.keys(game.attendance.no).map(function (key, index) {
-                                                        if (game.attendance.no.length === 1) {
-                                                            return <li>none</li>
-                                                        } else {
-                                                            if (key !== '0') {
-                                                                return <li>{game.attendance.no[key].name}</li>
-                                                            } else {
-                                                                return null
-                                                            }
-                                                        }
+                                                    {noNamesArray.map((player) => {
+                                                        return <li key={player}>{player}</li>
                                                     })}
                                                 </ul>
                                             </div>
                                             <div className="Pending">
                                                 <h4>pending:</h4>
                                                 <ul>
-                                                    {Object.keys(game.attendance.pending).map(function (key, index) {
-                                                        if (game.attendance.pending.length === 1) {
-                                                            return <li>none</li>
-                                                        } else {
-                                                            if (key !== '0') {
-                                                                return <li>{game.attendance.pending[key].name}</li>
-                                                            } else {
-                                                                return null
-                                                            }
-                                                        }
+                                                    {pendingNamesArray.map((player) => {
+                                                        return <li key={player}>{player}</li>
                                                     })}
                                                 </ul>
                                             </div>
