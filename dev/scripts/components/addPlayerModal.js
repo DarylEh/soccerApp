@@ -98,7 +98,12 @@ class PlayerModal extends React.Component {
             console.log(gamesData);
         })
         for (let game in gamesData) {
-            firebase.database().ref(`${this.props.teamKey}/games/${game}/attendance/pending`).push(this.state.email);
+            const currentPlayerObject = {
+                email: this.state.email,
+                name: this.state.name,
+                gender: this.state.gender
+            }
+            firebase.database().ref(`${this.props.teamKey}/games/${game}/attendance/pending`).push(currentPlayerObject);
         }
     }
     
