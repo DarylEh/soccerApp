@@ -87,12 +87,13 @@ class TeamPage extends React.Component {
         dbRefUsers.on('value', (players) => {
             const teamArray = []
             for (let player in players.val()) {
-                // console.log(players.val()[player].email, players.val()[player].name)
                 const playerObj = {
                     name: players.val()[player].name,
-                    email: players.val()[player].email
+                    email: players.val()[player].email,
+                    gender: players.val()[player].gender
                 }
-                teamArray.push(playerObj)
+                teamArray.push(playerObj);
+                console.log(playerObj);
             }
             this.setState({
                 teamRoster: teamArray
@@ -100,19 +101,15 @@ class TeamPage extends React.Component {
         })
     }
 
-    
-
     displayUserName(){
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
         
-
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const userData = teamData.users;
             let userName = "";
 
-            
             for (let userKey in userData){
                 if (this.state.currentUserEmail === userData[userKey].email){
                     userName = userData[userKey].name
@@ -142,6 +139,7 @@ class TeamPage extends React.Component {
         this.state.teamRoster.forEach((player) => {
             attendanceArray.forEach((playerEmail) => {
                 if (playerEmail === player.email) {
+                    
                     namesArray.push(player.name)
                 }
             })
