@@ -39,10 +39,9 @@ class LoginModal extends React.Component {
                     modalIsOpen: false,
                 })
                 //this.props.getCurrentUserEmail(this.state.email);
-                
             })
             .catch((error) => {
-                // alert(error.message)
+                alert(error.message)
             })
     }
     
