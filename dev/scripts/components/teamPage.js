@@ -18,13 +18,16 @@ class TeamPage extends React.Component {
             currentUserEmail: "",
             currentUserName: "",
             loggedIn: false,
-            teamRoster: []
+            teamRoster: [],
+            // oldRef: {},
         }
         this.goBack = this.goBack.bind(this);
         this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
         this.displayUserName = this.displayUserName.bind(this);
         this.signOut = this.signOut.bind(this);
         this.getFullRoster = this.getFullRoster.bind(this);
+        this.addToYes = this.addToYes.bind(this);
+        this.moveFbRecord = this.moveFbRecord.bind(this);
         this.populateAttendanceList = this.populateAttendanceList.bind(this);
     }
     
@@ -37,7 +40,7 @@ class TeamPage extends React.Component {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
 
-        // START OF TEST
+        
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({
@@ -54,7 +57,7 @@ class TeamPage extends React.Component {
             }
         });
 
-    //END OF TEST
+    
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const gamesArray = [];
@@ -127,6 +130,59 @@ class TeamPage extends React.Component {
         firebase.auth().signOut();
     }
 
+    //will also need to store in each button which game yes/no button they are clicking, tie the key for each game as a data value on each yes/no
+    //pull a snapshot from firebase
+    //the attendance lives in state...
+    addToYes(gameKey){
+        //find out who is signed in via email, should be currentuseremail in state
+        console.log(this.state.currentUserEmail);
+        console.log(gameKey);
+        let dbRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
+        console.log(dbRef)
+        // let oldRef = '';
+        
+        
+        dbRef.on("value", (firebaseData) => {
+            const playerToMove = firebaseData.val();
+            
+            const movingArray = playerToMove.map((email,i)=>{
+                return {eMail: email,
+                        index: i}
+            });
+            console.log(playerToMove)
+            console.log(movingArray)
+            const movingPlayer = movingArray.filter((value)=>{
+                return value['eMail'] === this.state.currentUserEmail;
+            });
+            console.log(movingPlayer)
+
+            // firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['index']}/${movingPlayer[0]['eMail']}`).remove();
+
+            // console.log(movingPlayer[0].eMail)
+
+            let oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['index']}`)
+            
+            let newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
+
+            // newRef.push(movingPlayer[0]['eMail'])
+
+            this.moveFbRecord(oldRef, newRef)
+
+        })
+
+    }
+
+    moveFbRecord(oldRef, newRef) {
+    oldRef.once('value', function (snap) {
+        newRef.push(snap.val(), function (error) {
+            if (!error) { oldRef.remove(); }
+            else if (typeof (console) !== 'undefined' && console.error) { console.error(error); }
+        });
+    });
+}
+
+
+
     populateAttendanceList(game, listName) {
         const namesArray = [];
 
@@ -150,7 +206,6 @@ class TeamPage extends React.Component {
 
     render(){
         let logInOrOut = '';
-        let response = '';
         let addGame = '';
         let manageTeam = '';
         let welcomeMessage = '';
@@ -163,15 +218,8 @@ class TeamPage extends React.Component {
             logInOrOut = (
                 <button onClick={this.signOut}>Log Out</button>
             )
-            response = (
-                <div className="rsvp">
-                    <button>Yes</button>
-                    <button>No</button>
-                    <p>You said TBA</p>
-                </div>
-            )
         }
-         if (this.state.currentUserName === ''){
+        if (this.state.currentUserName === ''){
             addGame = (
                 <p>NO YOU CANT ADD GAMES</p>
             )
@@ -185,14 +233,13 @@ class TeamPage extends React.Component {
             addGame = (
                 <GameModal teamKey={this.props.match.params.key} />
             )
-             manageTeam = (
-                 <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
-                     <p>Manage Team</p>
-                 </Link>
+            manageTeam = (
+                <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
+                    <p>Manage Team</p>
+                </Link>
             )
-             welcomeMessage = (
-                 <p>Welcome {this.state.currentUserName}</p>
-                
+            welcomeMessage = (
+                <p>Welcome {this.state.currentUserName}</p>
             )
         }
         
@@ -255,7 +302,18 @@ class TeamPage extends React.Component {
                                             <button>We Need Subs</button>
                                         </div>
                                     </Collapsible>
-                                    {response}
+                                    {/* {response} */}
+                                    {this.state.loggedIn
+                                    ? (<div className="rsvp">
+                                        <button onClick={() => this.addToYes(game.key)} >Yes</button>
+                                        <button>No</button>
+                                        <p>You said TBA</p>
+                                        </div>)
+                                            
+                                    : (<div></div>)
+                                            
+                                    
+                                    }
                                 </div>
                             )
                         })}
