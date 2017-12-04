@@ -1,0 +1,74 @@
+$backgroundColor: #E2E2E2;
+$mainColor: #12A5E9;
+$darkMainColor: #012C58;
+$accentColor: #FFF000;
+$darkText: #161616;
+$lightText: #FFFFFF;
+
+$oswald: 'Oswald', sans-serif;
+$montserrat: 'Montserrat', sans-serif;
+
+body {
+    font-size: 62.5%;
+    background-color: $backgroundColor;
+}
+
+.newTeamTitle {
+    font-family: $oswald;
+    color: $darkText;
+    font-size: 1.5rem;
+    font-variant: small-caps;
+}
+.newTeamTitle::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: $darkText;
+    position: relative;
+    top: -4px;
+}
+.closeModalButton {
+    font-size: 2rem;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.2s ease-out;
+}
+.closeModalButton:hover, .closeModalButton:focus {
+    color: $mainColor;
+}
+// .closeModalButton::before {
+//     content: 'close';
+//     opacity: 0;
+//     transition: opacity 0.3s ease-out;
+//     font-size: 1rem;
+//     margin-right: 10px;
+// }
+// .closeModalButton:hover::before, .closeModalButton:focus::before {
+//     opacity: 1;
+// }
+
+input[type="text"], input[type="password"] {
+    font-family: $montserrat;
+    color: $darkText;
+    background-color: $backgroundColor;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid $mainColor;
+    font-size: 0.9rem;
+    transition: border-bottom 0.2s ease-out;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    width: 90%;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    border-bottom: 1px solid $accentColor;
+}
+
+.hiddenLabel {
+    visibility: hidden;
+    position: absolute;
+}
