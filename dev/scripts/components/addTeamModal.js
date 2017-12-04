@@ -8,6 +8,7 @@ const customStyles = {
     content: {
         top: '50%',
         left: '50%',
+        width: '50%',
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
@@ -97,7 +98,7 @@ class TeamModal extends React.Component {
     }
     afterOpenModal() {
         // references are now sync'd and can be accessed.
-        this.subtitle.style.color = '#f00';
+        // this.subtitle.style.color = '#f00';
     }
     closeModal() {
         this.setState({ modalIsOpen: false });
@@ -106,7 +107,7 @@ class TeamModal extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.openModal}>+ Add Team</button>
+                <button onClick={this.openModal}>Add Team</button>
 
                 <Modal 
                     isOpen={this.state.modalIsOpen}
@@ -116,23 +117,23 @@ class TeamModal extends React.Component {
                     contentLabel="Example Modal"
                     >
 
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Team Name</h2>
-                    <button onClick={this.closeModal}>close</button>
+                    <h2 ref={subtitle => this.subtitle = subtitle} class="newTeamTitle">Create A New Team</h2>
+                    <a onClick={this.closeModal} className="closeModalButton"><i className="fa fa-times" aria-hidden="true"></i></a>
 
                     <form action="" onSubmit={this.handleSubmit}>
                         <h2>Team Info:</h2>
-                        <label htmlFor="teamName">Team Name:</label>
-                        <input type="text" id="teamName" name="teamName" onChange={this.handleChange} value={this.state.teamName} required />
+                        <label htmlFor="teamName" className="hiddenLabel">Team Name:</label>
+                        <input type="text" id="teamName" name="teamName" onChange={this.handleChange} value={this.state.teamName} placeholder="Team Name" required />
 
                         <h2>Your Info:</h2>
-                        <label htmlFor="userName">Name:</label>
-                        <input type="text" id="userName" name="name" onChange={this.handleChange} value={this.state.userName} required />
+                        <label htmlFor="userName" className="hiddenLabel">Name:</label>
+                        <input type="text" id="userName" name="name" onChange={this.handleChange} value={this.state.userName} placeholder="Name" required />
 
-                        <label htmlFor="userEmail">Email:</label>
-                        <input type="text" id="userEmail" name="email" onChange={this.handleChange} value={this.state.userEmail} required />
+                        <label htmlFor="userEmail" className="hiddenLabel">Email:</label>
+                        <input type="text" id="userEmail" name="email" onChange={this.handleChange} value={this.state.userEmail} placeholder="Email" required />
 
-                        <label htmlFor="userPhone">Phone Number:</label>
-                        <input type="text" id="userPhone" name="phone" onChange={this.handleChange} value={this.state.userPhone} />
+                        <label htmlFor="userPhone" className="hiddenLabel">Phone Number:</label>
+                        <input type="text" id="userPhone" name="phone" onChange={this.handleChange} value={this.state.userPhone} placeholder="Your Phone Number" />
 
                         <p>Gender:</p>
                         <label htmlFor="userGenderMale">Male</label>
@@ -140,10 +141,10 @@ class TeamModal extends React.Component {
                         <label htmlFor="userGenderFemale">Female</label>
                         <input type="radio" id="userGenderFemale" name="gender" onChange={this.handleChange} value="female" required />
 
-                        <label htmlFor="userPassword">Password:</label>
-                        <input type="password" id="userPassword" name="password" onChange={this.handleChange} value={this.state.userPassword} required />
-                        <label htmlFor="passwordMatch">Confirm Password:</label>
-                        <input type="password" id="passwordMatch" name="passwordMatch" onChange={this.handleChange} value={this.state.confirmPassword} required />
+                        <label htmlFor="userPassword" className="hiddenLabel">Password:</label>
+                        <input type="password" id="userPassword" name="password" onChange={this.handleChange} value={this.state.userPassword} placeholder="Password" required />
+                        <label htmlFor="passwordMatch" className="hiddenLabel">Confirm Password:</label>
+                        <input type="password" id="passwordMatch" name="passwordMatch" onChange={this.handleChange} value={this.state.confirmPassword} placeholder="Confirm Password" required />
                         
                         <input type="submit" value="Submit" />
                     </form>
