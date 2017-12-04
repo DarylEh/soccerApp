@@ -131,7 +131,8 @@ class GameModal extends React.Component {
                     <form action="" onSubmit={this.handleSubmit}>
                     
                         <label htmlFor="opponent"> Opponent </label>
-                        <select id="opponent" name="opponent" onChange={this.handleChange} >
+                        <select id="opponent" name="opponent" onChange={this.handleChange}  >
+                            <option value="" disabled selected hidden>Select Opponent</option>
                             {this.state.opponentList.map ((opponent)=>{
                                 return (
                                     <option value={opponent}> {opponent} </option>
