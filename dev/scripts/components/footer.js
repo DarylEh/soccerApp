@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
     return (
         <footer>
-            &copy 2017 Daryl and the DreamGirls
+            <p>&copy; 2017 Daryl and the DreamGirls</p> 
         </footer>
     )
 }

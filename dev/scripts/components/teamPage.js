@@ -18,8 +18,10 @@ class TeamPage extends React.Component {
             currentUserEmail: "",
             currentUserName: "",
             loggedIn: false,
-            teamRoster: []
+            teamRoster: [],
+            captainEmail: ""
         }
+
         this.goBack = this.goBack.bind(this);
         this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
         this.displayUserName = this.displayUserName.bind(this);
@@ -28,22 +30,26 @@ class TeamPage extends React.Component {
         this.addToYes = this.addToYes.bind(this);
         this.addToNo = this.addToNo.bind(this);
         this.moveFbRecord = this.moveFbRecord.bind(this);
+        this.playerResponse = this.playerResponse.bind(this);
+        this.removeGame = this.removeGame.bind(this);
     }
     
     goBack() {
 		window.history.back();
-	}
+    }
+
     
     //getting data from firebase to populate upcoming games
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
-        
+        const gamesRef = firebase.database().ref(`${teamId}/games`)
+        //change the dbref to referrence teamId at the games level, then order games by date in the order by child
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({
                     currentUserEmail: firebase.auth().currentUser.email,
-                    loggedIn: true
+                    loggedIn: true,
                 });
                 this.displayUserName();
             } else {
@@ -55,19 +61,35 @@ class TeamPage extends React.Component {
             }
         });
 
-        dbRef.on("value", (firebaseData) => {
-            const teamData = firebaseData.val();
+        gamesRef.on("value", (firebaseData) => {
+            const gameData = firebaseData.val();
             const gamesArray = [];
-            const gameData = teamData.games;
             for (let gameKey in gameData) {
                 gameData[gameKey].key = gameKey;
+                gameData[gameKey].order = gameData[gameKey].date.split('-').join('');
                 gamesArray.push(gameData[gameKey]);
+
             }
+
+            
+            gamesArray.sort((a,b)=>{
+                return a.order - b.order
+            });
             this.setState({
+                
                 games: gamesArray
             })
+            console.log(gamesArray);
+            console.log(gameData);
         })
         this.getFullRoster();
+        dbRef.on("value", (firebaseData)=>{
+            const teamData = firebaseData.val();
+            this.setState({
+                captainEmail: teamData.users.captain.email
+            })
+        })
+
     }
 
     getCurrentUserEmail(currentemail) {
@@ -86,9 +108,10 @@ class TeamPage extends React.Component {
                 const playerObj = {
                     name: players.val()[player].name,
                     email: players.val()[player].email,
-                    gender: players.val()[player].gender
+                    gender: players.val()[player].gender,
                 }
                 teamArray.push(playerObj);
+                console.log(playerObj)
             }
             this.setState({
                 teamRoster: teamArray
@@ -122,9 +145,6 @@ class TeamPage extends React.Component {
     }
 
     addToYes(gameKey){
-        //find out who is signed in via email, should be currentuseremail in state
-        console.log(this.state.currentUserEmail);
-        console.log(gameKey);
 
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
@@ -137,26 +157,20 @@ class TeamPage extends React.Component {
         pendingRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
-            console.log(playerToMove)
             
             let movingArray = [];
             //puts each object for each player in an array
             for(let player in playerToMove){
-                // console.log(player);
-                // console.log(playerToMove);
                 playerToMove[player].key = player;
                 movingArray.push(playerToMove[player])
             }
 
-            console.log(movingArray)
             //filters through the array of player objects, to create a new Array that JUST contains the object for the currently logged in player, IF the player was in the pending list
             let movingPlayer = movingArray.filter((value)=>{
                 return value['email'] === this.state.currentUserEmail;
             });
-            console.log(movingPlayer)
             //if the player was in the pending list
             if (movingPlayer.length == 1){
-                console.log('Player was in pending')
 
                 oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
 
@@ -171,26 +185,20 @@ class TeamPage extends React.Component {
         noRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
-            console.log(playerToMove)
 
             let movingArray = [];
             //puts each object for each player in an array
             for (let player in playerToMove) {
-                // console.log(player);
-                // console.log(playerToMove);
                 playerToMove[player].key = player;
                 movingArray.push(playerToMove[player])
             }
 
-            console.log(movingArray)
             //filters through the array of player objects, to create a new Array that JUST contains the object for the currently logged in player, IF the player was in the pending list
             let movingPlayer = movingArray.filter((value) => {
                 return value['email'] === this.state.currentUserEmail;
             });
-            console.log(movingPlayer)
             //if the player was in the pending list
             if (movingPlayer.length == 1) {
-                console.log('Player was in no')
 
                 oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no/${movingPlayer[0]['key']}`)
 
@@ -206,8 +214,6 @@ class TeamPage extends React.Component {
 
     addToNo(gameKey){
         //find out who is signed in via email, should be currentuseremail in state
-        console.log(this.state.currentUserEmail);
-        console.log(gameKey);
 
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
@@ -220,26 +226,20 @@ class TeamPage extends React.Component {
         pendingRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
-            console.log(playerToMove)
 
             let movingArray = [];
             //puts each object for each player in an array
             for (let player in playerToMove) {
-                // console.log(player);
-                // console.log(playerToMove);
                 playerToMove[player].key = player;
                 movingArray.push(playerToMove[player])
             }
 
-            console.log(movingArray)
             //filters through the array of player objects, to create a new Array that JUST contains the object for the currently logged in player, IF the player was in the pending list
             let movingPlayer = movingArray.filter((value) => {
                 return value['email'] === this.state.currentUserEmail;
             });
-            console.log(movingPlayer)
             //if the player was in the pending list
             if (movingPlayer.length == 1) {
-                console.log('Player was in pending')
 
                 oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending/${movingPlayer[0]['key']}`)
 
@@ -255,26 +255,20 @@ class TeamPage extends React.Component {
         yesRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
-            console.log(playerToMove)
 
             let movingArray = [];
             //puts each object for each player in an array
             for (let player in playerToMove) {
-                // console.log(player);
-                // console.log(playerToMove);
                 playerToMove[player].key = player;
                 movingArray.push(playerToMove[player])
             }
 
-            console.log(movingArray)
             //filters through the array of player objects, to create a new Array that JUST contains the object for the currently logged in player, IF the player was in the pending list
             let movingPlayer = movingArray.filter((value) => {
                 return value['email'] === this.state.currentUserEmail;
             });
-            console.log(movingPlayer)
             //if the player was in the pending list
             if (movingPlayer.length == 1) {
-                console.log('Player was in yes')
 
                 oldRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes/${movingPlayer[0]['key']}`)
 
@@ -302,7 +296,6 @@ class TeamPage extends React.Component {
         const namesArray = [];
 
         const attendanceArray = [];
-        //console.log(game.attendance.pending)
         for (let player in game.attendance[listName]) {
             attendanceArray.push(game.attendance[listName][player])
         }
@@ -317,6 +310,29 @@ class TeamPage extends React.Component {
         return namesArray;
     }
 
+    playerResponse(game){
+        for (let key in game.attendance.yes) {
+            if (game.attendance.yes[key].email === this.state.currentUserEmail) {
+                return ' yes.'
+            }
+        };
+        for (let key in game.attendance.no) {
+            if (game.attendance.no[key].email === this.state.currentUserEmail) {
+                return ' no.'
+            }
+        }
+        for (let key in game.attendance.pending) {
+            if (game.attendance.pending[key].email === this.state.currentUserEmail) {
+                return ' pending.'
+            }
+        }
+    }
+
+    removeGame(gameKey){
+        const dbRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}`);
+        dbRef.remove()
+    }
+
     render(){
         let logInOrOut = '';
         let addGame = '';
@@ -324,6 +340,8 @@ class TeamPage extends React.Component {
         let welcomeMessage = '';
         let femaleCounter = 0;
         let maleCounter = 0;
+        let response = 'Pending';
+        // let removeButton = ''
         if (this.state.loggedIn == false){
             logInOrOut = (
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
@@ -358,7 +376,7 @@ class TeamPage extends React.Component {
         }
         
         return (
-            <div>
+            <div className='wrapper'>
                 {logInOrOut}
                 {addGame}
                 <div>
@@ -379,23 +397,22 @@ class TeamPage extends React.Component {
                                     maleCounter = maleCounter + 1;
                                 }
                             }
-                            console.log(game.attendance.yes)
                             return (
                                 <div key={game.key}>
-                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
-                                        <div className="container">
-                                            <div>
+                                    <Collapsible className='Collapsible__trigger' trigger={`${game.date} vs ${game.opponent}`}>
+                                        <div >
+                                            <div className='innerWrapper'>
                                                 <h4>Location</h4>
                                                 <p>{game.location}</p>
                                                 <h4>Time</h4>
                                                 <p>{game.time}</p>
                                             </div>
-                                            <div className="attendence">
+                                            <div className="attendence innerWrapper">
                                                 <p>Going: {Object.keys(game.attendance.yes).length - 1}</p>
                                                 <p>Gents: {maleCounter}</p>
                                                 <p>Ladies: {femaleCounter}</p>
                                             </div>
-                                            <div className="yes">
+                                            <div className="yes innerWrapper">
                                                 <h4>Yes:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.yes).map(function (key, index) {
@@ -411,7 +428,7 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="no">
+                                            <div className="no innerWrapper">
                                                 <h4>No:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.no).map(function (key, index) {
@@ -427,7 +444,7 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="Pending">
+                                            <div className="Pending innerWrapper">
                                                 <h4>pending:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.pending).map(function (key, index) {
@@ -443,21 +460,24 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <button>We Need Subs</button>
+                                            {this.state.captainEmail === this.state.currentUserEmail
+                                            ? (<button onClick={() => this.removeGame(game.key)} >Remove Game</button>)
+                                            : (<div></div>)
+                                        }
                                         </div>
                                     </Collapsible>
-                                    {/* {response} */}
                                     {this.state.loggedIn
-                                    ? (<div className="rsvp">
+                                    ? (<div className="rsvp clearfix">
                                         <button onClick={() => this.addToYes(game.key)} >Yes</button>
                                         <button onClick={() => this.addToNo(game.key)}>No</button>
-                                        <p>You said TBA</p>
+                                        <p>You said 
+                                        {this.playerResponse(game)}
+                                        </p>
                                         </div>)
                                             
                                     : (<div></div>)
-                                            
-                                    
                                     }
+                                    {/* {response} */}
                                 </div>
                             )
                         })}
@@ -465,6 +485,7 @@ class TeamPage extends React.Component {
                 </section>
             </div>   
         )
+        
     }
 }
 

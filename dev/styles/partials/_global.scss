@@ -1,0 +1,21 @@
+body {
+    font-size: 62.5%;
+    background-color: $backgroundColor;
+    
+}
+
+.wrapper {
+    max-width: 960px;
+    background-color: $lightText;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.innerWrapper {
+    max-width: 960px;
+    background-color: $backgroundColor;
+    margin: 0 auto;
+    padding: 10px 30px;
+
+
+}
