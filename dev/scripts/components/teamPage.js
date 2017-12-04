@@ -43,7 +43,7 @@ class TeamPage extends React.Component {
         
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({
+                ßthis.setState({
                     currentUserEmail: firebase.auth().currentUser.email,
                     loggedIn: true
                 });
@@ -61,13 +61,18 @@ class TeamPage extends React.Component {
             const teamData = firebaseData.val();
             const gamesArray = [];
             const gameData = teamData.games;
+            
             for (let gameKey in gameData) {
                 gameData[gameKey].key = gameKey;
                 gamesArray.push(gameData[gameKey]);
             }
+            // dbRef.orderByChild(gameData.date)
             this.setState({
+                
                 games: gamesArray
             })
+            console.log(gamesArray);
+            console.log(gameData);
         })
         this.getFullRoster();
     }
@@ -91,6 +96,7 @@ class TeamPage extends React.Component {
                     gender: players.val()[player].gender
                 }
                 teamArray.push(playerObj);
+                console.log(playerObj)
             }
             this.setState({
                 teamRoster: teamArray
@@ -381,7 +387,7 @@ class TeamPage extends React.Component {
                                     maleCounter = maleCounter + 1;
                                 }
                             }
-                            console.log(game.attendance.yes)
+                            // console.log(game.attendance.yes)
                             return (
                                 <div key={game.key}>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
