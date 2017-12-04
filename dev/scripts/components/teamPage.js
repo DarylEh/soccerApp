@@ -43,7 +43,7 @@ class TeamPage extends React.Component {
         
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                ßthis.setState({
+                this.setState({
                     currentUserEmail: firebase.auth().currentUser.email,
                     loggedIn: true
                 });
@@ -366,7 +366,7 @@ class TeamPage extends React.Component {
         }
         
         return (
-            <div>
+            <div className='wrapper'>
                 {logInOrOut}
                 {addGame}
                 <div>
@@ -390,20 +390,20 @@ class TeamPage extends React.Component {
                             // console.log(game.attendance.yes)
                             return (
                                 <div key={game.key}>
-                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
-                                        <div className="container">
-                                            <div>
+                                    <Collapsible className='Collapsible__trigger' trigger={`${game.date} vs ${game.opponent}`}>
+                                        <div >
+                                            <div className='innerWrapper'>
                                                 <h4>Location</h4>
                                                 <p>{game.location}</p>
                                                 <h4>Time</h4>
                                                 <p>{game.time}</p>
                                             </div>
-                                            <div className="attendence">
+                                            <div className="attendence innerWrapper">
                                                 <p>Going: {Object.keys(game.attendance.yes).length - 1}</p>
                                                 <p>Gents: {maleCounter}</p>
                                                 <p>Ladies: {femaleCounter}</p>
                                             </div>
-                                            <div className="yes">
+                                            <div className="yes innerWrapper">
                                                 <h4>Yes:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.yes).map(function (key, index) {
@@ -419,7 +419,7 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="no">
+                                            <div className="no innerWrapper">
                                                 <h4>No:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.no).map(function (key, index) {
@@ -435,7 +435,7 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="Pending">
+                                            <div className="Pending innerWrapper">
                                                 <h4>pending:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.pending).map(function (key, index) {
@@ -454,18 +454,19 @@ class TeamPage extends React.Component {
                                             <button>We Need Subs</button>
                                         </div>
                                     </Collapsible>
-                                    {/* {response} */}
                                     {this.state.loggedIn
-                                    ? (<div className="rsvp">
+                                    ? (<div className="rsvp clearfix">
                                         <button onClick={() => this.addToYes(game.key)} >Yes</button>
                                         <button onClick={() => this.addToNo(game.key)}>No</button>
                                         <p>You said TBA</p>
                                         </div>)
                                             
                                     : (<div></div>)
+                                    
                                             
                                     
                                     }
+                                    {/* {response} */}
                                 </div>
                             )
                         })}
@@ -473,6 +474,7 @@ class TeamPage extends React.Component {
                 </section>
             </div>   
         )
+        
     }
 }
 
