@@ -21,6 +21,7 @@ class TeamPage extends React.Component {
             teamRoster: [],
             captainEmail: ""
         }
+
         this.goBack = this.goBack.bind(this);
         this.getCurrentUserEmail = this.getCurrentUserEmail.bind(this);
         this.displayUserName = this.displayUserName.bind(this);
@@ -35,7 +36,8 @@ class TeamPage extends React.Component {
     
     goBack() {
 		window.history.back();
-	}
+    }
+
     
     //getting data from firebase to populate upcoming games
     componentDidMount() {
@@ -66,13 +68,19 @@ class TeamPage extends React.Component {
                 gameData[gameKey].key = gameKey;
                 gameData[gameKey].order = gameData[gameKey].date.split('-').join('');
                 gamesArray.push(gameData[gameKey]);
-            };
+
+            }
+
+            
             gamesArray.sort((a,b)=>{
-               return a.order - b.order
+                return a.order - b.order
             });
             this.setState({
+                
                 games: gamesArray
             })
+            console.log(gamesArray);
+            console.log(gameData);
         })
         this.getFullRoster();
         dbRef.on("value", (firebaseData)=>{
@@ -103,6 +111,7 @@ class TeamPage extends React.Component {
                     gender: players.val()[player].gender,
                 }
                 teamArray.push(playerObj);
+                console.log(playerObj)
             }
             this.setState({
                 teamRoster: teamArray
@@ -367,7 +376,7 @@ class TeamPage extends React.Component {
         }
         
         return (
-            <div>
+            <div className='wrapper'>
                 {logInOrOut}
                 {addGame}
                 <div>
@@ -390,20 +399,20 @@ class TeamPage extends React.Component {
                             }
                             return (
                                 <div key={game.key}>
-                                    <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
-                                        <div className="container">
-                                            <div>
+                                    <Collapsible className='Collapsible__trigger' trigger={`${game.date} vs ${game.opponent}`}>
+                                        <div >
+                                            <div className='innerWrapper'>
                                                 <h4>Location</h4>
                                                 <p>{game.location}</p>
                                                 <h4>Time</h4>
                                                 <p>{game.time}</p>
                                             </div>
-                                            <div className="attendence">
+                                            <div className="attendence innerWrapper">
                                                 <p>Going: {Object.keys(game.attendance.yes).length - 1}</p>
                                                 <p>Gents: {maleCounter}</p>
                                                 <p>Ladies: {femaleCounter}</p>
                                             </div>
-                                            <div className="yes">
+                                            <div className="yes innerWrapper">
                                                 <h4>Yes:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.yes).map(function (key, index) {
@@ -419,7 +428,7 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="no">
+                                            <div className="no innerWrapper">
                                                 <h4>No:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.no).map(function (key, index) {
@@ -435,7 +444,7 @@ class TeamPage extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="Pending">
+                                            <div className="Pending innerWrapper">
                                                 <h4>pending:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.pending).map(function (key, index) {
@@ -458,7 +467,7 @@ class TeamPage extends React.Component {
                                         </div>
                                     </Collapsible>
                                     {this.state.loggedIn
-                                    ? (<div className="rsvp">
+                                    ? (<div className="rsvp clearfix">
                                         <button onClick={() => this.addToYes(game.key)} >Yes</button>
                                         <button onClick={() => this.addToNo(game.key)}>No</button>
                                         <p>You said 
@@ -468,6 +477,7 @@ class TeamPage extends React.Component {
                                             
                                     : (<div></div>)
                                     }
+                                    {/* {response} */}
                                 </div>
                             )
                         })}
@@ -475,6 +485,7 @@ class TeamPage extends React.Component {
                 </section>
             </div>   
         )
+        
     }
 }
 

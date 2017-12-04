@@ -1,0 +1,54 @@
+
+
+.Collapsible__trigger{
+    background-color: $mainColor;
+    font-family: $oswald;
+    padding: 20px;
+    color: $lightText;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: block;
+    
+}
+
+.Collapsible__contentInner h4{
+    font-size: 2rem;
+    margin: 0;
+
+}
+
+.rsvp {
+    margin: 20px;
+    
+}
+
+.rsvp button {
+    float: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(-10%);
+    background-color: $mainColor;
+    padding: 15px 32px;
+    text-align: center;
+    margin: 20px;
+    color: $lightText;
+    font-size: 1rem;
+}
+
+.rsvp button:hover {
+    background-color: $accentColor;
+}
+.rsvp p {
+    float: left;
+    font-size: 1.6rem;
+}
+.hrLine::after {
+    content: '';
+    width: 100%;
+    border-bottom: solid 1px black;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: 1;
+}
