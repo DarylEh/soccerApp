@@ -398,6 +398,7 @@ class TeamPage extends React.Component {
                             const pendingNamesArray = this.populateAttendanceList(game, 'pending');
                             const yesNamesArray = this.populateAttendanceList(game, 'yes');
                             const noNamesArray = this.populateAttendanceList(game, 'no');
+                            console(noNamesArray);
                             return (
                                 <div key={game.key}>
                                     <Collapsible trigger={`${game.date} vs ${game.opponent}`}>
