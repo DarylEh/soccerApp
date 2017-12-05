@@ -70,8 +70,6 @@ class TeamPage extends React.Component {
                 gamesArray.push(gameData[gameKey]);
 
             }
-
-            
             gamesArray.sort((a,b)=>{
                 return a.order - b.order
             });
@@ -350,10 +348,7 @@ class TeamPage extends React.Component {
         }
         if (this.state.currentUserName === ''){
             addGame = (
-                <p className='noGames' >NO YOU CANT ADD GAMES</p>
-            )
-            manageTeam = (
-                <p className='noManage'>NO YOU CANT MANAGE THE TEAM</p>
+                <p className='noGames' >Please log in to manage team</p>
             )
             welcomeMessage = (
                 <p></p>
@@ -364,9 +359,7 @@ class TeamPage extends React.Component {
             )
             manageTeam = (
                 <Link className='manageButton' to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
-                    {/* <p className='welcomeHead'>Manage Team</p>  */}
-                    <a className='manageHead ' href="">Manage Team</a>
-
+                    Manage Team
                 </Link>
             )
             welcomeMessage = (
@@ -376,14 +369,18 @@ class TeamPage extends React.Component {
         
         return (
             <div className='wrapper'>
-                {logInOrOut}
-                <div>
-                    <button onClick={this.goBack}>Back</button>
+                <div className="teamHeader clearfix">
+                    <h2 className='teamNameDisplay' >{this.props.match.params.team}</h2>
+                    {manageTeam}
                 </div>
-                {addGame}
-                <h2 className='teamNameDisplay' >Team: {this.props.match.params.team}</h2>
                 {welcomeMessage}
-                {manageTeam}
+                <div className="teamPageButtons clearfix">
+                    {logInOrOut}
+                    <div>
+                        <button onClick={this.goBack}>Back</button>
+                    </div>
+                    {addGame}
+                </div>
                 <section>
                     <h3 className='upcoming'>Upcoming Games</h3>
                     <div className="fullSchedule">
@@ -456,7 +453,7 @@ class TeamPage extends React.Component {
 
                                                         </ul>
                                                     </div>
-                                                    <div className="Pending clearfix">
+                                                    {/* <div className="Pending clearfix">
                                                         <h4>Pending:</h4>
                                                         <ul>
                                                             {Object.keys(game.attendance.pending).map(function (key, index) {
@@ -468,9 +465,9 @@ class TeamPage extends React.Component {
                                                         </ul> 
 
                                                         
-                                                </div>
-                                            <div className="Pending innerWrapper">
-                                                <h4>pending:</h4>
+                                                </div> */}
+                                            <div className="Pending">
+                                                <h4>Pending:</h4>
                                                 <ul>
                                                     {Object.keys(game.attendance.pending).map(function (key, index) {
                                                         if (game.attendance.pending.length === 1) {
@@ -505,7 +502,7 @@ class TeamPage extends React.Component {
                                     ? (<div className="rsvp clearfix">
                                             <p>Can you make it ?<br /> Your Response:{this.playerResponse(game)}
                                         </p>
-                                        <div className="buttonYesNo">
+                                        <div className="buttonYesNo clearfix">
                                         <button onClick={() => this.addToYes(game.key)} >Yes</button>
                                         <button onClick={() => this.addToNo(game.key)}>No</button>
                                         

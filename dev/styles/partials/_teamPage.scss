@@ -4,17 +4,32 @@
     float: left;
 }
 .teamNameDisplay {
-    float: left;
-    font-size:2rem;
+    // float: left;
+    // font-size:2rem;
     display: inline-block;
-    position: relative;
-    top: 20px;
+    // position: relative;
+    // top: 20px;
+    margin: 0;
+    
 }
+
+.teamHeader{
+    margin-bottom: 20px;
+    &::before {
+        content: '';
+        display: block;
+        height: 2px;
+        background-color: $darkMainColor;
+        position: relative;
+        bottom: -50px;
+        width: 100%;
+        z-index: 10;
+    }
+}
+
 .welcomeHead {
-    float: right;
     margin:0;
-    position: relative;
-    top: 50px;
+
 }
 .manageHead {
     float: right;
@@ -31,48 +46,74 @@
 .manageHead:hover {
     background-color: $accentColor;
 }
+
+//teampage buttons
+.teamPageButtons{
+    margin-top: 20px;
+    div {
+        float: left;
+        margin-right: 20px;
+    }
+}
+
 .upcoming {
     clear: both;
 }
 .Collapsible__trigger{
-    background-color: $mainColor;
     font-family: $oswald;
-    padding: 20px;
     color: $lightText;
     font-size: 1.8rem;
-    margin-bottom: 5px;
     cursor: pointer;
     display: block;
+    transition: all 0.3s ease;
 }
-.Collapsible__trigger:hover{
-    background-color: $accentColor;
+
+.is-closed,
+.is-open {
+    padding: 10px 20px;
+    background-color: $mainColor;
+    background-image: $gradient;
+    &:hover {
+        background-color: $accentColor;
+        background-image: none;
+        color: $darkMainColor;
+    }
+    
 }
+
 .Collapsible__contentInner h4{
     margin: 0;
 }
+
+.innerGame {
+    margin: 20px auto;
+}
+
 .rsvp {
-    margin: 20px; 
+    // margin: 20px; 
 }
 .rsvp button {
     float: right;
     position: relative;
-    top: 50%;
-    transform: translateY(-200%);
-    background-color: $mainColor;
-    padding: 15px 32px;
+    // top: 50%;
+    // transform: translateY(-200%);
     text-align: center;
-    margin: 20px;
-    color: $lightText;
-    font-size: 1rem;
+    // margin: 20px;
 }
-.rsvp button:hover {
-    background-color: $accentColor;
-}
+
 .rsvp p {
-    float: left;
-    font-size: 1.6rem;
-    width: 100%;
-}
+        // font-size: 1.2rem;
+        margin: 0;
+        // float: left;
+        width: 40%;
+        display: inline-block;
+    }
+
+    .buttonYesNo {
+        float: right;
+        width: 40%;
+    }
+
 .hrLine::after {
     content: '';
     width: 100%;
@@ -87,16 +128,20 @@
 .attendanceLeft h4,
 .yes h4, .no h4, .Pending h4 {
     float: left;
-    margin: 5px;
+    // margin: 5px;
     font-size: 1.5rem;
+    font-family: $montserrat;
+    font-weight: 700;
 }
 .attendance p,
 .gameLocation p,
 .gameTime p
 {
     float: right;
-    margin: 5px;
-    font-size: 1.2rem;
+    // margin: 5px;
+    // font-size: 1.2rem;
+    margin: 0;
+
 }
 .yes p, .no p, .Pending p {
      margin: 5px;
@@ -109,12 +154,27 @@
 }
 .gameLocation,
 .gameTime,
-.attendance,
-.attendanceAnswer {
-    border-bottom: solid 1px #000000;
+.attendance {
+    width: 100%;
+    margin: 0 0 20px 0;
+    &::before {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: rgba(0,0,0,0.2);
+        position: relative;
+        bottom: -30px;
+        width: 100%;
+        z-index: 10;
+        margin: 0 auto;
+    }
+}
+
+.attendanceAnswer{
     width: 100%;
     padding: 5px;
 }
+
 .attendanceLeft {
     float: left;
     margin: 0;
@@ -124,8 +184,8 @@
 }
 .attendanceBreakdown p{
     float: left;
-    margin: 5px;
-    font-size: 1.2rem;
+    // margin: 5px;
+    // font-size: 1.2rem;
     padding-left: 20px;
 }
 .removeButton{
@@ -181,22 +241,8 @@
         right: 118px;
 
     }
-    .is-closed, .is-open {
-        font-size: 1.2rem,
-        
-    }
-    .Collapsible__trigger{
-        padding: 5px;
-    }
-    .innerGame h4 {
-        font-size: .9rem;
-
-    }
-    .innerGame p{
-        font-size: 0.7rem;
-    }
+    
     .welcomeHead {
-        font-size: 0.8rem;
         float: left;
         clear: both;
         position: relative;
@@ -218,14 +264,16 @@
     .rsvp p{
         font-size: 1.2rem;
         margin: 0;
+        float: left;
+        width: 40%;
+        display: inline;
     }
     .buttonYesNo {
-        font-size: 1.2rem;
-        float: left;
-        margin-top: 35px;
+        float: right;
+        width: 40%;
     }
     .rsvp button {
-        transform: translateY(-80%);
+        // transform: translateY(-80%);
     }
 
 

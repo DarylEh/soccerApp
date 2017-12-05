@@ -1,13 +1,21 @@
 footer {
-    max-width: 960px;
-    background-color: $backgroundColor;
+    // max-width: 960px;
+    background: $mainColor;
+    background-image: $gradient;
     margin: 0 auto;
-    .wrapper {
-    }
-    .innerWrapper {
-        background: $mainColor;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid $darkMainColor;
+    .bannerWrapper {
+        max-width: 960px;
+        padding: 0;
+        background-color: transparent;
+        margin: 0 auto;
 
     }
+    
     p {
         color: $lightText;
         padding: 20px 0;
