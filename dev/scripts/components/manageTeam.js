@@ -52,14 +52,14 @@ componentDidMount(){
 //displaying player info on the accordian
 render(){
     return (
-        <div>
+        <div className='wrapper'>
             <div> <button onClick={this.goBack}>Back</button></div>
-            <h1>Roster</h1>
             <PlayerModal teamKey={this.props.match.params.key} />
+            <h1>Roster</h1>
                 <section className='roster'>
                     {this.state.players.map ((player, i)=>{
                         return (
-                            <div>
+                            <div key={i}>
                                 <Collapsible trigger={`${player.name}`}>
                                     <p>Phone: {player.phone}</p>
                                     <p>E-mail: {player.email}</p>

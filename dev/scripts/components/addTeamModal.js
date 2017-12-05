@@ -94,7 +94,7 @@ class TeamModal extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.openModal}>Add Team</button>
+                <button onClick={this.openModal} className='addTeamButton'>Add Team</button>
 
                 <Modal 
                     isOpen={this.state.modalIsOpen}

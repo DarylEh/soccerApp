@@ -1,6 +1,11 @@
-body {
+html {
     font-size: 62.5%;
+}
+
+body {
     background-color: $backgroundColor;
+    font-size: 1.6rem;
+    font-family: $montserrat;
 }
 
 .wrapper {
@@ -11,8 +16,59 @@ body {
 }
 
 .innerWrapper {
-    max-width: 960px;
+    max-width: 800px;
     background-color: $backgroundColor;
     margin: 0 auto;
     padding: 10px 30px;
 }
+
+
+ul {
+    list-style: none;
+    padding: 0;
+        a{
+            text-decoration: none;
+        }
+}
+
+button, 
+.manageButton,
+input[type=submit] {
+    text-transform: uppercase;
+    background: $mainColor;
+    font-weight: bold;
+    font-family: $oswald;
+    padding: 10px 20px;
+    border: none;
+    color: $lightText;
+    transition: all 0.3s ease;
+    &:hover,
+    &:focus {
+        background: $accentColor;
+        color: $darkText;
+    }
+}
+h3 {
+    font-size: 1.8rem;
+    font-family: $oswald;
+}
+h4 {
+    font-size: 1.6rem;
+    font-family: $oswald;
+}
+p {
+    font-size: 1.4rem;
+    font-family: $montserrat;
+}
+
+.manageButton {
+    text-decoration: none;
+}
+
+.addTeamButton {
+    position: relative;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
