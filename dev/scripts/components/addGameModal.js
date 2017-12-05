@@ -4,19 +4,6 @@ import Modal from 'react-modal';
 import firebase from 'firebase';
 import Dropdown from 'react-dropdown';
 
-
-// Size of popup window
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
-
 class GameModal extends React.Component {
     constructor() {
         super();
@@ -107,7 +94,7 @@ class GameModal extends React.Component {
     }
     afterOpenModal() {
         // references are now sync'd and can be accessed.
-        this.subtitle.style.color = '#F00';
+        //this.subtitle.style.color = '#F00';
     }
     closeModal() {
         this.setState({ modalIsOpen: false });
@@ -116,21 +103,22 @@ class GameModal extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.openModal}>+ Add Game</button>
+                <button onClick={this.openModal}>Add Game</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
-                    style={customStyles}
-                    contentLabel="Example Modal"
+                    contentLabel="Create Game"
+                    className="modalContainer"
+                    overlayClassName="modalOverlay"
                     >
 
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Add New Game</h2>
-                    <button onClick={this.closeModal}>close</button>
+                    <h2 ref={subtitle => this.subtitle = subtitle} className="modalTitle titleBottomMargin">Add Game</h2>
+                    <a onClick={this.closeModal} className="closeModalButton"><i className="fa fa-times" aria-hidden="true"></i></a>
 
-                    <form action="" onSubmit={this.handleSubmit}>
+                    <form action="" onSubmit={this.handleSubmit} className="modalForm">
                     
-                        <label htmlFor="opponent"> Opponent </label>
+                        <label htmlFor="opponent" className="hiddenLabel"> Opponent </label>
                         <select id="opponent" name="opponent" onChange={this.handleChange}  >
                             <option value="" disabled selected hidden>Select Opponent</option>
                             {this.state.opponentList.map ((opponent, i)=>{
@@ -140,13 +128,13 @@ class GameModal extends React.Component {
                             })}
                         </select>
 
-                        <label htmlFor="location">Location:</label>
-                        <input type="text" id="location" name="location" onChange={this.handleChange} value={this.state.userName} required />
+                        <label htmlFor="location" className="hiddenLabel">Location:</label>
+                        <input type="text" id="location" name="location" onChange={this.handleChange} value={this.state.userName} placeholder="Game Location" required />
 
-                        <label htmlFor="date">Game Date:</label>
+                        <label htmlFor="date" className="hiddenLabel">Game Date:</label>
                         <input type="date" id="date" name="date" onChange={this.handleChange} value={this.state.userEmail} required />
 
-                        <label htmlFor="time">Game Time:</label>
+                        <label htmlFor="time" className="hiddenLabel">Game Time:</label>
                         <input type="time" id="time" name="time" onChange={this.handleChange} value={this.state.userPhone} required />
 
                         <input type="submit" value="Submit" />

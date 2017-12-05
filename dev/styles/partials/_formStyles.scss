@@ -1,41 +1,77 @@
+/* ----- MODAL & FORM STYLES -----*/
 
-.newTeamTitle {
-    font-family: $oswald;
-    color: $darkText;
-    font-size: 1.5rem;
-    font-variant: small-caps;
+/* ----- MODAL BODY -----*/
+.modalContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: $lightText;
+    outline: none;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1)
 }
-.newTeamTitle::after {
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(240,240,240,0.8);
+}
+
+/* ----- TITLE, UNDERLINE & CLOSE -----*/
+.modalTitle {
+    font-family: $oswald;
+    color: $darkMainColor;
+    font-size: 1.5rem;
+    margin: 0;
+}
+.modalTitle::after {
     content: '';
     display: block;
     height: 2px;
-    background-color: $darkText;
+    background-color: $mainColor;
     position: relative;
     top: -4px;
+    z-index: -10;
+}
+.titleBottomMargin {
+    margin-bottom: 10px;
 }
 .closeModalButton {
-    font-size: 2rem;
+    font-size: 1.5rem;
     position: absolute;
-    top: 10px;
+    top: 20px;
     right: 20px;
     cursor: pointer;
     transition: color 0.2s ease-out;
+    color: $darkMainColor;
 }
 .closeModalButton:hover, .closeModalButton:focus {
-    color: $mainColor;
+    color: $accentColor;
 }
-// .closeModalButton::before {
-//     content: 'close';
-//     opacity: 0;
-//     transition: opacity 0.3s ease-out;
-//     font-size: 1rem;
-//     margin-right: 10px;
-// }
-// .closeModalButton:hover::before, .closeModalButton:focus::before {
-//     opacity: 1;
-// }
 
-input[type="text"], input[type="password"] {
+/* ----- FORM STYLES -----*/
+.modalForm {
+    width: 94%;
+    margin: 0 auto;
+}
+.modalForm h2 {
+    font-family: $montserrat;
+    font-variant: small-caps;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+input[type="text"],
+input[type="password"], 
+input[type="date"],
+input[type="time"],
+.modalForm select {
     font-family: $montserrat;
     color: $darkText;
     background-color: $backgroundColor;
@@ -43,17 +79,46 @@ input[type="text"], input[type="password"] {
     border: none;
     border-bottom: 1px solid $mainColor;
     font-size: 0.9rem;
-    transition: border-bottom 0.2s ease-out;
+    transition: border-bottom 0.2s ease-out, background-color 0.2s ease-out;
     display: block;
-    margin: 0 auto;
     margin-bottom: 10px;
-    width: 90%;
+    width: 100%;
 }
-input[type="text"]:focus, input[type="password"]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+.modalForm select:focus {
     outline: none;
     border-bottom: 1px solid $accentColor;
+    background-color: rgba(233, 233, 233, 0.9); 
+}
+.modalForm p, .modalForm label {
+    font-size: 0.9rem;
+    color: $darkText;
+    opacity: 0.8;
 }
 
+/* ----- RADIO BUTTONS -----*/
+.radioCategoryLabel {
+    width: 85px;
+    float: left;
+    margin: 0;
+    padding-left: 20px;
+}
+.radioButtonWrapper {
+    float: right;
+    width: calc(99% - 85px);
+}
+.radioButtonWrapper label {
+    margin: 0 15px 0 5px;
+}
+.radioCategoryLabel, .radioButtonWrapper {
+    margin-top: 2px;
+    margin-bottom: 10px;
+}
+
+/* ----- CLASS ON ALL LABELS TO HIDE FOR ACCESSIBLITY -----*/
 .hiddenLabel {
     visibility: hidden;
     position: absolute;

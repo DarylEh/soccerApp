@@ -3,19 +3,6 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
-// Size of popup window
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        width: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
-
 class TeamModal extends React.Component {
     constructor() {
         super();
@@ -113,14 +100,15 @@ class TeamModal extends React.Component {
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
-                    style={customStyles}
-                    contentLabel="Example Modal"
+                    contentLabel="Create Team"
+                    className="modalContainer"
+                    overlayClassName="modalOverlay"
                     >
 
-                    <h2 ref={subtitle => this.subtitle = subtitle} class="newTeamTitle">Create A New Team</h2>
+                    <h2 ref={subtitle => this.subtitle = subtitle} className="modalTitle">Create A New Team</h2>
                     <a onClick={this.closeModal} className="closeModalButton"><i className="fa fa-times" aria-hidden="true"></i></a>
 
-                    <form action="" onSubmit={this.handleSubmit}>
+                    <form action="" onSubmit={this.handleSubmit} className="modalForm">
                         <h2>Team Info:</h2>
                         <label htmlFor="teamName" className="hiddenLabel">Team Name:</label>
                         <input type="text" id="teamName" name="teamName" onChange={this.handleChange} value={this.state.teamName} placeholder="Team Name" required />
@@ -135,18 +123,20 @@ class TeamModal extends React.Component {
                         <label htmlFor="userPhone" className="hiddenLabel">Phone Number:</label>
                         <input type="text" id="userPhone" name="phone" onChange={this.handleChange} value={this.state.userPhone} placeholder="Your Phone Number" />
 
-                        <p>Gender:</p>
-                        <label htmlFor="userGenderMale">Male</label>
-                        <input type="radio" id="userGenderMale" name="gender" onChange={this.handleChange} value="male" required />
-                        <label htmlFor="userGenderFemale">Female</label>
-                        <input type="radio" id="userGenderFemale" name="gender" onChange={this.handleChange} value="female" required />
+                        <p className="radioCategoryLabel">Gender:</p>
+                        <div className="radioButtonWrapper">
+                            <input type="radio" id="userGenderMale" name="gender" onChange={this.handleChange} value="male" required />
+                            <label htmlFor="userGenderMale">Male</label>
+                            <input type="radio" id="userGenderFemale" name="gender" onChange={this.handleChange} value="female" required />
+                            <label htmlFor="userGenderFemale">Female</label>
+                        </div>
 
                         <label htmlFor="userPassword" className="hiddenLabel">Password:</label>
                         <input type="password" id="userPassword" name="password" onChange={this.handleChange} value={this.state.userPassword} placeholder="Password" required />
                         <label htmlFor="passwordMatch" className="hiddenLabel">Confirm Password:</label>
                         <input type="password" id="passwordMatch" name="passwordMatch" onChange={this.handleChange} value={this.state.confirmPassword} placeholder="Confirm Password" required />
                         
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Submit" className="submitButton" />
                     </form>
                 </Modal>
             </div>
