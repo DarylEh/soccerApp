@@ -1,5 +1,19 @@
 header {
     max-width: 960px;
-    background-color: $lightText;
     margin: 0 auto;
+    background-color: $backgroundColor;
+    .wrapper {
+    }
+    .innerWrapper {
+        background: $mainColor;
+
+    }
+    h1 {
+        font-family: $oswald;
+        color: $lightText;
+        padding: 20px 0;
+        text-align: center;
+        margin: 0;
+        font-size: 3.2rem;
+    }
 }
