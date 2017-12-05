@@ -16,10 +16,19 @@ body {
 }
 
 .innerWrapper {
-    max-width: 960px;
+    max-width: 800px;
     background-color: $backgroundColor;
     margin: 0 auto;
     padding: 10px 30px;
+}
+
+
+ul {
+    list-style: none;
+    padding: 0;
+        a{
+            text-decoration: none;
+        }
 }
 
 button, 
@@ -39,6 +48,18 @@ input[type=submit] {
         color: $darkText;
     }
 }
+h3 {
+    font-size: 1.8rem;
+    font-family: $oswald;
+}
+h4 {
+    font-size: 1.6rem;
+    font-family: $oswald;
+}
+p {
+    font-size: 1.4rem;
+    font-family: $montserrat;
+}
 
 .manageButton {
     text-decoration: none;
@@ -50,3 +71,4 @@ input[type=submit] {
     left: 50%;
     transform: translateX(-50%)
 }
+
