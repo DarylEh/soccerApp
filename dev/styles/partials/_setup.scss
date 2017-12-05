@@ -5,11 +5,12 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 // Colour Variables
 $backgroundColor : #E2E2E2;
 $mainColor : #008DBB;
-$accentColor : #DFA700;
+$accentColor:#cca73b;
 $darkText : #161616;
 $lightText : #FFFFFF;
 $darkMainColor : #004258;
+$gradient: linear-gradient(transparent, rgba(0,0,0,0.25));
 
 // Font Stacks
-$oswald : 'Oswald', sans-serif; // Title Font
+$oswald: 'Oswald', sans-serif; // Title Font
 $montserrat : 'Montserrat', sans-serif; // Body Font

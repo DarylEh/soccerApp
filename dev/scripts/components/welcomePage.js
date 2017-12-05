@@ -42,14 +42,15 @@ class WelcomePage extends React.Component{
         return (
             <main className="wrapper">
                 <section>
+                    <h2>Find Your Team</h2>
                     <ul className="clearfix">
                         {this.state.teams.map((team, i) => {
                             return (
-                                <div className="teamTile" key={team.key}>
                                     <Link to={`/${team.teamName}/${team.key}`}>
-                                        <li>{team.teamName}</li>
+                                        <div className="teamTile" key={team.key}>
+                                            <li>{team.teamName}</li>
+                                        </div>
                                     </Link>
-                                </div>
                             )
                         })}
                     </ul>

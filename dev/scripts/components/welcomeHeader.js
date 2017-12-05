@@ -1,12 +1,17 @@
 import React from 'react';
+import {
+    BrowserRouter as Router,
+    Route, Link
+} from 'react-router-dom';
 
 const WelcomeHeader = () => {
     return (
         <header>
-            <div className='wrapper'>
-                <div className="innerWrapper">
+            <div className='bannerWrapper'>
+                <Link to={`/`}>
                     <h1>Can You Make It?</h1>
-                </div>
+                </Link>
+                
             </div>
         </header>
     )
