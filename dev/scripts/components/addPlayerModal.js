@@ -110,7 +110,7 @@ class PlayerModal extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.openModal}>Add Player</button>
+                <button onClick={this.openModal} className='addPlayerButton'>Add Player</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}

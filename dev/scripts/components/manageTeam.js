@@ -53,21 +53,30 @@ componentDidMount(){
 render(){
     return (
         <div className='wrapper'>
-            <div> <button onClick={this.goBack}>Back</button></div>
-            <PlayerModal teamKey={this.props.match.params.key} />
-            <h1>Roster</h1>
+            <h2 className='rosterTitle'>Roster</h2>
+            <div className="rosterButtons clearfix">
+                <div className='rosterBack'>
+                    <button onClick={this.goBack}>Back</button>
+                </div>
+                <PlayerModal teamKey={this.props.match.params.key} />
+            </div>
                 <section className='roster'>
                     {this.state.players.map ((player, i)=>{
                         return (
                             <div key={i}>
                                 <Collapsible trigger={`${player.name}`}>
-                                    <p>Phone: {player.phone}</p>
-                                    <p>E-mail: {player.email}</p>
+                                    <div className="innerWrapper rosterPanel">
+                                        <p><span>Phone:</span> {player.phone}</p>
+                                        <p><span>E-mail:</span> {player.email}</p>
+                                    </div>
                                 </ Collapsible>
                             </div>
                         )
                     })}
                 </section>
+                <div className="soccerImage">
+                    <img src="/public/assets/soccerBall.png" alt="Soccer Ball icon"/>
+                </div>
         </div>
     )
 }
