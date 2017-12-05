@@ -22,6 +22,14 @@ body {
     padding: 10px 30px;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+        a{
+            text-decoration: none;
+        }
+}
+
 button, 
 .manageButton,
 input[type=submit] {
@@ -50,3 +58,4 @@ input[type=submit] {
     left: 50%;
     transform: translateX(-50%)
 }
+
