@@ -70,8 +70,6 @@ class TeamPage extends React.Component {
                 gamesArray.push(gameData[gameKey]);
 
             }
-
-            
             gamesArray.sort((a,b)=>{
                 return a.order - b.order
             });
