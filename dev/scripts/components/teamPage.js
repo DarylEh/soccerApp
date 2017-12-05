@@ -350,10 +350,10 @@ class TeamPage extends React.Component {
         }
         if (this.state.currentUserName === ''){
             addGame = (
-                <p>NO YOU CANT ADD GAMES</p>
+                <p className='noGames' >NO YOU CANT ADD GAMES</p>
             )
             manageTeam = (
-                <p>NO YOU CANT MANAGE THE TEAM</p>
+                <p className='noManage'>NO YOU CANT MANAGE THE TEAM</p>
             )
             welcomeMessage = (
                 <p></p>
@@ -364,26 +364,28 @@ class TeamPage extends React.Component {
             )
             manageTeam = (
                 <Link className='manageButton' to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
-                Manage Team
+                    {/* <p className='welcomeHead'>Manage Team</p>  */}
+                    <a className='manageHead ' href="">Manage Team</a>
+
                 </Link>
             )
             welcomeMessage = (
-                <p>Welcome {this.state.currentUserName}</p>
+                <p className='welcomeHead'>Welcome {this.state.currentUserName}</p>
             )
         }
         
         return (
             <div className='wrapper'>
                 {logInOrOut}
-                {addGame}
                 <div>
                     <button onClick={this.goBack}>Back</button>
                 </div>
-                <h2>{this.props.match.params.team}</h2>
+                {addGame}
+                <h2 className='teamNameDisplay' >Team: {this.props.match.params.team}</h2>
                 {welcomeMessage}
                 {manageTeam}
                 <section>
-                    <h3>Upcoming Games</h3>
+                    <h3 className='upcoming'>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
                             for (let key in game.attendance.yes){
@@ -397,50 +399,76 @@ class TeamPage extends React.Component {
                             return (
                                 <div key={game.key}>
                                     <Collapsible className='Collapsible__trigger' trigger={`${game.date} vs ${game.opponent}`}>
-                                        <div >
-                                            <div className='innerWrapper'>
-                                                <h4>Location</h4>
-                                                <p>{game.location}</p>
-                                                <h4>Time</h4>
-                                                <p>{game.time}</p>
-                                            </div>
-                                            <div className="attendence innerWrapper">
-                                                <p>Going: {Object.keys(game.attendance.yes).length - 1}</p>
-                                                <p>Gents: {maleCounter}</p>
-                                                <p>Ladies: {femaleCounter}</p>
-                                            </div>
-                                            <div className="yes innerWrapper">
-                                                <h4>Yes:</h4>
-                                                <ul>
-                                                    {Object.keys(game.attendance.yes).map(function (key, index) {
-                                                        if (game.attendance.yes.length === 1) {
-                                                            return <li key={key}>none</li>
-                                                        } else {
-                                                            if (key !== '0') {
-                                                                return <li key={key}>{game.attendance.yes[key].name}</li>
+                                        <div className='innerWrapper clearfix innerGame'>
+                                                <div className='gameLocation clearfix'>
+                                                    <h4>Location</h4>
+                                                    <p>{game.location}</p>
+                                                </div>
+                                                <div className='gameTime clearfix'>
+                                                    <h4>Time</h4>
+                                                    <p>{game.time}</p>
+                                                </div>
+                                                <div className="attendance">
+                                                    <div className='attendanceLeft clearfix'>
+                                                        <h4>Attendance</h4>   
+                                                    </div>
+                                                    <div className='attendanceRight clearfix'>
+                                                        <div className='attendanceBreakdown'>
+                                                            <p>Going: {Object.keys(game.attendance.yes).length - 1}</p>
+                                                            <p>Gents: {maleCounter}</p>
+                                                            <p>Ladies: {femaleCounter}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className='attendanceAnswer clearfix'>
+                                                    <div className="yes">
+                                                        <ul>
+                                                            <li><h4>Yes:</h4></li> 
+                                                            {Object.keys(game.attendance.yes).map(function (key, index) {
+                                                                if (game.attendance.yes.length === 1) {
+                                                                    return <li><p>none</p></li>
+                                                                } else {
+                                                                    if (key !== '0') {
+                                                                        return <li><p>{game.attendance.yes[key].name}</p></li>
+                                                                    } else {
+                                                                        return null
+                                                                    }
+                                                                }
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                    <div className="no">
+                                                        <h4>No:</h4>
+                                                        <ul>
+                                                        {Object.keys(game.attendance.no).map(function (key, index) {
+                                                            if (game.attendance.no.length === 1) {
+                                                                return <li><p>none</p></li>
                                                             } else {
-                                                                return null
+                                                                if (key !== '0') {
+                                                                    return <li key={key}> <p>{game.attendance.no[key].name}</p> </li>
+
+                                                                } else {
+                                                                    return null
+                                                                }
                                                             }
-                                                        }
-                                                    })}
-                                                </ul>
-                                            </div>
-                                            <div className="no innerWrapper">
-                                                <h4>No:</h4>
-                                                <ul>
-                                                    {Object.keys(game.attendance.no).map(function (key, index) {
-                                                        if (game.attendance.no.length === 1) {
-                                                            return <li key={key}>none</li>
-                                                        } else {
-                                                            if (key !== '0') {
-                                                                return <li key={key}>{game.attendance.no[key].name}</li>
-                                                            } else {
-                                                                return null
-                                                            }
-                                                        }
-                                                    })}
-                                                </ul>
-                                            </div>
+                                                        })}
+
+                                                        </ul>
+                                                    </div>
+                                                    <div className="Pending clearfix">
+                                                        <h4>Pending:</h4>
+                                                        <ul>
+                                                            {Object.keys(game.attendance.pending).map(function (key, index) {
+                                                                if (game.attendance.pending.length === 1) {
+                                                                    return <li><p>none</p></li>  
+                                                                }})}
+                                                                
+                                                            
+                                                        </ul> 
+
+                                                        
+                                                </div>
                                             <div className="Pending innerWrapper">
                                                 <h4>pending:</h4>
                                                 <ul>
@@ -449,40 +477,53 @@ class TeamPage extends React.Component {
                                                             return <li key={key}>none</li>
                                                         } else {
                                                             if (key !== '0') {
-                                                                return <li key={key}>{game.attendance.pending[key].name}</li>
+                                                                return <li key={key}><p>{game.attendance.pending[key].name}</p> </li>
                                                             } else {
-                                                                return null
+                                                                if (key !== '0') {
+                                                                    return <li><p>{game.attendance.pending[key].name}</p> </li>
+                                                                } else {
+                                                                    return null
+                                                                }
                                                             }
-                                                        }
-                                                    })}
-                                                </ul>
-                                            </div>
+                                                        }})}
+                                                    
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            {/* </div> */}
+                                        </div>
+
+                                            <div className='removeButton'>
                                             {this.state.captainEmail === this.state.currentUserEmail
                                             ? (<button onClick={() => this.removeGame(game.key)} >Remove Game</button>)
                                             : (<div></div>)
                                         }
-                                        </div>
+                                            
+                                            </div>
                                     </Collapsible>
                                     {this.state.loggedIn
                                     ? (<div className="rsvp clearfix">
+                                            <p>Can you make it ?<br /> Your Response:{this.playerResponse(game)}
+                                        </p>
+                                        <div className="buttonYesNo">
                                         <button onClick={() => this.addToYes(game.key)} >Yes</button>
                                         <button onClick={() => this.addToNo(game.key)}>No</button>
-                                        <p>You said 
-                                        {this.playerResponse(game)}
-                                        </p>
+                                        
+                                        </div>
+                                        
                                         </div>)
                                             
-                                    : (<div></div>)
-                                    }
-                                    {/* {response} */}
+                                            : (<div></div>)
+                                        }
                                 </div>
                             )
                         })}
                     </div>
                 </section>
-            </div>   
-        )
-        
+            </div>  
+            
+            )
+            
     }
 }
 
