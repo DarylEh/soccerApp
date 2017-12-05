@@ -137,7 +137,7 @@ class GameModal extends React.Component {
                         <label htmlFor="time" className="hiddenLabel">Game Time:</label>
                         <input type="time" id="time" name="time" onChange={this.handleChange} value={this.state.userPhone} required />
 
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Add Game" />
                     </form>
                 </Modal>
             </div>

@@ -136,7 +136,7 @@ class TeamModal extends React.Component {
                         <label htmlFor="passwordMatch" className="hiddenLabel">Confirm Password:</label>
                         <input type="password" id="passwordMatch" name="passwordMatch" onChange={this.handleChange} value={this.state.confirmPassword} placeholder="Confirm Password" required />
                         
-                        <input type="submit" value="Submit" className="submitButton" />
+                        <input type="submit" value="Create Team" className="submitButton" />
                     </form>
                 </Modal>
             </div>
