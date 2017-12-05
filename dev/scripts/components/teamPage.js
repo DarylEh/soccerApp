@@ -79,8 +79,6 @@ class TeamPage extends React.Component {
                 
                 games: gamesArray
             })
-            console.log(gamesArray);
-            console.log(gameData);
         })
         this.getFullRoster();
         dbRef.on("value", (firebaseData)=>{
@@ -111,7 +109,6 @@ class TeamPage extends React.Component {
                     gender: players.val()[player].gender,
                 }
                 teamArray.push(playerObj);
-                console.log(playerObj)
             }
             this.setState({
                 teamRoster: teamArray
@@ -366,9 +363,10 @@ class TeamPage extends React.Component {
                 <GameModal teamKey={this.props.match.params.key} />
             )
             manageTeam = (
-                <Link to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
+                <Link className='manageButton' to={`/${this.props.match.params.team}/${this.props.match.params.key}/manageTeam`}>
                     {/* <p className='welcomeHead'>Manage Team</p>  */}
-                    <a className='manageHead' href="">Manage Team</a>
+                    <a className='manageHead ' href="">Manage Team</a>
+
                 </Link>
             )
             welcomeMessage = (
@@ -441,27 +439,45 @@ class TeamPage extends React.Component {
                                                         </ul>
                                                     </div>
                                                     <div className="no">
-                                                    <h4>No:</h4>
-                                                    <ul>
-                                                    {Object.keys(game.attendance.no).map(function (key, index) {
-                                                        if (game.attendance.no.length === 1) {
-                                                            return <li><p>none</p></li>
-                                                        } else {
-                                                            if (key !== '0') {
-                                                                return <li><p>{game.attendance.no[key].name}</p></li>
+                                                        <h4>No:</h4>
+                                                        <ul>
+                                                        {Object.keys(game.attendance.no).map(function (key, index) {
+                                                            if (game.attendance.no.length === 1) {
+                                                                return <li><p>none</p></li>
                                                             } else {
-                                                                return null
+                                                                if (key !== '0') {
+                                                                    return <li key={key}> <p>{game.attendance.no[key].name}</p> </li>
+
+                                                                } else {
+                                                                    return null
+                                                                }
                                                             }
-                                                        }
-                                                    })}
-                                                    </ul>
+                                                        })}
+
+                                                        </ul>
                                                     </div>
                                                     <div className="Pending clearfix">
                                                         <h4>Pending:</h4>
                                                         <ul>
-                                                        {Object.keys(game.attendance.pending).map(function (key, index) {
-                                                            if (game.attendance.pending.length === 1) {
-                                                                return <li><p>none</p></li>
+                                                            {Object.keys(game.attendance.pending).map(function (key, index) {
+                                                                if (game.attendance.pending.length === 1) {
+                                                                    return <li><p>none</p></li>  
+                                                                }})}
+                                                                
+                                                            
+                                                        </ul> 
+
+                                                        
+                                                </div>
+                                            <div className="Pending innerWrapper">
+                                                <h4>pending:</h4>
+                                                <ul>
+                                                    {Object.keys(game.attendance.pending).map(function (key, index) {
+                                                        if (game.attendance.pending.length === 1) {
+                                                            return <li key={key}>none</li>
+                                                        } else {
+                                                            if (key !== '0') {
+                                                                return <li key={key}><p>{game.attendance.pending[key].name}</p> </li>
                                                             } else {
                                                                 if (key !== '0') {
                                                                     return <li><p>{game.attendance.pending[key].name}</p> </li>
@@ -469,7 +485,8 @@ class TeamPage extends React.Component {
                                                                     return null
                                                                 }
                                                             }
-                                                        })}
+                                                        }})}
+                                                    
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -498,13 +515,13 @@ class TeamPage extends React.Component {
                                             
                                             : (<div></div>)
                                         }
-                                    {/* {response} */}
                                 </div>
                             )
                         })}
                     </div>
                 </section>
-                </div>   
+            </div>  
+            
             )
             
     }

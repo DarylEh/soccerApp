@@ -59,7 +59,7 @@ render(){
                 <section className='roster'>
                     {this.state.players.map ((player, i)=>{
                         return (
-                            <div>
+                            <div key={i}>
                                 <Collapsible trigger={`${player.name}`}>
                                     <p>Phone: {player.phone}</p>
                                     <p>E-mail: {player.email}</p>
