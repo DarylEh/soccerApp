@@ -59,15 +59,35 @@
 .upcoming {
     clear: both;
 }
-.Collapsible__trigger{
+.Collapsible__trigger {
     font-family: $oswald;
     color: $lightText;
     font-size: 1.8rem;
     cursor: pointer;
     display: block;
     transition: all 0.3s ease;
+    position: relative;
 }
-
+.is-closed::after, .is-open::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: $lightText transparent transparent;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.is-closed::after {
+    border-width: 15px 8px 0 8px;
+    border-color: $lightText transparent transparent;
+}
+.is-open::after {
+    border-width: 0 8px 15px 8px;
+    border-color: transparent transparent $lightText;
+}
 .is-closed,
 .is-open {
     padding: 10px 20px;

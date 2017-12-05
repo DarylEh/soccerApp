@@ -73,8 +73,7 @@ class TeamPage extends React.Component {
             gamesArray.sort((a,b)=>{
                 return a.order - b.order
             });
-            this.setState({
-                
+            this.setState({                
                 games: gamesArray
             })
         })
