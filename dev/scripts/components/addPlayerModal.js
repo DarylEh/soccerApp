@@ -147,7 +147,7 @@ class PlayerModal extends React.Component {
                         <label htmlFor="passwordMatch" className="hiddenLabel">Confirm password:</label>
                         <input type="password" id="passwordMatch" name="passwordMatch" onChange={this.handleChange} value={this.state.passwordMatch} placeholder="Confirm Password" required />
 
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Add Player" />
                     </form>
                 </Modal>
             </div>
