@@ -1,5 +1,39 @@
-
-
+.noManage {
+    position: absolute;
+    top: 150px;
+    float: left;
+}
+.teamNameDisplay {
+    float: left;
+    font-size:2rem;
+    display: inline-block;
+    position: relative;
+    top: 20px;
+}
+.welcomeHead {
+    float: right;
+    margin:0;
+    position: relative;
+    top: 50px;
+}
+.manageHead {
+    float: right;
+    font-size: 1.4rem;
+    font-family: $montserrat;
+    background-color: $mainColor;
+    padding: 20px;
+    text-decoration: none;
+    color: $darkText;
+    clear: both;
+    position: relative;
+    top: 60px;
+}
+.manageHead:hover {
+    background-color: $accentColor;
+}
+.upcoming {
+    clear: both;
+}
 .Collapsible__trigger{
     background-color: $mainColor;
     font-family: $oswald;
@@ -9,25 +43,21 @@
     margin-bottom: 5px;
     cursor: pointer;
     display: block;
-    
 }
-
+.Collapsible__trigger:hover{
+    background-color: $accentColor;
+}
 .Collapsible__contentInner h4{
-    font-size: 2rem;
     margin: 0;
-
 }
-
 .rsvp {
-    margin: 20px;
-    
+    margin: 20px; 
 }
-
 .rsvp button {
     float: right;
     position: relative;
     top: 50%;
-    transform: translateY(-10%);
+    transform: translateY(-200%);
     background-color: $mainColor;
     padding: 15px 32px;
     text-align: center;
@@ -35,13 +65,13 @@
     color: $lightText;
     font-size: 1rem;
 }
-
 .rsvp button:hover {
     background-color: $accentColor;
 }
 .rsvp p {
     float: left;
     font-size: 1.6rem;
+    width: 100%;
 }
 .hrLine::after {
     content: '';
@@ -51,4 +81,152 @@
     left: 0;
     top: 50%;
     z-index: 1;
+}
+.gameLocation h4,
+.gameTime h4,
+.attendanceLeft h4,
+.yes h4, .no h4, .Pending h4 {
+    float: left;
+    margin: 5px;
+    font-size: 1.5rem;
+}
+.attendance p,
+.gameLocation p,
+.gameTime p
+{
+    float: right;
+    margin: 5px;
+    font-size: 1.2rem;
+}
+.yes p, .no p, .Pending p {
+     margin: 5px;
+    font-size: 1.2rem;
+
+}
+.attendance {
+    float: left;
+    
+}
+.gameLocation,
+.gameTime,
+.attendance,
+.attendanceAnswer {
+    border-bottom: solid 1px #000000;
+    width: 100%;
+    padding: 5px;
+}
+.attendanceLeft {
+    float: left;
+    margin: 0;
+}
+.attendanceRight {
+    float: right;
+}
+.attendanceBreakdown p{
+    float: left;
+    margin: 5px;
+    font-size: 1.2rem;
+    padding-left: 20px;
+}
+.removeButton{
+    clear: both;
+}
+.attendanceAnswer {
+    float: left;
+    clear: both;
+    width: 100%;
+    text-align: center;
+}
+.yes, .no,  {
+    float: left;
+
+}
+.Pending{
+    display: inline-block;
+    
+}
+.yes ul,
+.no ul,
+.Pending ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.yes, .no, .Pending {
+    width: calc(33.3%);
+}
+.yes ul li,
+.no ul li,
+.Pending ul li {
+    text-align: center;
+    float: left;
+    clear: both;
+}
+// 940px 768px 480px
+// @media (min-width: 430px) and (max-width: 480px)
+@media (max-width: 480px) {
+    .noGames, .noManage {
+        font-size: .8rem;
+        margin: 2px;
+    }
+    .teamNameDisplay, .upcoming {
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+        
+    }
+    .noManage {
+        position: relative;
+        top: -12px;
+        right: 118px;
+
+    }
+    .is-closed, .is-open {
+        font-size: 1.2rem,
+        
+    }
+    .Collapsible__trigger{
+        padding: 5px;
+    }
+    .innerGame h4 {
+        font-size: .9rem;
+
+    }
+    .innerGame p{
+        font-size: 0.7rem;
+    }
+    .welcomeHead {
+        font-size: 0.8rem;
+        float: left;
+        clear: both;
+        position: relative;
+        top: 8px;
+    }
+    .manageHead {
+        font-size: 1.2rem;
+        position: relative;
+        padding: 8px 5px;
+        top: auto;
+        float: left;
+        margin-top: 16px;
+        margin-bottom: 8px;
+    }
+    .upcoming {
+        font-size: 1.2 rem;
+        margin-bottom: 5px;
+    }
+    .rsvp p{
+        font-size: 1.2rem;
+        margin: 0;
+    }
+    .buttonYesNo {
+        font-size: 1.2rem;
+        float: left;
+        margin-top: 35px;
+    }
+    .rsvp button {
+        transform: translateY(-80%);
+    }
+
+
 }
