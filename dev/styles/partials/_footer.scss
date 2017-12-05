@@ -1,6 +1,18 @@
-footer p {
+footer {
     max-width: 960px;
-    background-color: $lightText;
+    background-color: $backgroundColor;
     margin: 0 auto;
-    text-align: center;
+    .wrapper {
+    }
+    .innerWrapper {
+        background: $mainColor;
+
+    }
+    p {
+        color: $lightText;
+        padding: 20px 0;
+        text-align: center;
+        margin: 0;
+        font-size: 1.8rem;
+    }
 }
