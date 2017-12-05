@@ -42,7 +42,8 @@
     position: relative;
     top: 60px;
 }
-.manageHead:hover {
+.manageHead:hover,
+.manageHead:focus {
     background-color: $accentColor;
 }
 
@@ -92,7 +93,8 @@
     padding: 10px 20px;
     background-color: $mainColor;
     background-image: $gradient;
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: $accentColor;
         background-image: none;
         color: $darkMainColor;
@@ -109,29 +111,31 @@
 }
 
 .rsvp {
-    // margin: 20px; 
+    margin: 20px auto; 
+    width: 95%;
 }
+
 .rsvp button {
     float: right;
     position: relative;
-    // top: 50%;
-    // transform: translateY(-200%);
     text-align: center;
-    // margin: 20px;
+    margin-left: 20px;
 }
 
 .rsvp p {
-        // font-size: 1.2rem;
         margin: 0;
-        // float: left;
         width: 40%;
         display: inline-block;
+        line-height: 2rem;
+        span {
+            font-weight: bold;
+        }
     }
 
-    .buttonYesNo {
-        float: right;
-        width: 40%;
-    }
+.buttonYesNo {
+    float: right;
+    width: 40%;
+}
 
 .hrLine::after {
     content: '';
@@ -184,7 +188,6 @@
         position: relative;
         bottom: -30px;
         width: 100%;
-        z-index: 10;
         margin: 0 auto;
     }
 }
@@ -203,8 +206,6 @@
 }
 .attendanceBreakdown p{
     float: left;
-    // margin: 5px;
-    // font-size: 1.2rem;
     padding-left: 20px;
 }
 .removeButton{
@@ -241,6 +242,11 @@
     text-align: center;
     float: left;
     clear: both;
+}
+
+.noGames {
+    margin: 0;
+    padding-top: 13px;
 }
 // 940px 768px 480px
 // @media (min-width: 430px) and (max-width: 480px)
@@ -297,3 +303,10 @@
 
 
 }
+
+
+
+//make the rsvp buttons a bit smaller for hierarchy
+//bring response beneath each game header in to 95 prcent like what expands on the accordion
+
+//run through the code, clean it up, take out commented code and console logs
