@@ -2,7 +2,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 .clearfix:after {visibility: hidden; display: block; font-size: 0; content: ''; clear: both; height: 0; }
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-
+// Colour Variables
 $backgroundColor : #E2E2E2;
 $mainColor : #12A5E9;
 $accentColor : #FFF000;
@@ -10,7 +10,6 @@ $darkText : #161616;
 $lightText : #FFFFFF;
 $darkMainColor : #012C58;
 
-$oswald : 'Oswald', sans-serif;
-$montserrat : 'Montserrat', sans-serif;
-
-
+// Font Stacks
+$oswald : 'Oswald', sans-serif; // Title Font
+$montserrat : 'Montserrat', sans-serif; // Body Font

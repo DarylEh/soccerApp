@@ -3,18 +3,6 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
-// Size of popup window
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
-
 class LoginModal extends React.Component {
     constructor() {
         super();
@@ -58,7 +46,6 @@ class LoginModal extends React.Component {
     }
     afterOpenModal() {
         // references are now sync'd and can be accessed.
-        this.subtitle.style.color = '#F00';
     }
     closeModal() {
         this.setState({ modalIsOpen: false });
@@ -72,19 +59,20 @@ class LoginModal extends React.Component {
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
-                    style={customStyles}
-                    contentLabel=""
+                    contentLabel="Login"
+                    className="modalContainer"
+                    overlayClassName="modalOverlay"
                 >
 
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Login:</h2>
-                    <button onClick={this.closeModal}>close</button>
+                    <h2 ref={subtitle => this.subtitle = subtitle} className="modalTitle titleBottomMargin">Login:</h2>
+                    <a onClick={this.closeModal} className="closeModalButton"><i className="fa fa-times" aria-hidden="true"></i></a>
 
-                    <form action="" onSubmit={this.handleSubmit}>
-                        <label htmlFor="email">E-mail:</label>
-                        <input type="text" id="email" name="email" onChange={this.handleChange} value={this.state.email} required />
+                    <form action="" onSubmit={this.handleSubmit} className="modalForm">
+                        <label htmlFor="email" className="hiddenLabel">E-mail:</label>
+                        <input type="text" id="email" name="email" onChange={this.handleChange} value={this.state.email} placeholder="Email" required />
 
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" onChange={this.handleChange} value={this.state.password} required />
+                        <label htmlFor="password" className="hiddenLabel">Password:</label>
+                        <input type="password" id="password" name="password" onChange={this.handleChange} value={this.state.password} placeholder="Password" required />
 
                         <input type="submit" value="Submit" />
                     </form>
