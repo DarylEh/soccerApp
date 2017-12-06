@@ -420,9 +420,9 @@ class TeamPage extends React.Component {
                                                 
                                                 <div className='attendanceAnswer clearfix'>
                                                     <div className="yes">
+                                                        <h4>Yes:</h4>
                                                         <ul>
-                                                            <li><h4>Yes:</h4></li> 
-                                                            {Object.keys(game.attendance.yes).map(function (key, index) {
+                                                        {Object.keys(game.attendance.yes).map(function (key, index) {
                                                                 if (game.attendance.yes.length === 1) {
                                                                     return <li><p>none</p></li>
                                                                 } else {
