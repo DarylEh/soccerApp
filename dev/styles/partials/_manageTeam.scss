@@ -1,9 +1,10 @@
+// MANAGE TEAM PAGE 
+// w/ team roster & player info
 .roster {
     .innerWrapper {
         margin: 20px auto;
     }
 }
-
 
 .rosterTitle {
     margin: 0 0 20px 0;
@@ -18,10 +19,9 @@
     }
 }
 
-.rosterButtons{
+.rosterButtons {
     margin-bottom: 20px;
 }
-
 .rosterBack,
 .addPlayerButton {
     float: left;
@@ -37,31 +37,5 @@
     }
     span {
         font-weight: bold;
-    }
-}
-
-.soccerImage {
-    width: 40px;
-    margin: 20px auto 0 auto;
-    &::before,
-    &::after {
-        content: '';
-        display: block;
-        height: 1px;
-        background-color: rgba(0,0,0,0.3);
-        position: relative;
-        width: 50px;
-    }
-    &::before{
-        top: 20px;
-        right: 60px;
-    }
-    &::after {
-        bottom: 20px;
-        left: 50px;
-    }
-    img {
-        width: 100%;
-        opacity: 0.3;
     }
 }

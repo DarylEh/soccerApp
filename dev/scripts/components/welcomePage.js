@@ -8,6 +8,9 @@ import {
 import TeamPage from './teamPage.js';
 import TeamModal from "./addTeamModal.js"
 
+// WELCOME / HOME PAGE
+// Landing page of app - display a list of teams for user to select from
+
 class WelcomePage extends React.Component{
     constructor() {
         super();
@@ -18,25 +21,24 @@ class WelcomePage extends React.Component{
 
     //loading team data from firebase when page mounts
     componentDidMount() {
-    const dbRef = firebase.database().ref();
+        // Firebase root
+        const dbRef = firebase.database().ref();
 
-        
-    dbRef.on("value", (firebaseData) => {
-        
-        const teamsArray = [];
-        const teamsData = firebaseData.val();
-        // console.log(teamsData);
-        for (let teamKey in teamsData) {
-            teamsData[teamKey].key = teamKey;
-            teamsArray.push(teamsData[teamKey]);
-            // console.log(teamsData[teamKey])
-        }
-        this.setState({
-            teams: teamsArray
-        
+        // Pull list of teams from Firebase
+        dbRef.on("value", (firebaseData) => {
+            const teamsArray = [];
+            const teamsData = firebaseData.val();
+            
+            // Save list of teams to state
+            for (let teamKey in teamsData) {
+                teamsData[teamKey].key = teamKey;
+                teamsArray.push(teamsData[teamKey]);
+            }
+            this.setState({
+                teams: teamsArray
+            })
         })
-    })
-}//end of  componentDidMount
+    }
 
     render(){
         return (
@@ -46,11 +48,11 @@ class WelcomePage extends React.Component{
                     <ul className="clearfix teams">
                         {this.state.teams.map((team, i) => {
                             return (
-                                    <Link to={`/${team.teamName}/${team.key}`}>
-                                        <div className="teamTile" key={team.key}>
-                                            <li>{team.teamName}</li>
-                                        </div>
-                                    </Link>
+                                <Link to={`/${team.teamName}/${team.key}`}>
+                                    <div className="teamTile" key={team.key}>
+                                        <li>{team.teamName}</li>
+                                    </div>
+                                </Link>
                             )
                         })}
                     </ul>

@@ -1,7 +1,6 @@
 html {
     font-size: 62.5%;
 }
-
 body {
     background-image: url('../assets/triangleBackground.png');
     background-size: cover;
@@ -10,7 +9,9 @@ body {
     background-attachment: fixed;
 }
 
+// White background containing page content
 .wrapper {
+    width: 96%;
     max-width: 960px;
     background-color: $lightText;
     margin: 0 auto;
@@ -19,6 +20,8 @@ body {
     margin-bottom: 100px;
 }
 
+// Allow for items to be thinner than their parents - create hierarchy
+// (i.e. game data accordian slightly slimmer than game title)
 .innerWrapper {
     width: 95%;
     background-color: $backgroundColor;
@@ -26,15 +29,15 @@ body {
     padding: 25px 30px;
 }
 
-
 ul {
     list-style: none;
     padding: 0;
-        a{
+        a {
             text-decoration: none;
         }
 }
 
+// Button Styling
 button, 
 .manageButton,
 input[type=submit] {
@@ -59,12 +62,10 @@ h2 {
     font-size: 3.2rem;
     color: $darkMainColor;
 }
-
 h3 {
     font-size: 2.4rem;
     font-family: $oswald;
     color: $darkMainColor;
-    
 }
 h4 {
     font-size: 1.6rem;
@@ -80,13 +81,39 @@ p {
     display: block;
     float: right;
 }
-
 .addTeamButton {
     position: relative;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 30px;
+}
+
+// Soccer ball logo + lines beside
+.soccerImage {
+    width: 40px;
+    margin: 20px auto 0 auto;
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: rgba(0,0,0,0.3);
+        position: relative;
+        width: 50px;
+    }
+    &::before{
+        top: 20px;
+        right: 60px;
+    }
+    &::after {
+        bottom: 20px;
+        left: 50px;
+    }
+    img {
+        width: 100%;
+        opacity: 0.3;
+    }
 }
 
 #app {

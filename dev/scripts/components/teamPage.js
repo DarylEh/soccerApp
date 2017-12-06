@@ -10,6 +10,9 @@ import {
 import Collapsible from 'react-collapsible';
 import ManageTeam from './manageTeam.js';
 
+// TEAM PAGE
+// Team information/Team landing page
+
 class TeamPage extends React.Component {
     constructor() {
         super();
@@ -34,17 +37,19 @@ class TeamPage extends React.Component {
         this.removeGame = this.removeGame.bind(this);
     }
     
+    // Take the user back to list of teams
     goBack() {
 		window.history.back();
     }
 
-    
-    //getting data from firebase to populate upcoming games
+    // Get data from firebase to populate upcoming games
     componentDidMount() {
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
+        // Firebase root -> specific team -> games list
         const gamesRef = firebase.database().ref(`${teamId}/games`)
-        //change the dbref to referrence teamId at the games level, then order games by date in the order by child
+        
+        // Greet the user if logged in
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({
@@ -61,6 +66,7 @@ class TeamPage extends React.Component {
             }
         });
 
+        // Pull list of games from Firebase
         gamesRef.on("value", (firebaseData) => {
             const gameData = firebaseData.val();
             const gamesArray = [];
@@ -68,8 +74,8 @@ class TeamPage extends React.Component {
                 gameData[gameKey].key = gameKey;
                 gameData[gameKey].order = gameData[gameKey].date.split('-').join('');
                 gamesArray.push(gameData[gameKey]);
-
             }
+            // Sort chronologically
             gamesArray.sort((a,b)=>{
                 return a.order - b.order
             });
@@ -77,7 +83,11 @@ class TeamPage extends React.Component {
                 games: gamesArray
             })
         })
+
+        // pull list of all team members, save it to the state
         this.getFullRoster();
+
+        // Find the captain's email - for special permissions
         dbRef.on("value", (firebaseData)=>{
             const teamData = firebaseData.val();
             this.setState({
@@ -87,6 +97,7 @@ class TeamPage extends React.Component {
 
     }
 
+    // Pull user's email back from the login modal
     getCurrentUserEmail(currentemail) {
         this.displayUserName();
         this.setState({
@@ -113,10 +124,12 @@ class TeamPage extends React.Component {
         })
     }
 
+    // Greet the current user with "Welcome -------"
     displayUserName(){
         const teamId = this.props.match.params.key;
         const dbRef = firebase.database().ref(teamId);
         
+        // Get current user's name, save it to the state
         dbRef.on("value", (firebaseData) => {
             const teamData = firebaseData.val();
             const userData = teamData.users;
@@ -133,13 +146,14 @@ class TeamPage extends React.Component {
         })
     }
 
+    // Sign out user from Firebase auth
     signOut(event) {
         event.preventDefault()
         firebase.auth().signOut();
     }
 
+    // User action: Click "yes" button on a game
     addToYes(gameKey){
-
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
         let noRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/no`);
@@ -170,14 +184,15 @@ class TeamPage extends React.Component {
 
                 newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
 
-                // //EMPTY ALL ARRAYS WHEN DONE
+                // EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
                 movingPlayer = [];
             } 
         })
         
+        // PULLS FROM NO LIST IN FIREBASE
         noRef.on("value", (firebaseData) => {
-            //all the people in pending list on firebase
+            //all the people in no list on firebase
             let playerToMove = firebaseData.val();
 
             let movingArray = [];
@@ -187,7 +202,7 @@ class TeamPage extends React.Component {
                 movingArray.push(playerToMove[player])
             }
 
-            //filters through the array of player objects, to create a new Array that JUST contains the object for the currently logged in player, IF the player was in the pending list
+            //filters through the array of player objects, to create a new Array that JUST contains the object for the currently logged in player, IF the player was in the no list
             let movingPlayer = movingArray.filter((value) => {
                 return value['email'] === this.state.currentUserEmail;
             });
@@ -198,7 +213,7 @@ class TeamPage extends React.Component {
 
                 newRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
                 
-                // //EMPTY ALL ARRAYS WHEN DONE
+                // EMPTY ALL ARRAYS WHEN DONE
                 movingArray = [];
                 movingPlayer = [];
             }
@@ -207,10 +222,9 @@ class TeamPage extends React.Component {
     }
 
     addToNo(gameKey){
-        //find out who is signed in via email, should be currentuseremail in state
-
         //reference for pending list
         let pendingRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/pending`);
+        //reference for yes list
         let yesRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}/attendance/yes`);
 
         let newRef = '';
@@ -246,6 +260,7 @@ class TeamPage extends React.Component {
           
         })
 
+        //PULLS FROM YES IN FIREBASE
         yesRef.on("value", (firebaseData) => {
             //all the people in pending list on firebase
             let playerToMove = firebaseData.val();
@@ -275,6 +290,7 @@ class TeamPage extends React.Component {
         this.moveFbRecord(oldRef, newRef)
     }
 
+    // Take user out of old spot in Firebase, place them in new spot
     moveFbRecord(oldRef, newRef) {
         let playerInfo = '';
         oldRef.on ('value', (playerData) => {
@@ -284,16 +300,17 @@ class TeamPage extends React.Component {
         oldRef.remove();
     }
 
-
-
+    // populate yes/no/pending list baed on Firebase data
     populateAttendanceList(game, listName) {
         const namesArray = [];
 
+        // Get list of all players in yes/no/pending
         const attendanceArray = [];
         for (let player in game.attendance[listName]) {
             attendanceArray.push(game.attendance[listName][player])
         }
 
+        // compare attendance array and the full team, pull names into an array to return
         this.state.teamRoster.forEach((player) => {
             attendanceArray.forEach((playerEmail) => {
                 if (playerEmail === player.email) {
@@ -301,9 +318,12 @@ class TeamPage extends React.Component {
                 }
             })
         })
+
+        // Sends back an array of names for players in the requested response (y/n/pending)
         return namesArray;
     }
 
+    // Return value to display based on user's attendance response for specified game
     playerResponse(game){
         for (let key in game.attendance.yes) {
             if (game.attendance.yes[key].email === this.state.currentUserEmail) {
@@ -322,6 +342,7 @@ class TeamPage extends React.Component {
         }
     }
 
+    // Remove a game item (Only available to captains)
     removeGame(gameKey){
         const dbRef = firebase.database().ref(`${this.props.match.params.key}/games/${gameKey}`);
         dbRef.remove()
@@ -332,10 +353,11 @@ class TeamPage extends React.Component {
         let addGame = '';
         let manageTeam = '';
         let welcomeMessage = '';
-        let femaleCounter = 0;
-        let maleCounter = 0;
         let response = 'Pending';
-        // let removeButton = ''
+        let femaleCounter;
+        let maleCounter;
+
+        // Display login/log out button based on user's auth status
         if (this.state.loggedIn == false){
             logInOrOut = (
                 <LoginModal getCurrentUserEmail={ this.getCurrentUserEmail} teamKey={this.props.match.params.key}/>
@@ -345,6 +367,8 @@ class TeamPage extends React.Component {
                 <button onClick={this.signOut}>Log Out</button>
             )
         }
+
+        // Allow only signed in users who are also part of the team to manage game/team info
         if (this.state.currentUserName === ''){
             addGame = (
                 <p className='noGames' >Please log in to manage team</p>
@@ -384,12 +408,15 @@ class TeamPage extends React.Component {
                     <h3 className='upcoming'>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
-                            for (let key in game.attendance.yes){
+                            
+                            femaleCounter = 0;
+                            maleCounter = 0;
+                            for (let key in game.attendance.yes) {
                                 if (game.attendance.yes[key].gender === 'female'){
-                                    femaleCounter = femaleCounter + 1;
+                                    femaleCounter = femaleCounter + 1
                                 }
-                                if (game.attendance.yes[key].gender === 'male') {
-                                    maleCounter = maleCounter + 1;
+                                if(game.attendance.yes[key].gender === 'male'){
+                                    maleCounter = maleCounter + 1
                                 }
                             }
                             return (
@@ -416,12 +443,12 @@ class TeamPage extends React.Component {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                                 <div className='attendanceAnswer clearfix'>
                                                     <div className="yes">
                                                         <h4>Yes:</h4>
                                                         <ul>
-                                                        {Object.keys(game.attendance.yes).map(function (key, index) {
+                                                        { // 
+                                                            Object.keys(game.attendance.yes).map(function (key, index) {
                                                                 if (game.attendance.yes.length === 1) {
                                                                     return <li><p>none</p></li>
                                                                 } else {
@@ -437,34 +464,20 @@ class TeamPage extends React.Component {
                                                     <div className="no">
                                                         <h4>No:</h4>
                                                         <ul>
-                                                        {Object.keys(game.attendance.no).map(function (key, index) {
-                                                            if (game.attendance.no.length === 1) {
-                                                                return <li><p>none</p></li>
-                                                            } else {
-                                                                if (key !== '0') {
-                                                                    return <li key={key}> <p>{game.attendance.no[key].name}</p> </li>
-
+                                                            {Object.keys(game.attendance.no).map(function (key, index) {
+                                                                if (game.attendance.no.length === 1) {
+                                                                    return <li><p>none</p></li>
                                                                 } else {
-                                                                    return null
-                                                                }
-                                                            }
-                                                        })}
+                                                                    if (key !== '0') {
+                                                                        return <li key={key}> <p>{game.attendance.no[key].name}</p> </li>
 
+                                                                    } else {
+                                                                        return null
+                                                                    }
+                                                                }
+                                                            })}
                                                         </ul>
                                                     </div>
-                                                    {/* <div className="Pending clearfix">
-                                                        <h4>Pending:</h4>
-                                                        <ul>
-                                                            {Object.keys(game.attendance.pending).map(function (key, index) {
-                                                                if (game.attendance.pending.length === 1) {
-                                                                    return <li><p>none</p></li>  
-                                                                }})}
-                                                                
-                                                            
-                                                        </ul> 
-
-                                                        
-                                                </div> */}
                                             <div className="Pending">
                                                 <h4>Pending:</h4>
                                                 <ul>
