@@ -307,17 +307,17 @@ class TeamPage extends React.Component {
     playerResponse(game){
         for (let key in game.attendance.yes) {
             if (game.attendance.yes[key].email === this.state.currentUserEmail) {
-                return ' yes.'
+                return ' yes'
             }
         };
         for (let key in game.attendance.no) {
             if (game.attendance.no[key].email === this.state.currentUserEmail) {
-                return ' no.'
+                return ' no'
             }
         }
         for (let key in game.attendance.pending) {
             if (game.attendance.pending[key].email === this.state.currentUserEmail) {
-                return ' pending.'
+                return ' pending'
             }
         }
     }
@@ -486,20 +486,19 @@ class TeamPage extends React.Component {
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            {/* </div> */}
-                                        </div>
-
                                             <div className='removeButton'>
                                             {this.state.captainEmail === this.state.currentUserEmail
                                             ? (<button onClick={() => this.removeGame(game.key)} >Remove Game</button>)
                                             : (<div></div>)
-                                        }
+                                            }
                                             
                                             </div>
+                                        </div>
+
                                     </Collapsible>
                                     {this.state.loggedIn
                                     ? (<div className="rsvp clearfix">
-                                            <p>Can you make it ?<br /> Your Response:{this.playerResponse(game)}
+                                            <p><span>Can you make it?</span><br /> Your Response:{this.playerResponse(game)}
                                         </p>
                                         <div className="buttonYesNo clearfix">
                                         <button onClick={() => this.addToYes(game.key)} >Yes</button>
@@ -516,6 +515,9 @@ class TeamPage extends React.Component {
                         })}
                     </div>
                 </section>
+                <div className="soccerImage">
+                    <img src="/public/assets/soccerBall.png" alt="Soccer Ball icon" />
+                </div>
             </div>  
             
             )
