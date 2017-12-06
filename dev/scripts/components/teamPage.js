@@ -418,9 +418,6 @@ class TeamPage extends React.Component {
                                 if(game.attendance.yes[key].gender === 'male'){
                                     maleCounter = maleCounter + 1
                                 }
-                                // game.attendance.yes[key].gender === 'female'
-                                // ? femaleCounter = femaleCounter + 1
-                                // : maleCounter = maleCounter + 1
                             }
                             return (
                                 <div key={game.key}>
