@@ -43,7 +43,7 @@ class WelcomePage extends React.Component{
             <main className="wrapper">
                 <section>
                     <h2>Find Your Team</h2>
-                    <ul className="clearfix">
+                    <ul className="clearfix teams">
                         {this.state.teams.map((team, i) => {
                             return (
                                     <Link to={`/${team.teamName}/${team.key}`}>

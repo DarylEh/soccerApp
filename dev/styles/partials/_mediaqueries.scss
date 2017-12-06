@@ -4,6 +4,7 @@
         width: calc(33.3% - 20px);
         margin: 10px;
     }
+    
 }
 
 /* Landscape phone to portrait tablet */
@@ -12,6 +13,47 @@
         width: calc(50% - 20px);
         margin: 10px;
     }
+
+.attendance, .attendanceBreakdown p {
+    float: none;
+}
+// .attendanceLeft,
+.attendanceRight {
+    float:right;
+}
+.attendanceRight p {
+    padding-left: 10px;
+}
+.attendanceBreakdown p {
+    text-align: right;
+}
+.attendance::before {
+    bottom: -70px;
+}
+.attendanceAnswer {
+    margin-top:25px;
+}
+.attendanceAnswer h4 {
+    padding: 10px 0px;
+}
+.yes, .no, .Pending {
+    width: 98%;
+}
+.yes h4, .no h4, .Pending h4 {
+    float: left;
+    text-align: left;
+    float: none;
+}
+.yes ul, .no ul, .Pending ul {
+    width:98%;
+    li {
+        width: 33.3%;
+        clear: none;
+        text-align: left;
+        padding: 5px;
+    }
+}
+
 }
 
 /* Landscape phones and down */
@@ -20,4 +62,10 @@
         width: calc(100% - 20px);
         margin: 10px;
     }
+    .yes ul, .no ul, .Pending ul {
+    li {
+        width: 50%;
+        
+    }
+}
 }
