@@ -74,7 +74,7 @@ class LoginModal extends React.Component {
                         <label htmlFor="password" className="hiddenLabel">Password:</label>
                         <input type="password" id="password" name="password" onChange={this.handleChange} value={this.state.password} placeholder="Password" required />
 
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Login" />
                     </form>
                 </Modal>
             </div>

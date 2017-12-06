@@ -1,11 +1,14 @@
 /* ----- MODAL & FORM STYLES -----*/
 
+// MEDIA QUERIES AT BOTTOM
+
 /* ----- MODAL BODY -----*/
 .modalContainer {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 50%;
+    max-width: 900px;
+    width: 80%;
     right: auto;
     bottom: auto;
     margin-right: -50%;
@@ -13,7 +16,7 @@
     padding: 20px;
     background-color: $lightText;
     outline: none;
-    box-shadow: 1px 1px 5px rgba(0,0,0,0.1)
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 .modalOverlay {
     position: fixed;
@@ -28,7 +31,7 @@
 .modalTitle {
     font-family: $oswald;
     color: $darkMainColor;
-    font-size: 1.5rem;
+    font-size: 2.4rem;
     margin: 0;
 }
 .modalTitle::after {
@@ -44,7 +47,7 @@
     margin-bottom: 10px;
 }
 .closeModalButton {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -64,7 +67,7 @@
 .modalForm h2 {
     font-family: $montserrat;
     font-variant: small-caps;
-    font-size: 1rem;
+    font-size: 2rem;
     margin: 5px 0;
 }
 input[type="text"],
@@ -78,7 +81,7 @@ input[type="time"],
     padding: 5px;
     border: none;
     border-bottom: 1px solid $mainColor;
-    font-size: 0.9rem;
+    font-size: 1.6rem;
     transition: border-bottom 0.2s ease-out, background-color 0.2s ease-out;
     display: block;
     margin-bottom: 10px;
@@ -94,7 +97,7 @@ input[type="time"]:focus,
     background-color: rgba(233, 233, 233, 0.9); 
 }
 .modalForm p, .modalForm label {
-    font-size: 0.9rem;
+    font-size: 1.6rem;
     color: $darkText;
     opacity: 0.8;
 }
@@ -122,4 +125,15 @@ input[type="time"]:focus,
 .hiddenLabel {
     visibility: hidden;
     position: absolute;
+}
+
+@media (max-width: 480px) {
+    .modalContainer {
+        width: 90%;
+    }
+    .radioButtonWrapper, .radioCategoryLabel {
+        float: none;
+        width: 100%;
+        padding-left: 10px;
+    }
 }
