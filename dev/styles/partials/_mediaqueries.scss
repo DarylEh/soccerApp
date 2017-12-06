@@ -1,5 +1,6 @@
 /* Portrait tablet and small desktops */
 @media (max-width: 940px) {
+    // Tiles on homepage - 3 accross
     .teamTile {
         width: calc(33.3% - 20px);
         margin: 10px;
@@ -9,62 +10,58 @@
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 768px) {
+    // Tiles on homepage - 2 accross
     .teamTile {
         width: calc(50% - 20px);
         margin: 10px;
     }
 
-.attendance, .attendanceBreakdown p {
-    float: none;
-}
-// .attendanceLeft,
-.attendanceRight {
-    float:right;
-}
-.attendanceRight p {
-    padding-left: 10px;
-}
-.attendanceBreakdown p {
-    text-align: right;
-}
-.attendance::before {
-    bottom: -70px;
-}
-.attendanceAnswer {
-    margin-top:25px;
-}
-.attendanceAnswer h4 {
-    padding: 10px 0px;
-}
-.yes, .no, .Pending {
-    width: 98%;
-}
-.yes h4, .no h4, .Pending h4 {
-    float: left;
-    text-align: left;
-    float: none;
-}
-.yes ul, .no ul, .Pending ul {
-    width:98%;
-    li {
-        width: 33.3%;
-        clear: none;
-        text-align: left;
-        padding: 5px;
+    // Styles inside of accordian - stats & game info
+    .attendance, .attendanceBreakdown p {
+        float: none;
     }
-}
+    .attendanceRight {
+        float:right;
+    }
+    .attendanceRight p {
+        padding-left: 10px;
+    }
+    .attendanceBreakdown p {
+        text-align: right;
+    }
+    .attendance::before {
+        bottom: -70px;
+    }
+    .attendanceAnswer {
+        margin-top:25px;
+    }
+    .attendanceAnswer h4 {
+        padding: 10px 0px;
+    }
 
+    // attendance lists in game accordian
+    .yes, .no, .Pending {
+        width: 98%;
+    }
+    .yes h4, .no h4, .Pending h4 {
+        float: left;
+        text-align: left;
+        float: none;
+    }
+    .yes ul, .no ul, .Pending ul {
+        width:98%;
+        li {
+            width: 33.3%;
+            clear: none;
+            text-align: left;
+            padding: 5px;
+        }
+    }
 }
 
 /* Landscape phones and down */
-@media (max-width: 480px) {
-    .teamTile {
-        width: calc(100% - 20px);
-        margin: 10px;
-    }
-}
-
 @media (max-width: 490px){
+    // buttons for attendance response below each game
     .buttonYesNo {
         float: none;
         width: 144px;
@@ -72,16 +69,44 @@
         margin: 20px 0 0 50%;
         transform: translateX(-50%);
     }
+
+    // User's attenance response
     .rsvp p{
         margin: 0;
         float: none;
         width: 100%;
         display: block;
     }
+
+    // player names in each response list (yes/no/pending)
     .yes ul, .no ul, .Pending ul {
-    li {
-        width: 50%;
-        
+        li {
+            width: 50%;
+        }
     }
 }
+
+@media (max-width: 480px) {
+    // Tiles on homepage - 1 accross
+    .teamTile {
+        width: calc(100% - 20px);
+        margin: 10px;
+    }
+
+    // Size of popups
+    .modalContainer {
+        width: 90%;
+    }
+
+    // Move "login", "add game", "back" down on team page
+    .teamPageButtons p {
+        padding-top: 70px;
+    }
+
+    // Gender radio buttons in forms
+    .radioButtonWrapper, .radioCategoryLabel {
+        float: none;
+        width: 100%;
+        padding-left: 10px;
+    }
 }

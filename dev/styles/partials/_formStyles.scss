@@ -1,7 +1,5 @@
 /* ----- MODAL & FORM STYLES -----*/
 
-// MEDIA QUERIES AT BOTTOM
-
 /* ----- MODAL BODY -----*/
 .modalContainer {
     position: absolute;
@@ -27,7 +25,7 @@
     background-color: rgba(240,240,240,0.8);
 }
 
-/* ----- TITLE, UNDERLINE & CLOSE -----*/
+/* ----- TITLE, UNDERLINE & CLOSE BUTTON -----*/
 .modalTitle {
     font-family: $oswald;
     color: $darkMainColor;
@@ -125,15 +123,4 @@ input[type="time"]:focus,
 .hiddenLabel {
     visibility: hidden;
     position: absolute;
-}
-
-@media (max-width: 480px) {
-    .modalContainer {
-        width: 90%;
-    }
-    .radioButtonWrapper, .radioCategoryLabel {
-        float: none;
-        width: 100%;
-        padding-left: 10px;
-    }
 }

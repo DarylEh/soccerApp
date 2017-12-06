@@ -14,6 +14,9 @@ import TeamModal from "./components/addTeamModal.js";
 import GameModal from "./components/addGameModal.js";
 import ManageTeam from './components/manageTeam.js';
 
+// MAIN APP
+// Home page of Can You Make It?
+
 // Firebase init
 var config = {
 	apiKey: 'AIzaSyAgZ1C-1-nUuDT3KXsutthpAr8O5Sf-ohs',
@@ -31,18 +34,17 @@ class App extends React.Component {
 	}
 	render() {
 		return (
-			
 			<Router history={BrowserHistory}>
-					<div>
-						<WelcomeHeader />
-						<Switch>
-							<Route exact path='/' component={WelcomePage}></Route>
-							<Route exact path='/:team/:key/manageTeam' component={ManageTeam}></Route>
-							<Route exact path='/:team/:key' component={TeamPage}></Route>
-						</ Switch>
-						<Footer />
-					</div>
-				</Router>
+				<div>
+					<WelcomeHeader />
+					<Switch>
+						<Route exact path='/' component={WelcomePage}></Route>
+						<Route exact path='/:team/:key/manageTeam' component={ManageTeam}></Route>
+						<Route exact path='/:team/:key' component={TeamPage}></Route>
+					</ Switch>
+					<Footer />
+				</div>
+			</Router>
 		)
 	}
 }

@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
+// PLAYER MODAL
+// Opens when user needs to create a new player on their team
+
 class PlayerModal extends React.Component {
     constructor() {
         super();
@@ -18,16 +21,17 @@ class PlayerModal extends React.Component {
         };
 
         this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createUser = this.createUser.bind(this);
         this.populateGameAttendance = this.populateGameAttendance.bind(this);
     }
+
     // User action: submit 'new team' form
     handleSubmit(event) {
         event.preventDefault();
+        // new passwords for player must match
         if (this.state.password === this.state.passwordMatch) {
             this.pushToFirebase();
         } else {
@@ -35,6 +39,7 @@ class PlayerModal extends React.Component {
         }
     }
     
+    // Send information to firebase auth
     pushToFirebase(){
         // Add a user for new player
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -43,13 +48,13 @@ class PlayerModal extends React.Component {
             })
             .catch((error) => {
                 alert(error.message)
-            })
-
-    
+            })    
     }
 
+    // On successful creation of account, create corresponding user in the database
     createUser(userID) {
         const dbRef = firebase.database().ref(`${this.props.teamKey}/users`);
+        // User info to be pushed
         const playerObject = {
             name: this.state.name,
             email: this.state.email,
@@ -59,8 +64,11 @@ class PlayerModal extends React.Component {
             uid: userID
         }
         dbRef.push(playerObject);
+
+        // Put new user in 'pending' list for each existing game
         this.populateGameAttendance();
-        //empty the form on successful submit
+        
+        // Empties out form to start fresh on reopen
         this.setState({
             modalIsOpen: false,
             name: '',
@@ -71,21 +79,26 @@ class PlayerModal extends React.Component {
             passwordMatch: ''
         });
     }
-    //user action: change value of form item
+
+    // User action: change value of form item
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
-    // Push new user into pending on all existing games
+
+    // Push new user into 'pending' list on all existing games
     populateGameAttendance() {
+        // Firebase root -> specific team -> games object
         const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
+        // Game data from firebase 
         let gamesData = {};
         dbRefGames.on("value", (firebaseData) => {
             gamesData = firebaseData.val();
-            console.log(gamesData);
         })
+        // For each game returned above, save new player info to Firebase
         for (let game in gamesData) {
+            // Info to be saved in each game in Firebase
             const currentPlayerObject = {
                 email: this.state.email,
                 name: this.state.name,
@@ -99,10 +112,6 @@ class PlayerModal extends React.Component {
     openModal() {
         this.setState({ modalIsOpen: true });
     }
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // this.subtitle.style.color = '#F00';
-    }
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
@@ -110,10 +119,10 @@ class PlayerModal extends React.Component {
     render() {
         return (
             <div>
+                {/* Button appears inline in content */}
                 <button onClick={this.openModal} className='addPlayerButton'>Add Player</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     contentLabel="Create Player"
                     className="modalContainer"

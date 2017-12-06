@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
+// LOGIN MODAL
+// Opens when user needs to log in
+
 class LoginModal extends React.Component {
     constructor() {
         super();
@@ -11,29 +14,30 @@ class LoginModal extends React.Component {
         };
 
         this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     // User action: submit 'new team' form
     handleSubmit(event) {
         event.preventDefault();
         
+        // sign the user in with firbase auth
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((results) => {
+                // Pass current user's email back to know who is clicking buttons etc
                 this.props.getCurrentUserEmail(this.state.email);
                 this.setState({
                     modalIsOpen: false,
                 })
-                //this.props.getCurrentUserEmail(this.state.email);
             })
             .catch((error) => {
                 alert(error.message)
             })
     }
     
-    //user action: change value of form item
+    // Save form input value in state
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -43,9 +47,6 @@ class LoginModal extends React.Component {
     // Modal controls
     openModal() {
         this.setState({ modalIsOpen: true });
-    }
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
     }
     closeModal() {
         this.setState({ modalIsOpen: false });
@@ -57,7 +58,6 @@ class LoginModal extends React.Component {
                 <button onClick={this.openModal}>Login</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     contentLabel="Login"
                     className="modalContainer"

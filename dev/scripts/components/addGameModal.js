@@ -4,6 +4,9 @@ import Modal from 'react-modal';
 import firebase from 'firebase';
 import Dropdown from 'react-dropdown';
 
+// GAME MODAL
+// Opens when user needs to create a new game
+
 class GameModal extends React.Component {
     constructor() {
         super();
@@ -17,14 +20,16 @@ class GameModal extends React.Component {
         };
 
         this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    
     componentDidMount() {
+        // Firebase root
         const dbRef = firebase.database().ref();
 
+        // Pulls a list of possible opponents to populate a select element
         dbRef.on("value", (firebaseData) => {
             const opponentData = firebaseData.val();
             const opponentArray = [];
@@ -36,15 +41,20 @@ class GameModal extends React.Component {
             })
         })
     }
+
     // User action: submit 'add game' form
     handleSubmit(event) {
         event.preventDefault();
+        // Firebase root -> a specific team
         const dbRefTeam = firebase.database().ref(`${this.props.teamKey}`);
+        // Firebase root -> a specific team -> games array
         const dbRefGames = firebase.database().ref(`${this.props.teamKey}/games`);
+        // Firebase root -> a specific team -> users object
         const dbRefUsers = firebase.database().ref(`${this.props.teamKey}/users`);
-        const teamArray = []
+        // users (& their info) returned from firebase
+        const teamArray = [];
 
-        //creates list of user emails in pending when game is created
+        // Get user info from firebase
         firebase.database().ref(`${this.props.teamKey}`).on('value', (players) => {
             const userObj = players.val().users;
             teamArray[0] = {name: 'none'}
@@ -60,6 +70,7 @@ class GameModal extends React.Component {
             }
         })
 
+        // game information to send to firebase
         const gameObject = {
             location: this.state.location,
             date: this.state.date,
@@ -73,6 +84,7 @@ class GameModal extends React.Component {
         }
         dbRefGames.push(gameObject);
 
+        // Empties out form to start fresh on reopen
         this.setState({
             modalIsOpen: false,
             opponent: '',
@@ -82,6 +94,7 @@ class GameModal extends React.Component {
         });
     }
     
+    // Pull value from text input and save in state
     handleChange(event){
         this.setState({
             [event.target.name]: event.target.value
@@ -92,10 +105,6 @@ class GameModal extends React.Component {
     openModal() {
         this.setState({ modalIsOpen: true });
     }
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        //this.subtitle.style.color = '#F00';
-    }
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
@@ -103,10 +112,10 @@ class GameModal extends React.Component {
     render() {
         return (
             <div>
+                {/* Button appears inline in content */}
                 <button onClick={this.openModal}>Add Game</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     contentLabel="Create Game"
                     className="modalContainer"
@@ -117,11 +126,11 @@ class GameModal extends React.Component {
                     <a onClick={this.closeModal} className="closeModalButton"><i className="fa fa-times" aria-hidden="true"></i></a>
 
                     <form action="" onSubmit={this.handleSubmit} className="modalForm">
-                    
                         <label htmlFor="opponent" className="hiddenLabel"> Opponent </label>
                         <select id="opponent" name="opponent" onChange={this.handleChange}  >
                             <option value="" disabled selected hidden>Select Opponent</option>
-                            {this.state.opponentList.map ((opponent, i)=>{
+                            { // return list of possible opponents from other teams on the app
+                                this.state.opponentList.map ((opponent, i)=>{
                                 return (
                                     <option value={opponent} key={i}> {opponent} </option>
                                 )
