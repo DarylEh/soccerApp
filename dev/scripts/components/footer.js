@@ -1,5 +1,8 @@
 import React from 'react';
 
+// FOOTER
+// Footer at the bottom of the page
+
 const Footer = () => {
     return (
         <footer>

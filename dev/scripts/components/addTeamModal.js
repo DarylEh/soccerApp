@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import firebase from 'firebase';
 
+// NEW TEAM MODAL
+// Opens when user needs to create a new team in the app
+
 class TeamModal extends React.Component {
     constructor() {
         super();
@@ -18,12 +21,12 @@ class TeamModal extends React.Component {
         };
 
         this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.pushToFirebase = this.pushToFirebase.bind(this);
     }
+
     // User action: submit 'new team' form
     handleSubmit (event){
         event.preventDefault();
@@ -33,6 +36,8 @@ class TeamModal extends React.Component {
             alert('Passwords do not match')
         }
     }
+
+    // Create team captain in firebase auth
     pushToFirebase() {
         // Create a user for the person who just made a team
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -44,9 +49,12 @@ class TeamModal extends React.Component {
             })
     }
     
+    // on successful creation of user, create a corresponding item in the database
     createUser(userID) {
+        // Firebase root
         const dbRef = firebase.database().ref();
-        const playerObject = {
+        // Team & captain info to be sent to Firebase
+        const teamObject = {
             teamName: this.state.teamName,
             users: {
                 captain: {
@@ -59,8 +67,9 @@ class TeamModal extends React.Component {
                 }
             }
         }
-        dbRef.push(playerObject);
-        //empty the form on successful submit
+        dbRef.push(teamObject);
+
+        // Empties out form to start fresh on reopen
         this.setState({
             modalIsOpen: false,
             name: '',
@@ -72,7 +81,8 @@ class TeamModal extends React.Component {
             teamName: ''
         });
     }
-    // User action: remove focus from form item
+
+    // save text input value in state
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -83,10 +93,6 @@ class TeamModal extends React.Component {
     openModal() {
         this.setState({ modalIsOpen: true });
     }
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // this.subtitle.style.color = '#f00';
-    }
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
@@ -94,6 +100,7 @@ class TeamModal extends React.Component {
     render() {
         return (
             <div>
+                {/* Button appears inline in content */}
                 <button onClick={this.openModal} className='addTeamButton'>Add Team</button>
 
                 <Modal 

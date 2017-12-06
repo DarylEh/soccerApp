@@ -1,8 +1,7 @@
-.noManage {
-    position: absolute;
-    top: 150px;
-    float: left;
-}
+// TEAM PAGE
+// w/ game list & accordians with all game info
+
+// Team name - page title
 .teamNameDisplay {
     display: inline-block;
     margin: 0;
@@ -23,8 +22,8 @@
 
 .welcomeHead {
     margin:0;
-
 }
+
 .manageHead {
     float: right;
     font-size: 1.4rem;
@@ -51,15 +50,11 @@
     }
 }
 
-@media (max-width: 480px) {
-    .teamPageButtons p {
-        padding-top: 70px;
-    }
-}
-
 .upcoming {
     clear: both;
 }
+
+//Accordian styles
 .Collapsible__trigger {
     font-family: $oswald;
     color: $lightText;
@@ -69,6 +64,7 @@
     transition: all 0.3s ease;
     position: relative;
 }
+// Arrow on right of accordian
 .is-closed::after, .is-open::after {
     content: '';
     display: block;
@@ -89,6 +85,7 @@
     border-width: 0 8px 15px 8px;
     border-color: transparent transparent $lightText;
 }
+//accordian title styles
 .is-closed,
 .is-open {
     padding: 10px 20px;
@@ -103,19 +100,17 @@
     
 }
 
-.Collapsible__contentInner h4{
+// Accordian content
+.Collapsible__contentInner h4 {
     margin: 0;
 }
-
 .innerGame {
     margin: 20px auto;
 }
-
 .rsvp {
     margin: 20px auto; 
     width: 95%;
 }
-
 .rsvp button {
     float: right;
     position: relative;
@@ -124,17 +119,15 @@
         margin-left: 20px;
     }
 }
-
 .rsvp p {
-        margin: 0;
-        width: 40%;
-        display: inline-block;
-        line-height: 2rem;
-        span {
-            font-weight: bold;
-        }
+    margin: 0;
+    width: 40%;
+    display: inline-block;
+    line-height: 2rem;
+    span {
+        font-weight: bold;
     }
-
+}
 .buttonYesNo {
     float: right;
     width: 40%;
@@ -149,34 +142,28 @@
     top: 50%;
     z-index: 1;
 }
+
+//Headings of accordian content
 .gameLocation h4,
 .gameTime h4,
 .attendanceLeft h4,
 .yes h4, .no h4, .Pending h4 {
     float: left;
-    // margin: 5px;
     font-size: 1.5rem;
     font-family: $montserrat;
     font-weight: 700;
 }
+
+//Accordian content actual text
 .attendance p,
 .gameLocation p,
-.gameTime p
-{
+.gameTime p {
     float: right;
-    // margin: 5px;
-    // font-size: 1.2rem;
-    margin: 0;
-
-}
-.yes p, .no p, .Pending p {
-     margin: 5px;
     font-size: 1.2rem;
-
+    margin: 0;
 }
 .attendance {
     float: left;
-    
 }
 .gameLocation,
 .gameTime,
@@ -194,7 +181,6 @@
         margin: 0 auto;
     }
 }
-
 .attendanceLeft {
     float: left;
     margin: 0;
@@ -202,7 +188,7 @@
 .attendanceRight {
     float: right;
 }
-.attendanceBreakdown p{
+.attendanceBreakdown p {
     float: left;
     padding-left: 20px;
 }
@@ -214,13 +200,17 @@
     clear: both;
     width: 100%;
 }
-.yes, .no,  {
+.yes, .no {
     float: left;
-
 }
-.Pending{
-    display: inline-block;
-    
+
+// Yes/No/Pending List styles
+.yes p, .no p, .Pending p {
+    margin: 5px;
+    font-size: 1.2rem;
+}
+.Pending {
+    display: inline-block; 
 }
 .yes ul,
 .no ul,
@@ -229,7 +219,6 @@
     list-style: none;
     margin: 0;
 }
-
 .yes, .no, .Pending {
     width: calc(33.3%);
 }
@@ -244,4 +233,11 @@
 .noGames {
     margin: 0;
     padding-top: 13px;
+}
+
+//Message displayed when user is unable to manage the team due to permissions
+.noManage {
+    position: absolute;
+    top: 150px;
+    float: left;
 }
