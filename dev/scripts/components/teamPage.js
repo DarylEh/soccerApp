@@ -353,8 +353,6 @@ class TeamPage extends React.Component {
         let addGame = '';
         let manageTeam = '';
         let welcomeMessage = '';
-        let femaleCounter = 0;
-        let maleCounter = 0;
         let response = 'Pending';
 
         // Display login/log out button based on user's auth status
@@ -408,13 +406,13 @@ class TeamPage extends React.Component {
                     <h3 className='upcoming'>Upcoming Games</h3>
                     <div className="fullSchedule">
                         {this.state.games.map((game, i) => {
-                            for (let key in game.attendance.yes){
-                                if (game.attendance.yes[key].gender === 'female'){
-                                    femaleCounter = femaleCounter + 1;
-                                }
-                                if (game.attendance.yes[key].gender === 'male') {
-                                    maleCounter = maleCounter + 1;
-                                }
+                            
+                            let femaleCounter = 0;
+                            let maleCounter = -1;
+                            for (let key in game.attendance.yes) {
+                                game.attendance.yes[key].gender === 'female'
+                                ? femaleCounter = femaleCounter + 1
+                                : maleCounter = maleCounter + 1
                             }
                             return (
                                 <div key={game.key}>
