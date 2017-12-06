@@ -4,11 +4,7 @@
     float: left;
 }
 .teamNameDisplay {
-    // float: left;
-    // font-size:2rem;
     display: inline-block;
-    // position: relative;
-    // top: 20px;
     margin: 0;
 }
 
@@ -124,7 +120,9 @@
     float: right;
     position: relative;
     text-align: center;
-    margin-left: 20px;
+    &:first-child{
+        margin-left: 20px;
+    }
 }
 
 .rsvp p {
@@ -197,11 +195,6 @@
     }
 }
 
-.attendanceAnswer{
-    width: 100%;
-    padding: 5px;
-}
-
 .attendanceLeft {
     float: left;
     margin: 0;
@@ -220,7 +213,6 @@
     float: left;
     clear: both;
     width: 100%;
-    text-align: center;
 }
 .yes, .no,  {
     float: left;
@@ -253,55 +245,3 @@
     margin: 0;
     padding-top: 13px;
 }
-// 940px 768px 480px
-// @media (min-width: 430px) and (max-width: 480px)
-// @media (max-width: 480px) {
-//     .noGames, .noManage {
-//         font-size: .8rem;
-//         margin: 2px;
-//     }
-//     .teamNameDisplay, .upcoming {
-//         font-size: 1.2rem;
-//         margin-bottom: 25px;
-//     }
-//     .noManage {
-//         position: relative;
-//         top: -12px;
-//         right: 118px;
-//     }
-//     .welcomeHead {
-//         float: left;
-//         clear: both;
-//         position: relative;
-//         top: 8px;
-//     }
-//     .manageHead {
-//         font-size: 1.2rem;
-//         position: relative;
-//         padding: 8px 5px;
-//         top: auto;
-//         float: left;
-//         margin-top: 16px;
-//         margin-bottom: 8px;
-//     }
-//     .upcoming {
-//         font-size: 1.2rem;
-//         margin-bottom: 5px;
-//     }
-//     .rsvp p{
-//         font-size: 1.2rem;
-//         margin: 0;
-//         display: inline;
-//     }
-//     .buttonYesNo {
-//         float: right;
-//         width: 40%;
-//     }
-// }
-
-
-
-//make the rsvp buttons a bit smaller for hierarchy
-//bring response beneath each game header in to 95 prcent like what expands on the accordion
-
-//run through the code, clean it up, take out commented code and console logs
