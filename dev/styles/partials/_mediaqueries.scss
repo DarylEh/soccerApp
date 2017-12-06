@@ -21,3 +21,19 @@
         margin: 10px;
     }
 }
+
+@media (max-width: 490px){
+    .buttonYesNo {
+        float: none;
+        width: 144px;
+        display: inline-block;
+        margin: 20px 0 0 50%;
+        transform: translateX(-50%);
+    }
+    .rsvp p{
+        margin: 0;
+        float: none;
+        width: 100%;
+        display: block;
+    }
+}

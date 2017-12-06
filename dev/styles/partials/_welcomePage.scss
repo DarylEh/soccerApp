@@ -31,3 +31,18 @@
         }
     }
 }
+
+.welcomePage {
+    h2 {
+        margin-bottom: 20px;
+        &::before {
+            content: '';
+            display: block;
+            height: 2px;
+            background-color: $darkMainColor;
+            position: relative;
+            bottom: -50px;
+            width: 100%;
+        }
+    }
+}

@@ -4,13 +4,8 @@
     float: left;
 }
 .teamNameDisplay {
-    // float: left;
-    // font-size:2rem;
     display: inline-block;
-    // position: relative;
-    // top: 20px;
     margin: 0;
-    
 }
 
 .teamHeader{
@@ -119,7 +114,9 @@
     float: right;
     position: relative;
     text-align: center;
-    margin-left: 20px;
+    &:first-child{
+        margin-left: 20px;
+    }
 }
 
 .rsvp p {
@@ -286,17 +283,8 @@
         font-size: 1.2 rem;
         margin-bottom: 5px;
     }
-    .rsvp p{
-        font-size: 1.2rem;
-        margin: 0;
-        float: left;
-        width: 40%;
-        display: inline;
-    }
-    .buttonYesNo {
-        float: right;
-        width: 40%;
-    }
+
+
     .rsvp button {
         // transform: translateY(-80%);
     }
@@ -306,7 +294,4 @@
 
 
 
-//make the rsvp buttons a bit smaller for hierarchy
-//bring response beneath each game header in to 95 prcent like what expands on the accordion
-
-//run through the code, clean it up, take out commented code and console logs
+//yes no buttons at 480px size
