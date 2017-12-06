@@ -41,7 +41,7 @@ class WelcomePage extends React.Component{
     render(){
         return (
             <main className="wrapper">
-                <section>
+                <section className='welcomePage'>
                     <h2>Find Your Team</h2>
                     <ul className="clearfix teams">
                         {this.state.teams.map((team, i) => {
