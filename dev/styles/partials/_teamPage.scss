@@ -4,13 +4,8 @@
     float: left;
 }
 .teamNameDisplay {
-    // float: left;
-    // font-size:2rem;
     display: inline-block;
-    // position: relative;
-    // top: 20px;
     margin: 0;
-    
 }
 
 .teamHeader{
@@ -53,6 +48,12 @@
     div {
         float: left;
         margin-right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .teamPageButtons p {
+        padding-top: 70px;
     }
 }
 
@@ -119,7 +120,9 @@
     float: right;
     position: relative;
     text-align: center;
-    margin-left: 20px;
+    &:first-child{
+        margin-left: 20px;
+    }
 }
 
 .rsvp p {
@@ -192,11 +195,6 @@
     }
 }
 
-.attendanceAnswer{
-    width: 100%;
-    padding: 5px;
-}
-
 .attendanceLeft {
     float: left;
     margin: 0;
@@ -215,7 +213,6 @@
     float: left;
     clear: both;
     width: 100%;
-    text-align: center;
 }
 .yes, .no,  {
     float: left;
@@ -247,6 +244,7 @@
 .noGames {
     margin: 0;
     padding-top: 13px;
+<<<<<<< HEAD
 }
 
 
@@ -255,3 +253,6 @@
 //bring response beneath each game header in to 95 prcent like what expands on the accordion
 
 //run through the code, clean it up, take out commented code and console logs
+=======
+}
+>>>>>>> cde36d8092345c9d5d996d989854b10f4e43a791
