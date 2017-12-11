@@ -110,3 +110,15 @@
         padding-left: 10px;
     }
 }
+
+@media (max-width: 394px){
+    .addGameButton {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 293px){
+    .manageButton {
+        margin-top: 20px;
+    }
+}
