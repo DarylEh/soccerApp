@@ -63,6 +63,7 @@
     display: block;
     transition: all 0.3s ease;
     position: relative;
+    margin-bottom: 10px;
 }
 // Arrow on right of accordian
 .is-closed::after, .is-open::after {
