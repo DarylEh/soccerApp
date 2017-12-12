@@ -113,7 +113,8 @@ class GameModal extends React.Component {
         return (
             <div>
                 {/* Button appears inline in content */}
-                <button onClick={this.openModal}>Add Game</button>
+                <button 
+               className="addGameButton" onClick={this.openModal}>Add Game</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeModal}

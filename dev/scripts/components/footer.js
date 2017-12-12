@@ -7,7 +7,7 @@ const Footer = () => {
     return (
         <footer>
             <div className="bannerWrapper">
-                <p>&copy; 2017 Daryl and the DreamGirls</p> 
+                <p>&copy; 2017 Daryl&nbsp;Amodan | Sarah&nbsp;Simpson | Patrick&nbsp;Johnston | Chelsea&nbsp;Keeley</p> 
             </div>
         </footer>
     )
